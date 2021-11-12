@@ -1,7 +1,12 @@
-#include <iostream>
+//
+// Created by dzmitry on 12.11.2021.
+//
+#include "printFast.cpp"
+#include "scanFast.cpp"
 
 int main()
 {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    return printFast(scanFast());
 }
+
+
