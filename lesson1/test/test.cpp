@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../printSlow.cpp"
+#include "printSlow.cpp"
 #include "../printFast.cpp"
 #include "../scanFast.cpp"
 
