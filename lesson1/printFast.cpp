@@ -1,29 +1,29 @@
 #include <cstdio>
 
 //homework
-int printFast(int num, FILE *stream)
+template<typename T>
+int printFast(T num, _IO_FILE *stream)
 {
-    int sign = 1;
+    T n = 1;
     if (num < 0)
     {
         putc('-', stream);
-        sign = -1;
+        n = -1;
     }
-
-    int m = num;
-    int n = 1;
+    T m = num;
     while (m /= 10)
         n *= 10;
     while (n)
     {
-        putc('0' + (sign * (m = num / n)), stream);
+        putc('0' + (m = num / n), stream);
         num -= (m * n);
         n /= 10;
     }
     return 0;
 }
 
-int printFast(int num)
+template<typename T>
+int printFast(T num)
 {
     return printFast(num, stdout);
 }

@@ -53,6 +53,42 @@ TEST(PrintFast, Fast)
     ASSERT_TRUE(work_time <= CONTROL_TIME) << "Work time is " << work_time;
 }
 
+TEST(PrintFast, Long_Fast)
+{
+    //GIVEN
+    long number = -3454564l;
+    testing::internal::CaptureStdout();
+    clock_t t = clock();
+
+    //WHEN
+    for (int i = 0; i < EXEC_TIMES; i++)
+        printFast(number);
+    const double work_time = (clock() - t) / double(CLOCKS_PER_SEC);
+    testing::internal::GetCapturedStdout();
+
+    //THEN
+    ASSERT_TRUE(work_time <= CONTROL_TIME) << "Work time is " << work_time;
+}
+
+/* //todo doesn't work
+TEST(PrintFast, Double_Fast)
+{
+    //GIVEN
+    double number = -3454564.090;
+    testing::internal::CaptureStdout();
+    clock_t t = clock();
+
+    //WHEN
+    for (int i = 0; i < EXEC_TIMES; i++)
+        printFast(number);
+    const double work_time = (clock() - t) / double(CLOCKS_PER_SEC);
+    testing::internal::GetCapturedStdout();
+
+    //THEN
+    ASSERT_TRUE(work_time <= CONTROL_TIME) << "Work time is " << work_time;
+}
+*/
+
 //todo
 /*TEST(ScanFast, Fast)
 {

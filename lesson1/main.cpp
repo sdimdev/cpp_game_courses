@@ -6,7 +6,8 @@
 
 int main()
 {
-    return printFast(scanFast());
+    double number = -3454564.090;
+    return printFast(number);
 }
 
 
