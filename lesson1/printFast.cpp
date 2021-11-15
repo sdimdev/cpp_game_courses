@@ -1,14 +1,12 @@
 #include <cstdio>
 
-#define pc putc //или как сделать код еще более запутанным
-
 //homework
 int printFast(int num, FILE *stream)
 {
     int sign = 1;
     if (num < 0)
     {
-        pc('-', stream);
+        putc('-', stream);
         sign = -1;
     }
 
@@ -18,7 +16,7 @@ int printFast(int num, FILE *stream)
         n *= 10;
     while (n)
     {
-        pc('0' + (sign * (m = num / n)), stream);
+        putc('0' + (sign * (m = num / n)), stream);
         num -= (m * n);
         n /= 10;
     }

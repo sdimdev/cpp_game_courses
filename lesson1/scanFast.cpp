@@ -1,11 +1,9 @@
 #include <cstdio>
 
-#define gc getchar_unlocked
-
 //homework
 int scanFast()
 {
-    auto ch = gc();
+    auto ch = getchar_unlocked();
     int sign = 0;
     int number = 0;
     while (ch >= '0' && ch <= '9' || !sign)
@@ -21,7 +19,7 @@ int scanFast()
         {
             number = number * 10 + sign * (ch - '0');
         }
-        ch = gc();
+        ch = getchar_unlocked();
     }
     return number;
 }
