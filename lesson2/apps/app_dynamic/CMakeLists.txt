@@ -9,6 +9,6 @@ add_executable(app_dynamic main.cpp)
 target_link_libraries(app_dynamic ${CMAKE_DL_LIBS})
 
 #doesn't work
-#set_target_properties(app_dynamic PROPERTIES INSTALL_RPATH "${CMAKE_SOURCE_DIR}/../../output/shared/lib_src/")
+#set_target_properties(app_dynamic PROPERTIES INSTALL_RPATH "${CMAKE_SOURCE_DIR}/../../output/shared/lib/")
 
 target_link_directories(app_dynamic PUBLIC ${CMAKE_SOURCE_DIR}/../../output/shared/lib/)

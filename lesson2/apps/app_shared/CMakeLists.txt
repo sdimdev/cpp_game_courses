@@ -16,10 +16,10 @@ target_link_directories(app_shared PUBLIC ${CMAKE_SOURCE_DIR}/../../output/share
 target_link_libraries(app_shared liblib_shared.so)
 
 
-#[[include_directories("/usr/local/lib_src/")
+#[[include_directories("/usr/local/lib/")
 add_library(shared_lib SHARED IMPORTED)
 target_link_libraries(shared_lib
-        INTERFACE "/usr/local/lib_src//liblib_shared.so")]]
+        INTERFACE "/usr/local/lib//liblib_shared.so")]]
 
 #[[add_executable(app_shared main.cpp)
 target_link_libraries(app_shared lib_shared)]]
