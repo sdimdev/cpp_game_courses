@@ -10,3 +10,5 @@
 **/*.cbp
 **/CMakeScripts
 temp/
+sdl2/
+sdl2_build/
