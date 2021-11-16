@@ -11,28 +11,30 @@ install(TARGETS lib_header
         DESTINATION ${CMAKE_SOURCE_DIR}/output/header/include)
 
 #static library
-add_library(lib_static STATIC library.cpp)
-set_target_properties(lib_static PROPERTIES PUBLIC_HEADER ${CMAKE_SOURCE_DIR}/library.h)
+add_library(lib_static STATIC
+        library.hpp
+        library.cpp)
+set_target_properties(lib_static
+        PROPERTIES
+        PUBLIC_HEADER ${CMAKE_SOURCE_DIR}/library.hpp
+        LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/output/static/lib)
+
 install(TARGETS lib_static
         PUBLIC_HEADER DESTINATION ${CMAKE_SOURCE_DIR}/output/static/include
         ARCHIVE DESTINATION ${CMAKE_SOURCE_DIR}/output/static/lib)
 
 #shared library
-add_library(lib_shared SHARED library.cpp)
-set_target_properties(lib_shared PROPERTIES PUBLIC_HEADER ${CMAKE_SOURCE_DIR}/library.h)
+add_library(lib_shared SHARED library.cpp library.hpp)
+
+set_target_properties(lib_shared
+        PROPERTIES
+        PUBLIC_HEADER ${CMAKE_SOURCE_DIR}/library.hpp)
+
 install(TARGETS lib_shared
-        PUBLIC_HEADER DESTINATION ${CMAKE_SOURCE_DIR}/output/shared/include
-        ARCHIVE DESTINATION ${CMAKE_SOURCE_DIR}/output/shared/lib)
+        PUBLIC_HEADER DESTINATION ${CMAKE_SOURCE_DIR}/output/shared/include/
+        ARCHIVE DESTINATION ${CMAKE_SOURCE_DIR}/output/shared/lib/
+        LIBRARY DESTINATION ${CMAKE_SOURCE_DIR}/output/shared/lib/)
 
-## CMake Error at cmake_install.cmake:88 (file):
-#  file INSTALL cannot copy file
-#  "/media/dzmitry/u2/projects/sdim/cpp/lessons/lesson2/liblib_shared.so" to
-#  "/usr/local/lib/liblib_shared.so": Success.
-# use that ^__^
-
-# sudo cmake --build . --target install
-
-# todo - change permission by https://apple.stackexchange.com/a/192232
 
 
 

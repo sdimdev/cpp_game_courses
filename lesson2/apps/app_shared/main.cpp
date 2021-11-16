@@ -1,8 +1,9 @@
 #include <iostream>
-#include <dlfcn.h>
+#include <library.hpp>
+//#include what? Library header not found =(
 
 int main()
 {
-    //std::cout << "Hello, World!" << std::endl;
+    hello();
     return 0;
 }
