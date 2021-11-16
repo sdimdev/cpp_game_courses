@@ -1,2 +1,11 @@
-/lesson1/cmake-build-debug/
-/lesson1/.idea/
+# See example here https://github.com/kigster/cmake-project-template/blob/master/.gitignore
+**/cmake-build-debug
+**/.idea/
+**/CMakeFiles/
+**/Makefile
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/install_manifest.txt
+**/CTestTestfile.cmake
+**/*.cbp
+**/CMakeScripts
