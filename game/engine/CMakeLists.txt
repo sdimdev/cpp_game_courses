@@ -3,13 +3,19 @@ project(engine)
 
 set(CMAKE_CXX_STANDARD 17)
 
-#[[set(SOURCES
+set(SOURCES
         src/Engine.cpp
-        src/Engine.hpp)]]
+        src/Engine.hpp
+        src/IScene.hpp
+        src/scenes/LineScene.cpp
+        src/scenes/LineScene.hpp
+        src/scenes/ScenesFactory.cpp
+        src/scenes/ScenesFactory.hpp
+        src/utils/CommandLineUtil.cpp)
 
-add_library(engine STATIC
-        src/Engine.cpp
-        src/Engine.hpp)
+add_library(engine STATIC ${SOURCES}
+        #[[ src/Engine.cpp
+         src/Engine.hpp src/Scene.cpp src/Scene.hpp]])
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2)
 set(SDL2MAIN_LIBRARY SDL2main)
