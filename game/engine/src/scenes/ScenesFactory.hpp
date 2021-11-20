@@ -6,15 +6,15 @@
 #define GAME_SCENESFACTORY_HPP
 
 
-#include <IScene.hpp>
-#include <SDL.h>
+#include <scenes/IScene.hpp>
 #include <memory>
+#include <renderer/IRenderer.hpp>
 
 class ScenesFactory
 {
 public:
     ScenesFactory(int argc, char **argv);
-    std::unique_ptr<IScene> provideScene(SDL_Window *window);
+    std::unique_ptr<IScene> provideScene(IRenderer *renderer);
 private:
     enum SCENE_TYPE
     {

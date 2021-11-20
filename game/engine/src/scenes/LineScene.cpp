@@ -2,37 +2,61 @@
 // Created by dzmitry on 18.11.2021.
 //
 
-#include <SDL_render.h>
+#include <domain/Line3f.hpp>
+#include <domain/Point3f.hpp>
 #include "LineScene.hpp"
-
-struct LineScene::Pimpl
-{
-    SDL_Renderer *renderer = NULL;
-};
 
 void LineScene::draw()
 {
-    SDL_SetRenderDrawColor(_pimpl->renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    renderer->startDrawing();
+    std::list<Line3f>::iterator it;
+    for (it = lp.begin(); it != lp.end(); ++it)
+        renderer->drawLine(*it);
+    /*SDL_SetRenderDrawColor(_pimpl->renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(_pimpl->renderer);
- /*   SDL_SetRenderDrawColor(_pimpl->renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-    SDL_SetRenderDrawBlendMode(_pimpl->renderer, SDL_BLENDMODE_ADD);
-    SDL_RenderDrawLine(_pimpl->renderer, 120, 0, 100, 40);
-    SDL_RenderDrawLine(_pimpl->renderer, 100, 40, 140, 40);
-    SDL_RenderDrawLine(_pimpl->renderer, 140, 40, 120, 0);*/
-    // SDL_RenderPresent(_pimpl->renderer);
+    SDL_Rect rect;
+    rect.w = 100;
+    rect.h = 100;
+    rect.x = 100;
+    rect.y = 100;*/
+    renderer->endDrawing();
+/*    SDL_SetRenderDrawColor(_pimpl->renderer, 255, 0, 0, 200);
+    SDL_RenderDrawRect(_pimpl->renderer, &rect);
+    SDL_RenderPresent(_pimpl->renderer);*/
 }
 
-LineScene::LineScene(SDL_Window *window)
+bool LineScene::handleEvent(WindowEvent event)
 {
-    _pimpl = std::make_unique<LineScene::Pimpl>();
-    //_pimpl->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    _pimpl->renderer = SDL_CreateRenderer(window, -1, 0);
-    SDL_RendererInfo info;
-    SDL_GetRendererInfo(_pimpl->renderer, &info);
-    printf(info.name);
+    return false;
+}
+
+LineScene::LineScene(IRenderer *renderer)
+{
+    this->renderer = renderer;
+    int lastI = 0;
+    int lastJ = 0;
+    for (int i = 0; i < 400; i += 20)
+    {
+        if (i != 0)
+            for (int j = 0; j < 400; j += 20)
+            {
+                if (j != 0)
+                {
+                    lp.push_back(Line3f(
+                            Point3f(i, j),
+                            Point3f(lastI, lastJ)
+                    ));
+                }
+                lastJ = j;
+            }
+        lastI = i;
+    }
+    /*  SDL_RendererInfo info;
+      SDL_GetRendererInfo(_pimpl->renderer, &info);
+      printf(info.name);*/
 }
 
 LineScene::~LineScene()
 {
-    SDL_DestroyRenderer(_pimpl->renderer);
-};
+    /*SDL_DestroyRenderer(_pimpl->renderer);*/
+}

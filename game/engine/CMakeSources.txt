@@ -1,0 +1,43 @@
+cmake_minimum_required(VERSION 3.20)
+set(CMAKE_CXX_STANDARD 17)
+
+set(EngineSource "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.cpp")
+
+set(SOURCES
+        src/engine/Engine.cpp
+        src/engine/Engine.hpp
+        src/scenes/IScene.hpp
+        src/scenes/LineScene.cpp
+        src/scenes/LineScene.hpp
+        src/scenes/ScenesFactory.cpp
+        src/scenes/ScenesFactory.hpp
+        src/utils/CommandLineUtil.cpp
+        src/domain/Line2d.cpp
+        src/domain/Line2d.hpp
+        src/domain/Line3f.cpp
+        src/domain/Line3f.hpp
+        src/domain/Point3f.cpp
+        src/domain/Point3f.hpp
+        src/shader/IPoint3Shader.cpp
+        src/shader/IPoint3Shader.hpp
+        src/shader/LensPointShader.cpp
+        src/shader/LensPointShader.hpp
+        src/domain/event/WindowEvent.cpp
+        src/domain/event/WindowEvent.hpp
+        src/renderer/IRenderer.cpp
+        src/renderer/IRenderer.hpp
+        src/domain/RGBAColor.cpp
+        src/domain/RGBAColor.hpp
+        src/domain/Point2d.cpp
+        src/domain/Point2d.hpp
+        src/domain/event/EventType.hpp
+        src/renderer/SDLRenderer.cpp
+        src/renderer/SDLRenderer.hpp
+        src/engine/EngineFactory.cpp
+        src/engine/EngineFactory.hpp
+        src/window/IWindow.hpp
+        src/window/SDLWindow.cpp
+        src/window/SDLWindow.hpp
+        src/scenes/SceneManager.cpp
+        src/scenes/SceneManager.hpp
+        )

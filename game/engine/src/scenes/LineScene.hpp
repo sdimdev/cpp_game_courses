@@ -6,18 +6,22 @@
 #define GAME_LINESCENE_HPP
 
 
-#include <IScene.hpp>
+#include <scenes/IScene.hpp>
 #include <memory>
+#include <list>
+#include <renderer/IRenderer.hpp>
+#include <domain/Line3f.hpp>
 
 class LineScene : public IScene
 {
 public:
     void draw() override;
-    explicit LineScene(SDL_Window *window);
+    bool handleEvent(WindowEvent event) override;
+    explicit LineScene(IRenderer *renderer);
      ~LineScene();
 private:
-    struct Pimpl;
-    std::unique_ptr<Pimpl> _pimpl;
+    IRenderer *renderer;
+    std::list<Line3f> lp;
 };
 
 

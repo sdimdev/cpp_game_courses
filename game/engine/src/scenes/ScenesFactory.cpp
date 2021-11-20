@@ -22,14 +22,14 @@ ScenesFactory::ScenesFactory(int argc, char **argv)
     }
 }
 
-std::unique_ptr<IScene> ScenesFactory::provideScene(SDL_Window *window)
+std::unique_ptr<IScene> ScenesFactory::provideScene(IRenderer *renderer)
 {
     switch (type)
     {
         case LINE:
-            return std::make_unique<LineScene>(window);
+            return std::make_unique<LineScene>(renderer);
         case SOFT_LINE:
             //todo
-            return std::make_unique<LineScene>(window);
+            return std::make_unique<LineScene>(renderer);
     }
 }
