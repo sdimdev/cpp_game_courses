@@ -6,11 +6,13 @@
 #include <domain/Point3f.hpp>
 #include <shader/LensPointShader.hpp>
 #include <utils/TimeInteractor.hpp>
+#include <shader/LensPixelShader.hpp>
 #include "LineScene.hpp"
 
 struct LineScene::Pimpl
 {
     LensPointShader *shader = nullptr;
+    LensPixelShader *pixelShader = nullptr;
     int64_t lastTime = 0;
     int64_t dtime = 0;
     bool need_draw = true;
@@ -27,13 +29,14 @@ void LineScene::draw()
         renderer->startDrawing();
         std::list<Line3f>::iterator it;
         for (it = lp.begin(); it != lp.end(); ++it)
-            renderer->drawLine(*it, _pimpl->shader);
+            renderer->drawLine(*it, _pimpl->shader, _pimpl->pixelShader);
         renderer->endDrawing();
     }
 }
 
 bool LineScene::handleEvent(EventType eventType)
 {
+    //todo refactor that
     int64_t currtime = TimeInteractor::currentTimeMillisecond();
     int64_t dt = currtime - _pimpl->lastTime;
     //printf("%d\n", dt);
@@ -61,18 +64,21 @@ bool LineScene::handleEvent(EventType eventType)
             _pimpl->yspeed *= -1;
         }
         _pimpl->shader->moveToPoint(p);
+        _pimpl->pixelShader->moveToPoint(p);
     }
     return false;
 }
 
 LineScene::LineScene(IRenderer *renderer)
 {
+    //todo refactor that
     _pimpl = std::make_unique<LineScene::Pimpl>();
     Point3f point3F = Point3f(300.0, 300.0);
     _pimpl->shader = new LensPointShader(point3F, 100);
+    _pimpl->pixelShader = new LensPixelShader(point3F, 100);
     _pimpl->lastTime = TimeInteractor::currentTimeMillisecond();
-    const int di = 20;
-    const int dj = 20;
+    const int di = 10;
+    const int dj = 10;
     const int endi = 400;
     const int endj = 400;
     const int marginTop = 50;

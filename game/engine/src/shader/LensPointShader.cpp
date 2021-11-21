@@ -19,6 +19,7 @@ Point3f LensPointShader::apply(Point3f point)
         float distance = direction.abs();
         if (distance < r)
         {
+            //todo too bad
             float koef = 1 - sqrt(distance / r);
             return point + (direction * (koef));
         }

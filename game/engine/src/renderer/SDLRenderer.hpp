@@ -8,7 +8,10 @@
 
 #include <memory>
 #include "IRenderer.hpp"
+#include "domain/RGBAColor.hpp"
 #include <SDL.h>
+#include <shader/IPixelShader.hpp>
+#include <shader/IPoint3Shader.hpp>
 
 class SDLRenderer : public IRenderer
 {
@@ -21,11 +24,13 @@ public:
 
     void endDrawing() override;
 
-    void drawLine(Line3f line, IPoint3Shader* shader) override;
+    void drawLine(Line3f line, IPoint3Shader* shader, IPixelShader * pixelShader) override;
 
 private:
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;
+    void drawPoint(int x, int y, RGBAColor color);
+    void drawLine(int x0, int y0, int x1, int y1, RGBAColor color, IPixelShader *pixelShader);
 };
 
 
