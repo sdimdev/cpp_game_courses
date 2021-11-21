@@ -16,12 +16,14 @@ class LineScene : public IScene
 {
 public:
     void draw() override;
-    bool handleEvent(WindowEvent event) override;
+    bool handleEvent(EventType eventType) override;
     explicit LineScene(IRenderer *renderer);
-     ~LineScene();
+     ~LineScene() override;
 private:
     IRenderer *renderer;
     std::list<Line3f> lp;
+    struct Pimpl;
+    std::unique_ptr<Pimpl> _pimpl;
 };
 
 

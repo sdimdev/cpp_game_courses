@@ -13,14 +13,17 @@
 class ScenesFactory
 {
 public:
-    ScenesFactory(int argc, char **argv);
-    std::unique_ptr<IScene> provideScene(IRenderer *renderer);
+    explicit ScenesFactory(IRenderer *renderer, int argc, char **argv);
+    ~ScenesFactory();
+    IScene* createScene(); //todo add params
 private:
     enum SCENE_TYPE
     {
         LINE, SOFT_LINE
     };
     SCENE_TYPE type = LINE;
+    struct Pimpl;
+    std::unique_ptr<Pimpl> _pimpl;
 };
 
 

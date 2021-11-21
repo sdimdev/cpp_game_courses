@@ -2,26 +2,29 @@
 // Created by dzmitry on 20.11.2021.
 //
 
-#include "SDLWindow.hpp"
+#include "WindowImpl.hpp"
+#include "IWindow.hpp"
 #include <SDL.h>
 #include <cassert>
 #include <renderer/SDLRenderer.hpp>
 
-struct SDLWindow::Pimpl
+struct WindowImpl::Pimpl
 {
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
+    SDLRenderer *r = nullptr;
 };
 
-void SDLWindow::close()
+void WindowImpl::close()
 {
+    printf("close");
     SDL_DestroyWindow(_pimpl->window);
     SDL_Quit();
 }
 
-SDLWindow::SDLWindow(std::string_view window_name, int width, int height) : IWindow()
+WindowImpl::WindowImpl(std::string_view window_name, int width, int height)
 {
-    _pimpl = std::make_unique<SDLWindow::Pimpl>();
+    _pimpl = std::make_unique<WindowImpl::Pimpl>();
     bool success = true;
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
@@ -40,22 +43,23 @@ SDLWindow::SDLWindow(std::string_view window_name, int width, int height) : IWin
             success = false;
         } else
         {
-            SDL_SetWindowTitle(_pimpl->window, std::string(window_name).c_str());
+            printf("set Title %s\n", window_name.data());
+            SDL_SetWindowTitle(_pimpl->window, window_name.data());
         }
     } else
     {
-        printf("Window could not be created! SDL_Init return 0");
+        printf("Window could not be created! SDL_Init return 0\n");
         success = false;
     }
     assert(success);
-
-    //is it right?
-    this->renderer = std::make_unique<SDLRenderer>(_pimpl->renderer);
+    _pimpl->r = new SDLRenderer(_pimpl->renderer);
 }
 
-IRenderer *SDLWindow::getRenderer()
+IRenderer *WindowImpl::getRenderer()
 {
-    return this->renderer.get();
+    return _pimpl->r;
 }
 
-SDLWindow::~SDLWindow() = default;
+WindowImpl::~WindowImpl()  {
+    SDL_DestroyRenderer(_pimpl->renderer);
+};

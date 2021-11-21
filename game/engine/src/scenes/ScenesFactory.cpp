@@ -6,8 +6,15 @@
 #include "utils/CommandLineUtil.cpp"
 #include "LineScene.hpp"
 
-ScenesFactory::ScenesFactory(int argc, char **argv)
+struct ScenesFactory::Pimpl
 {
+    IRenderer *renderer = nullptr;
+};
+
+ScenesFactory::ScenesFactory(IRenderer *renderer, int argc, char **argv)
+{
+    _pimpl = std::make_unique<ScenesFactory::Pimpl>();
+    _pimpl->renderer = renderer;
     if (cmdOptionExists(argv, argv + argc, "-m"))
     {
         type = SOFT_LINE;
@@ -22,14 +29,16 @@ ScenesFactory::ScenesFactory(int argc, char **argv)
     }
 }
 
-std::unique_ptr<IScene> ScenesFactory::provideScene(IRenderer *renderer)
+IScene *ScenesFactory::createScene()
 {
     switch (type)
     {
         case LINE:
-            return std::make_unique<LineScene>(renderer);
+            return new LineScene(_pimpl->renderer);
         case SOFT_LINE:
             //todo
-            return std::make_unique<LineScene>(renderer);
+            return new LineScene(_pimpl->renderer);
     }
 }
+
+ScenesFactory::~ScenesFactory() = default;

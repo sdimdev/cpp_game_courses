@@ -3,7 +3,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(EngineSource "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.cpp")
 
-set(SOURCES
+set(ENGINE_SOURCES
         src/engine/Engine.cpp
         src/engine/Engine.hpp
         src/scenes/IScene.hpp
@@ -18,13 +18,11 @@ set(SOURCES
         src/domain/Line3f.hpp
         src/domain/Point3f.cpp
         src/domain/Point3f.hpp
-        src/shader/IPoint3Shader.cpp
         src/shader/IPoint3Shader.hpp
         src/shader/LensPointShader.cpp
         src/shader/LensPointShader.hpp
         src/domain/event/WindowEvent.cpp
         src/domain/event/WindowEvent.hpp
-        src/renderer/IRenderer.cpp
         src/renderer/IRenderer.hpp
         src/domain/RGBAColor.cpp
         src/domain/RGBAColor.hpp
@@ -36,8 +34,11 @@ set(SOURCES
         src/engine/EngineFactory.cpp
         src/engine/EngineFactory.hpp
         src/window/IWindow.hpp
-        src/window/SDLWindow.cpp
-        src/window/SDLWindow.hpp
+        src/window/WindowImpl.cpp
+        src/window/WindowImpl.hpp
+        src/window/WindowImpl.hpp
         src/scenes/SceneManager.cpp
         src/scenes/SceneManager.hpp
+        src/window/WindowEventManagerImpl.hpp
+        src/window/WindowEventManagerImpl.cpp
         )

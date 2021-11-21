@@ -4,59 +4,100 @@
 
 #include <domain/Line3f.hpp>
 #include <domain/Point3f.hpp>
+#include <shader/LensPointShader.hpp>
+#include <utils/TimeInteractor.hpp>
 #include "LineScene.hpp"
+
+struct LineScene::Pimpl
+{
+    LensPointShader *shader = nullptr;
+    int64_t lastTime = 0;
+    int64_t dtime = 0;
+    bool need_draw = true;
+    float xspeed = 5;
+    float yspeed = 3;
+    int64_t frame_time = 50;
+};
 
 void LineScene::draw()
 {
-    renderer->startDrawing();
-    std::list<Line3f>::iterator it;
-    for (it = lp.begin(); it != lp.end(); ++it)
-        renderer->drawLine(*it);
-    /*SDL_SetRenderDrawColor(_pimpl->renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    SDL_RenderClear(_pimpl->renderer);
-    SDL_Rect rect;
-    rect.w = 100;
-    rect.h = 100;
-    rect.x = 100;
-    rect.y = 100;*/
-    renderer->endDrawing();
-/*    SDL_SetRenderDrawColor(_pimpl->renderer, 255, 0, 0, 200);
-    SDL_RenderDrawRect(_pimpl->renderer, &rect);
-    SDL_RenderPresent(_pimpl->renderer);*/
+    if (_pimpl->need_draw)
+    {
+        _pimpl->need_draw = false;
+        renderer->startDrawing();
+        std::list<Line3f>::iterator it;
+        for (it = lp.begin(); it != lp.end(); ++it)
+            renderer->drawLine(*it, _pimpl->shader);
+        renderer->endDrawing();
+    }
 }
 
-bool LineScene::handleEvent(WindowEvent event)
+bool LineScene::handleEvent(EventType eventType)
 {
+    int64_t currtime = TimeInteractor::currentTimeMillisecond();
+    int64_t dt = currtime - _pimpl->lastTime;
+    //printf("%d\n", dt);
+    _pimpl->lastTime = currtime;
+    _pimpl->dtime += dt;
+    if (_pimpl->dtime > _pimpl->frame_time)
+    {
+        _pimpl->need_draw = true;
+        _pimpl->dtime -= _pimpl->frame_time;
+        Point3f p = _pimpl->shader->getPoint() += Point3f(_pimpl->xspeed, _pimpl->yspeed);
+        if (p.getX() < 0 && _pimpl->xspeed < 0)
+        {
+            _pimpl->xspeed *= -1;
+        }
+        if (p.getX() > 640 && _pimpl->xspeed > 0)
+        {
+            _pimpl->xspeed *= -1;
+        }
+        if (p.getY() < 0 && _pimpl->yspeed < 0)
+        {
+            _pimpl->yspeed *= -1;
+        }
+        if (p.getY() > 480 && _pimpl->yspeed > 0)
+        {
+            _pimpl->yspeed *= -1;
+        }
+        _pimpl->shader->moveToPoint(p);
+    }
     return false;
 }
 
 LineScene::LineScene(IRenderer *renderer)
 {
+    _pimpl = std::make_unique<LineScene::Pimpl>();
+    Point3f point3F = Point3f(300.0, 300.0);
+    _pimpl->shader = new LensPointShader(point3F, 100);
+    _pimpl->lastTime = TimeInteractor::currentTimeMillisecond();
+    const int di = 20;
+    const int dj = 20;
+    const int endi = 400;
+    const int endj = 400;
+    const int marginTop = 50;
+    const int marginLeft = 100;
     this->renderer = renderer;
-    int lastI = 0;
-    int lastJ = 0;
-    for (int i = 0; i < 400; i += 20)
+    for (int i = 0; i <= endi; i += di)
     {
         if (i != 0)
-            for (int j = 0; j < 400; j += 20)
+        {
+            for (int j = 0; j <= endj; j += dj)
             {
-                if (j != 0)
-                {
-                    lp.push_back(Line3f(
-                            Point3f(i, j),
-                            Point3f(lastI, lastJ)
-                    ));
-                }
-                lastJ = j;
+                if (j != endj)
+
+                    lp.emplace_back(
+                            Point3f(marginLeft + i, marginTop + j),
+                            Point3f(marginLeft + i, marginTop + j + dj)
+                    );
+                if (i != endi)
+                    lp.emplace_back(
+                            Point3f(marginLeft + i, marginTop + j),
+                            Point3f(marginLeft + i + di, marginTop + j)
+                    );
             }
-        lastI = i;
+        }
     }
-    /*  SDL_RendererInfo info;
-      SDL_GetRendererInfo(_pimpl->renderer, &info);
-      printf(info.name);*/
 }
 
-LineScene::~LineScene()
-{
-    /*SDL_DestroyRenderer(_pimpl->renderer);*/
-}
+LineScene::~LineScene() = default;

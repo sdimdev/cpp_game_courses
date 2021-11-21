@@ -12,7 +12,7 @@ class IScene
 public:
     virtual ~IScene() = default;
     virtual void draw() = 0;
-    virtual bool handleEvent(WindowEvent event) = 0;
+    virtual bool handleEvent(EventType eventType) = 0;
 };
 
 

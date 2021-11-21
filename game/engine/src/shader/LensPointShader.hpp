@@ -8,12 +8,14 @@
 #include "IPoint3Shader.hpp"
 #include "domain/Point3f.hpp"
 
-class LensPointShader : IPoint3Shader
+class LensPointShader : public IPoint3Shader
 {
 public:
-    LensPointShader(Point3f point, int r);
-
+    explicit LensPointShader(Point3f point, int r);
     Point3f apply(Point3f point) override;
+    void moveToPoint(Point3f point);
+    ~LensPointShader();
+    Point3f getPoint();
 
 private:
     int r;

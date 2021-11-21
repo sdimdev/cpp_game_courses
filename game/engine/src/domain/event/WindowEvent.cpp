@@ -3,3 +3,11 @@
 //
 
 #include "WindowEvent.hpp"
+
+WindowEvent::WindowEvent() : WindowEvent(UNKNOWN)
+{}
+
+WindowEvent::WindowEvent(EventType type)
+{
+    eventType = type;
+}

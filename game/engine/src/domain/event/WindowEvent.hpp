@@ -17,8 +17,9 @@ enum EventType
 class WindowEvent
 {
 public:
-    WindowEvent();
-    WindowEvent(EventType type);
+    explicit WindowEvent();
+    explicit WindowEvent(EventType type);
+    EventType eventType;
 };
 
 

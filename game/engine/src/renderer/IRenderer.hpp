@@ -7,6 +7,7 @@
 
 
 #include <domain/Line3f.hpp>
+#include <shader/IPoint3Shader.hpp>
 
 class IRenderer
 {
@@ -15,7 +16,7 @@ public:
 
     virtual void endDrawing() = 0;
 
-    virtual void drawLine(Line3f line) = 0;
+    virtual void drawLine(Line3f line, IPoint3Shader* shader) = 0;
 };
 
 

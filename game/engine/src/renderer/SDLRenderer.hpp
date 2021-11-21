@@ -15,12 +15,13 @@ class SDLRenderer : public IRenderer
 public:
     //is it right?
     explicit SDLRenderer(SDL_Renderer *renderer);
+    ~SDLRenderer();
 
     void startDrawing() override;
 
     void endDrawing() override;
 
-    void drawLine(Line3f line) override;
+    void drawLine(Line3f line, IPoint3Shader* shader) override;
 
 private:
     struct Pimpl;

@@ -3,11 +3,10 @@ project(engine)
 
 set(CMAKE_CXX_STANDARD 17)
 
-#[[include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeSources.txt)]]
+#include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeSources.txt)
 
-#[[file(GLOB ENGINE_SOURCES  "*/*.h" "*/*.cpp")]]
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS src/*)
-add_library(engine STATIC ${ENGINE_SOURCES} src/window/WindowEventManager.cpp src/window/WindowEventManager.hpp)
+add_library(engine STATIC ${ENGINE_SOURCES} src/window/IWindowEventManager.cpp src/utils/TimeInteractor.cpp src/utils/TimeInteractor.hpp)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2)
 set(SDL2MAIN_LIBRARY SDL2main)
