@@ -8,10 +8,19 @@
 #include <scenes/SceneManager.hpp>
 #include <window/IWindowEventManager.hpp>
 #include <window/WindowEventManagerImpl.hpp>
+#include <window/GL_Window.hpp>
+#include "utils/CommandLineUtil.cpp"
 
 Engine EngineFactory::create(std::string_view window_name, int width, int height, int argc, char **argv)
 {
-    IWindow *w = new WindowImpl(window_name, width, height);
+    IWindow *w = nullptr;
+    if (cmdOptionExists(argv, argv + argc, "-gl"))
+    {
+        w = new GL_Window(window_name, width, height);
+    } else
+    {
+        w = new WindowImpl(window_name, width, height);
+    }
     IRenderer *renderer = w->getRenderer();
     ScenesFactory *factory = new ScenesFactory(renderer, argc, argv);
     SceneManager *sceneManager = new SceneManager(factory);

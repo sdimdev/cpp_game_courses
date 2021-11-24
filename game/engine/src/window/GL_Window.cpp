@@ -49,7 +49,7 @@ GL_Window::GL_Window(std::string_view window_name, int width, int height)
         success = false;
     }
     assert(success);
-    _pimpl->r = new GL_Renderer(this);
+    _pimpl->r = new GL_Renderer(_pimpl->window);
 }
 
 IRenderer *GL_Window::getRenderer()

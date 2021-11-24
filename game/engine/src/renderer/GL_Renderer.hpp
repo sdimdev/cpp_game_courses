@@ -8,12 +8,13 @@
 
 #include <window/GL_Window.hpp>
 #include "IRenderer.hpp"
+#include <SDL.h>
 
 class GL_Renderer : public IRenderer
 {
 public:
     //is it right?
-    explicit GL_Renderer(GL_Window *glWindow);
+    explicit GL_Renderer(SDL_Window *sdlWindow);
 
     ~GL_Renderer();
 

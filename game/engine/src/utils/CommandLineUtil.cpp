@@ -5,7 +5,7 @@
 // Created by dzmitry on 18.11.2021.
 //
 
-char *getCmdOption(char **begin, char **end, const std::string_view &option)
+char static *getCmdOption(char **begin, char **end, const std::string_view &option)
 {
     char **itr = std::find(begin, end, option);
     if (itr != end && ++itr != end)
@@ -15,7 +15,7 @@ char *getCmdOption(char **begin, char **end, const std::string_view &option)
     return 0;
 }
 
-bool cmdOptionExists(char **begin, char **end, const std::string_view &option)
+bool static cmdOptionExists(char **begin, char **end, const std::string_view &option)
 {
     return std::find(begin, end, option) != end;
 }
