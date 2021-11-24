@@ -20,7 +20,8 @@ public:
     void close() override;
 
     IRenderer *getRenderer() override;
-
+    int getWidth();
+    int getHeight();
 private:
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;

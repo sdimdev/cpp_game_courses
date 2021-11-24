@@ -14,7 +14,7 @@ class GL_Renderer : public IRenderer
 {
 public:
     //is it right?
-    explicit GL_Renderer(SDL_Window *sdlWindow);
+    explicit GL_Renderer(SDL_Window *sdlWindow, int w, int h);
 
     ~GL_Renderer();
 
@@ -27,7 +27,7 @@ public:
 private:
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;
-
+    void checkErrors();
     void drawPoint(int x, int y, RGBAColor color);
 
     void drawLine(int x0, int y0, int x1, int y1, RGBAColor color, IPixelShader *pixelShader);

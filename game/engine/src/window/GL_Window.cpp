@@ -8,11 +8,15 @@
 #include <cassert>
 #include <renderer/SDLRenderer.hpp>
 #include <renderer/GL_Renderer.hpp>
+#include <GL/glew.h>
+#include <iostream>
 
 struct GL_Window::Pimpl
 {
     SDL_Window *window = nullptr;
     IRenderer *r = nullptr;
+    int width;
+    int height;
 };
 
 void GL_Window::close()
@@ -25,6 +29,8 @@ void GL_Window::close()
 GL_Window::GL_Window(std::string_view window_name, int width, int height)
 {
     _pimpl = std::make_unique<GL_Window::Pimpl>();
+    _pimpl->width = width;
+    _pimpl->height = height;
     bool success = true;
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
@@ -49,7 +55,7 @@ GL_Window::GL_Window(std::string_view window_name, int width, int height)
         success = false;
     }
     assert(success);
-    _pimpl->r = new GL_Renderer(_pimpl->window);
+    _pimpl->r = new GL_Renderer(_pimpl->window, width, height);
 }
 
 IRenderer *GL_Window::getRenderer()
@@ -59,5 +65,15 @@ IRenderer *GL_Window::getRenderer()
 
 GL_Window::~GL_Window()
 {
-   // SDL_DestroyRenderer(_pimpl->renderer);
-};
+    // SDL_DestroyRenderer(_pimpl->renderer);
+}
+
+int GL_Window::getHeight()
+{
+    return _pimpl->height;
+}
+
+int GL_Window::getWidth()
+{
+    return _pimpl->width;
+}
