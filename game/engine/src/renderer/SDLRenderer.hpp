@@ -8,7 +8,7 @@
 
 #include <memory>
 #include "IRenderer.hpp"
-#include "domain/RGBAColor.hpp"
+#include "entity/RGBAColor.hpp"
 #include <SDL.h>
 #include <shader/IPixelShader.hpp>
 #include <shader/IPoint3Shader.hpp>

@@ -10,7 +10,7 @@
 #include <memory>
 #include <list>
 #include <renderer/IRenderer.hpp>
-#include <domain/Line3f.hpp>
+#include <entity/Line3f.hpp>
 
 class LineScene : public IScene
 {

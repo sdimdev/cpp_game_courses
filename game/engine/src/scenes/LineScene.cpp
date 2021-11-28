@@ -2,8 +2,8 @@
 // Created by dzmitry on 18.11.2021.
 //
 
-#include <domain/Line3f.hpp>
-#include <domain/Point3f.hpp>
+#include <entity/Line3f.hpp>
+#include <entity/Point3f.hpp>
 #include <shader/LensPointShader.hpp>
 #include <utils/TimeInteractor.hpp>
 #include <shader/LensPixelShader.hpp>

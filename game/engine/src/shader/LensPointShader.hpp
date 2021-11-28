@@ -6,7 +6,7 @@
 #define GAME_LENSPOINTSHADER_HPP
 
 #include "IPoint3Shader.hpp"
-#include "domain/Point3f.hpp"
+#include "entity/Point3f.hpp"
 
 class LensPointShader : public IPoint3Shader
 {

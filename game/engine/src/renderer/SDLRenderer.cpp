@@ -3,7 +3,7 @@
 //
 
 #include <SDL.h>
-#include <domain/RGBAColor.hpp>
+#include <entity/RGBAColor.hpp>
 #include <shader/IPixelShader.hpp>
 #include <shader/IPoint3Shader.hpp>
 #include "SDLRenderer.hpp"

@@ -6,8 +6,8 @@
 #define GAME_LENSPIXELSHADER_HPP
 
 
-#include <domain/Point3f.hpp>
-#include <domain/RGBAColor.hpp>
+#include <entity/Point3f.hpp>
+#include <entity/RGBAColor.hpp>
 #include "IPixelShader.hpp"
 
 class LensPixelShader : public IPixelShader

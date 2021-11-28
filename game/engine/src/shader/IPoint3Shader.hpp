@@ -6,7 +6,7 @@
 #define GAME_IPOINT3SHADER_HPP
 
 
-#include <domain/Point3f.hpp>
+#include <entity/Point3f.hpp>
 
 class IPoint3Shader
 {

@@ -6,7 +6,7 @@
 #define GAME_IRENDERER_HPP
 
 
-#include <domain/Line3f.hpp>
+#include <entity/Line3f.hpp>
 #include <shader/IPoint3Shader.hpp>
 #include <shader/IPixelShader.hpp>
 

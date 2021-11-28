@@ -2,7 +2,7 @@
 // Created by dzmitry on 20.11.2021.
 //
 
-#include <domain/event/WindowEvent.hpp>
+#include <entity/event/WindowEvent.hpp>
 #include "WindowEventManagerImpl.hpp"
 #include <SDL.h>
 #include <scenes/IScene.hpp>

@@ -5,7 +5,7 @@
 #ifndef GAME_SCENE_HPP
 #define GAME_SCENE_HPP
 
-#include <domain/event/WindowEvent.hpp>
+#include <entity/event/WindowEvent.hpp>
 
 class IScene
 {
