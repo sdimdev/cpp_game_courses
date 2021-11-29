@@ -7,7 +7,7 @@ set(OpenGL_GL_PREFERENCE LEGACY) #todo change to other one?
 #include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeSources.txt)
 
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS src/*)
-add_library(engine STATIC ${ENGINE_SOURCES})
+add_library(engine STATIC ${ENGINE_SOURCES} src/entity/Vec4.cpp src/entity/Vec4.hpp src/utils/FileUtils.cpp)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2)
 

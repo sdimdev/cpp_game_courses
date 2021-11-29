@@ -7,9 +7,9 @@
 
 
 #include <memory>
-#include <renderer/SDLRenderer.hpp>
-#include <renderer/IRenderer.hpp>
-#include "IWindow.hpp"
+#include <SDL/renderer/SDLRenderer.hpp>
+#include <common/renderer/IRenderer.hpp>
+#include "common/window/IWindow.hpp"
 
 class WindowImpl : public IWindow
 {

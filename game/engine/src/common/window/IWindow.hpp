@@ -6,14 +6,14 @@
 #define GAME_IWINDOW_HPP
 
 
-#include <renderer/IRenderer.hpp>
+#include <common/renderer/IRenderer.hpp>
 
 class IWindow
 {
 public:
     virtual void close() = 0;
     virtual IRenderer *getRenderer() = 0;
-    virtual ~IWindow() = 0;
+    virtual ~IWindow() = default;
 };
 
 

@@ -6,10 +6,10 @@
 
 #include <string_view>
 #include <memory>
-#include <window/IWindow.hpp>
-#include <renderer/IRenderer.hpp>
+#include <common/window/IWindow.hpp>
+#include <common/renderer/IRenderer.hpp>
 #include <scenes/SceneManager.hpp>
-#include <window/IWindowEventManager.hpp>
+#include <common/event/IWindowEventManager.hpp>
 
 class Engine
 {

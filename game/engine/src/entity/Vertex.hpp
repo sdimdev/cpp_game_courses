@@ -7,13 +7,13 @@
 
 
 #include "Vec2.hpp"
-#include "Vec3.hpp"
+#include "Vec4.hpp"
 
 class Vertex
 {
 public:
     Vec2<float> position;
-    Vec3<float> color;
+    Vec4<float> color;
 };
 
 

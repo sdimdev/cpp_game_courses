@@ -12,7 +12,7 @@ class IWindowEventManager
 {
 public:
     virtual bool handleEvents() = 0;
-    virtual ~IWindowEventManager();
+    virtual ~IWindowEventManager() = default;
 };
 
 #endif //GAME_IWINDOWEVENTMANAGER_HPP

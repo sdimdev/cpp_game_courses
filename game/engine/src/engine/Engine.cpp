@@ -4,9 +4,9 @@
 
 #include "Engine.hpp"
 #include <scenes/ScenesFactory.hpp>
-#include <window/IWindow.hpp>
+#include <common/window/IWindow.hpp>
 #include <scenes/SceneManager.hpp>
-#include <window/IWindowEventManager.hpp>
+#include <common/event/IWindowEventManager.hpp>
 
 struct Engine::Pimpl
 {

@@ -11,34 +11,15 @@
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
 #include <iostream>
-
-struct Point
-{
-    float x, y;
-};
+#include <entity/Vertex.hpp>
+#include <entity/Vec4.hpp>
+#include <unistd.h>
+#include "utils/FileUtils.cpp"
 
 struct Triangle
 { //todo делаем массив
-    Point p1, p2, p3;
+    Vertex p1, p2, p3;
 };
-
-static std::string v_shader = "#version 330 core\n"
-                              "layout (location = 0) in vec2 position;\n"
-                              "out vec2 oPos;\n"
-                              "uniform vec2 screenSize;\n"
-                              "void main()\n"
-                              "{\n"
-                              "oPos = position / screenSize * 2.0 - vec2(1.0);\n"
-                              "gl_Position = vec4(oPos.x, oPos.y, 1.0, 1.0);\n"
-                              "}";
-
-static std::string p_shader = "#version 330 core\n"
-                              "in vec2 oPos;\n"
-                              "out vec4 color;\n"
-                              "void main()\n"
-                              "{\n"
-                              "color = vec4(oPos.x * 0.5 + 0.5, oPos.y * 0.5 + 0.5, 1.0, 1.0);\n"
-                              "}";
 
 struct GL_Renderer::Pimpl
 {
@@ -52,9 +33,9 @@ struct GL_Renderer::Pimpl
     GLuint program;
     GLint uniform;
     int w, h;
-    Triangle triangle{{0, 0},
-                      {640, 480},
-                      {400, 100}};
+    Triangle triangle{{0,   0,   0.5f, 0.5f, 0.1f, 1.0f},
+                      {640, 480, 0.1f, 0.5f, 0.5f, 1.0f},
+                      {400, 100, 0.5f, 0.1f, 0.5f, 1.0f}};
     //SDL_Renderer *renderer = nullptr;
 };
 
@@ -80,21 +61,6 @@ void GL_Renderer::startDrawing()
                    0
     );
     checkErrors();
-
-    /*  glColor4ub( 0,0,255,255);
-      glLineWidth( 5 );
-      glBegin(GL_LINES);
-      glVertex2i(500,0);
-      glVertex2i(0,500);
-      glEnd();
-      glLineWidth( 1.0f );*/
-
-/*    glBegin(GL_TRIANGLES);
-    glColor3f(1, 1, 1);
-    glVertex2d(10, 100);
-    glVertex2d(100, 100);
-    glVertex2d(200, 200);
-    glEnd();*/
 }
 
 void GL_Renderer::endDrawing()
@@ -180,9 +146,19 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
             2, // сколько в поле компонентов
             GL_FLOAT, //тип
             GL_FALSE, // нормализация обрезка от [-1,1]
-            sizeof(Point),//страйт? расстояние между двумя соседними элементами в массиве
-            reinterpret_cast<void *> (offsetof(Point, x))
+            sizeof(Vertex),//страйт? расстояние между двумя соседними элементами в массиве
+            reinterpret_cast<void *> (offsetof(Vertex, position))
             //reinterpret_cast<void *>(0) //смещение от начала структуры offsetof(Vertex, x);
+    );
+
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(
+            1, //номер поля
+            4, // сколько в поле компонентов
+            GL_FLOAT, //тип
+            GL_FALSE, // нормализация обрезка от [-1,1]
+            sizeof(Vertex),//страйт? расстояние между двумя соседними элементами в массиве
+            reinterpret_cast<void *> (offsetof(Vertex, color))
     );
 
 
@@ -202,8 +178,13 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
     GLint success;
     GLchar infoLog[512];
 
+    char tmp[256];
+    getcwd(tmp, 256);
+    printf("%s", tmp);
     _pimpl->vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    const char *c_v_shader = v_shader.c_str();
+    const char *c_v_shader =
+            loadFromFile("engine/src/v_shader.glsl");
+    printf("\n VERTEX SHADER %s\n", c_v_shader);
     glShaderSource(_pimpl->vertexShader, 1, &c_v_shader, nullptr);
     glCompileShader(_pimpl->vertexShader);
 
@@ -216,7 +197,9 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
     }
 
     _pimpl->fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    const char *c_f_shader = p_shader.c_str();
+    const char *c_f_shader =
+            loadFromFile("engine/src/f_shader.glsl");
+    printf("\n FRAGMENT SHADER: %s\n", c_f_shader);
     glShaderSource(_pimpl->fragmentShader, 1, &c_f_shader, nullptr);
     glCompileShader(_pimpl->fragmentShader);
 
@@ -256,69 +239,22 @@ GL_Renderer::~GL_Renderer()
 
 void GL_Renderer::drawPoint(int x, int y, RGBAColor color)
 {
-    glBegin(GL_POINTS);
+/*    glBegin(GL_POINTS);
     glColor3b(color.getRed(), color.getGreen(), color.getBlue());
     glVertex2d(x, y);
-    glEnd();
+    glEnd();*/
 }
 
 void GL_Renderer::drawLine(int x0, int y0, int x1, int y1, RGBAColor color, IPixelShader *pixelShader)
 {
 
     //printf("drawLine %d %d %d %d\n", x0, y0, x1, y1);
-    glColor3f(color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255);
+   /* glColor3f(color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255);
     glLineWidth(2);
     glBegin(GL_LINES);
     glVertex2f(x0, y0);
     glVertex2f(x1, y1);
-    glEnd();
-    /* //copied from https://habr.com/ru/post/248153/
-     RGBAColor c = color;
-     bool steep = false;
-     if (std::abs(x0 - x1) < std::abs(y0 - y1))
-     {
-         std::swap(x0, y0);
-         std::swap(x1, y1);
-         steep = true;
-     }
-     if (x0 > x1)
-     {
-         std::swap(x0, x1);
-         std::swap(y0, y1);
-     }
-     //todo do not create it each time?
-     int dx = x1 - x0;
-     int dy = y1 - y0;
-     int derror2 = std::abs(dy) * 2;
-     int error2 = 0;
-     int y = y0;
-     for (int x = x0; x <= x1; x++)
-     {
-         if (steep)
-         {
-             if (pixelShader != nullptr)
-             {
-                 //todo point2d
-                 c = pixelShader->apply(Point3f(y, x), color);
-             }
-             drawPoint(y, x, c);
-         } else
-         {
-             if (pixelShader != nullptr)
-             {
-                 //todo point2d
-                 c = pixelShader->apply(Point3f(x, y), color);
-             }
-             drawPoint(x, y, c);
-         }
-         error2 += derror2;
-
-         if (error2 > dx)
-         {
-             y += (y1 > y0 ? 1 : -1);
-             error2 -= dx * 2;
-         }
-     }*/
+    glEnd();*/
 }
 
 void GL_Renderer::checkErrors()

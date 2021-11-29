@@ -7,7 +7,7 @@
 
 
 #include <memory>
-#include "IRenderer.hpp"
+#include "common/renderer/IRenderer.hpp"
 #include "entity/RGBAColor.hpp"
 #include <SDL.h>
 #include <shader/IPixelShader.hpp>

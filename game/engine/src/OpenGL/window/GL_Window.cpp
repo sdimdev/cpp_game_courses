@@ -3,11 +3,11 @@
 //
 
 #include "GL_Window.hpp"
-#include "IWindow.hpp"
+#include "common/window/IWindow.hpp"
 #include <SDL.h>
 #include <cassert>
-#include <renderer/SDLRenderer.hpp>
-#include <renderer/GL_Renderer.hpp>
+#include <SDL/renderer/SDLRenderer.hpp>
+#include <OpenGL/renderer/GL_Renderer.hpp>
 #include <GL/glew.h>
 #include <iostream>
 

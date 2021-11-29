@@ -13,3 +13,12 @@ Vec3 color
 }
 
 домашку с openGl
+
+квадратик на экран.
+Делаем спрайт
+{
+scale
+rotation (360)
+position
+transform()
+}

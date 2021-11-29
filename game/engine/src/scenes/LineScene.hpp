@@ -9,7 +9,7 @@
 #include <scenes/IScene.hpp>
 #include <memory>
 #include <list>
-#include <renderer/IRenderer.hpp>
+#include <common/renderer/IRenderer.hpp>
 #include <entity/Line3f.hpp>
 
 class LineScene : public IScene

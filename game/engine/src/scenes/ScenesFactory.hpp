@@ -8,7 +8,7 @@
 
 #include <scenes/IScene.hpp>
 #include <memory>
-#include <renderer/IRenderer.hpp>
+#include <common/renderer/IRenderer.hpp>
 
 class ScenesFactory
 {

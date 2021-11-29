@@ -3,10 +3,10 @@
 //
 
 #include "WindowImpl.hpp"
-#include "IWindow.hpp"
+#include "common/window/IWindow.hpp"
 #include <SDL.h>
 #include <cassert>
-#include <renderer/SDLRenderer.hpp>
+#include <SDL/renderer/SDLRenderer.hpp>
 
 struct WindowImpl::Pimpl
 {

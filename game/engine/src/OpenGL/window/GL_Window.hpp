@@ -7,7 +7,7 @@
 
 
 #include <memory>
-#include "IWindow.hpp"
+#include "common/window/IWindow.hpp"
 
 class GL_Window : public IWindow
 {

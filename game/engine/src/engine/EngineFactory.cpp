@@ -4,11 +4,11 @@
 
 
 #include "EngineFactory.hpp"
-#include <window/WindowImpl.hpp>
+#include <SDL/window/WindowImpl.hpp>
 #include <scenes/SceneManager.hpp>
-#include <window/IWindowEventManager.hpp>
-#include <window/WindowEventManagerImpl.hpp>
-#include <window/GL_Window.hpp>
+#include <common/event/IWindowEventManager.hpp>
+#include <SDL/event/WindowEventManagerImpl.hpp>
+#include <OpenGL/window/GL_Window.hpp>
 #include "utils/CommandLineUtil.cpp"
 
 Engine EngineFactory::create(std::string_view window_name, int width, int height, int argc, char **argv)

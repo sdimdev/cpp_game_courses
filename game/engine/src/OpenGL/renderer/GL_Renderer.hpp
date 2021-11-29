@@ -6,8 +6,8 @@
 #define GAME_GL_RENDERER_HPP
 
 
-#include <window/GL_Window.hpp>
-#include "IRenderer.hpp"
+#include <OpenGL/window/GL_Window.hpp>
+#include "common/renderer/IRenderer.hpp"
 #include <SDL.h>
 
 class GL_Renderer : public IRenderer
