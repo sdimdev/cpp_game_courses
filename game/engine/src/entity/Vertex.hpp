@@ -6,14 +6,14 @@
 #define GAME_VERTEX_HPP
 
 
-#include "Vec2.hpp"
-#include "Vec4.hpp"
+#include <vec2.hpp>
+#include <vec4.hpp>
 
 class Vertex
 {
 public:
-    Vec2<float> position;
-    Vec4<float> color;
+    glm::vec2 position;
+    glm::vec4 color;
 };
 
 
