@@ -28,9 +28,6 @@ private:
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;
     void checkErrors();
-    void drawPoint(int x, int y, RGBAColor color);
-
-    void drawLine(int x0, int y0, int x1, int y1, RGBAColor color, IPixelShader *pixelShader);
 };
 
 

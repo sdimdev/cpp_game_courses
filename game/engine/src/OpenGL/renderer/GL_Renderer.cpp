@@ -15,11 +15,6 @@
 #include <unistd.h>
 #include "utils/FileUtils.cpp"
 
-struct Triangle
-{ //todo делаем массив
-    Vertex p1, p2, p3;
-};
-
 struct GL_Renderer::Pimpl
 {
     SDL_GLContext context;
@@ -31,10 +26,11 @@ struct GL_Renderer::Pimpl
     GLuint program;
     GLint uniform;
     int w, h;
-    Vertex triangle[3] = {
-            glm::vec2(0.0f, 0.0f), glm::vec4(0.5f, 0.5f, 0.1f, 1.0f),
-            glm::vec2(640.0f, 480.0f), glm::vec4(0.1f, 0.5f, 0.5f, 1.0f),
-            glm::vec2(400.0f, 100.0f), glm::vec4(0.5f, 0.1f, 0.5f, 1.0f)
+    Vertex triangle[4] = {
+            glm::vec2(40.0f, 40.0f), glm::vec4(0.5f, 0.5f, 0.1f, 1.0f),
+            glm::vec2(400.0f, 40.0f), glm::vec4(0.1f, 0.5f, 0.5f, 1.0f),
+            glm::vec2(400.0f, 400.0f), glm::vec4(0.5f, 0.1f, 0.5f, 1.0f),
+            glm::vec2(40.0f, 400.0f), glm::vec4(0.5f, 0.1f, 0.5f, 1.0f)
     };
 };
 
@@ -47,7 +43,11 @@ struct GL_Renderer::Pimpl
         glUniform2f(_pimpl->uniform, _pimpl->w, _pimpl->h);
 
         glBindVertexArray(_pimpl->VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES,
+                       6, //количество индексов
+                       GL_UNSIGNED_INT,
+                       0
+        );
         checkErrors();
     }
 
@@ -58,20 +58,7 @@ struct GL_Renderer::Pimpl
 
     void GL_Renderer::drawLine(Line3f line, IPoint3Shader *shader, IPixelShader *pixelShader)
     {
-        Point3f p1 = line.getP1();
-        Point3f p2 = line.getP2();
-        RGBAColor c(0, 255, 0, 255);
-        if (shader != nullptr)
-        {
-            p1 = shader->apply(p1);
-            p2 = shader->apply(p2);
-        }
-        drawLine((int) p1.getX(),
-                 (int) p1.getY(),
-                 (int) p2.getX(),
-                 (int) p2.getY(),
-                 c,
-                 pixelShader);
+        //todo
     }
 
     GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
@@ -103,7 +90,6 @@ struct GL_Renderer::Pimpl
 
         if (err != GLEW_OK)
         {
-
             fprintf(stderr, "Failed to init GLEW\n");
             SDL_GL_DeleteContext(sdlWindow);
             SDL_DestroyWindow(sdlWindow);
@@ -117,7 +103,7 @@ struct GL_Renderer::Pimpl
 
         glGenBuffers(1, &_pimpl->VAO);
         glBindBuffer(GL_ARRAY_BUFFER, _pimpl->VAO);
-        glBufferData(GL_ARRAY_BUFFER, 3 * //количество
+        glBufferData(GL_ARRAY_BUFFER, 4 * //количество
                                       sizeof(Vertex),
                      static_cast<void *>(&_pimpl->triangle),
                      GL_STATIC_DRAW
@@ -150,7 +136,7 @@ struct GL_Renderer::Pimpl
 
         checkErrors();
         //заполняем индексы
-        std::uint32_t mass[3] = {0, 1, 2};
+        std::uint32_t mass[6] = {0, 1, 2, 0, 2, 3};
         glGenBuffers(1, &_pimpl->IBO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _pimpl->IBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER,
@@ -222,26 +208,6 @@ struct GL_Renderer::Pimpl
     {
         SDL_GL_DeleteContext(_pimpl->context);
     };
-
-    void GL_Renderer::drawPoint(int x, int y, RGBAColor color)
-    {
-/*    glBegin(GL_POINTS);
-    glColor3b(color.getRed(), color.getGreen(), color.getBlue());
-    glVertex2d(x, y);
-    glEnd();*/
-    }
-
-    void GL_Renderer::drawLine(int x0, int y0, int x1, int y1, RGBAColor color, IPixelShader *pixelShader)
-    {
-
-        //printf("drawLine %d %d %d %d\n", x0, y0, x1, y1);
-        /* glColor3f(color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255);
-         glLineWidth(2);
-         glBegin(GL_LINES);
-         glVertex2f(x0, y0);
-         glVertex2f(x1, y1);
-         glEnd();*/
-    }
 
     void GL_Renderer::checkErrors()
     {
