@@ -7,25 +7,18 @@
 
 
 #include <vec2.hpp>
+#include "SpriteData.hpp"
+#include "Node.hpp"
 
 class Sprite
 {
-    //todo to mesh
 public:
-    glm::vec2 position;
-    std::uint32_t rotation;
-    float scale;
+    Node<SpriteData> node;
 
-    //todo вставь в Node
+
     /// glsl
     /// scaledPos = (transform * vec3(scalerdPOs, 1.0)).xy
     //transform через Uniform
-
-    //vec2 - якорная точка. Вокруг которой происходят все тран ancrPoint
-
- /*   s cos - sin + tx
-    sin + s cos + ty
-    0 0 1*/
 };
 
 

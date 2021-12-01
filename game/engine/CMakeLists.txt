@@ -7,7 +7,7 @@ set(OpenGL_GL_PREFERENCE LEGACY) #todo change to other one?
 #include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeSources.txt)
 
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS src/*)
-add_library(engine STATIC ${ENGINE_SOURCES} src/utils/FileUtils.cpp src/entity/MeshData.cpp src/entity/MeshData.hpp src/entity/Sprite.cpp src/entity/Sprite.hpp)
+add_library(engine STATIC ${ENGINE_SOURCES} src/utils/FileUtils.cpp src/entity/MeshData.cpp src/entity/MeshData.hpp src/entity/Sprite.cpp src/entity/Sprite.hpp src/entity/Node.cpp src/entity/Node.hpp src/entity/TransformData.cpp src/entity/TransformData.hpp src/entity/SpriteData.cpp src/entity/SpriteData.hpp)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2)
 
