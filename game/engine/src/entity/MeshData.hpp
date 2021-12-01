@@ -14,7 +14,7 @@ class MeshData
 {
 public:
     std::vector<Vertex> points;
-    std::vector<GLint> indexes;
+    std::vector<uint32_t> indexes;
 };
 
 
