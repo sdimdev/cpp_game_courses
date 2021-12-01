@@ -4,7 +4,6 @@
 
 #include "GL_Renderer.hpp"
 #include <SDL.h>
-#include <entity/RGBAColor.hpp>
 #include <shader/IPixelShader.hpp>
 #include <shader/IPoint3Shader.hpp>
 #include <GL/glew.h>
@@ -24,18 +23,21 @@ struct GL_Renderer::Pimpl
     GLuint fragmentShader;
     GLuint program;
     GLint uniform;
+    GLint transformUniform;
     int w, h;
     Sprite sprite;
 };
 
 void GL_Renderer::startDrawing()
 {
+    _pimpl->sprite.node.value.transformData.rotation += 1.0f;
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glUseProgram(_pimpl->program);
     glUniform2f(_pimpl->uniform, _pimpl->w, _pimpl->h);
-    //glUniformMatrix3x2fv()
+
+    glUniformMatrix4fv(_pimpl->transformUniform, 1, GL_FALSE, glm::value_ptr(_pimpl->sprite.node.value.transformData.getTransform()));
 
     glBindVertexArray(_pimpl->sprite.node.value.VAO);
     glDrawElements(GL_TRIANGLES,
@@ -61,6 +63,7 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
     _pimpl = std::make_unique<GL_Renderer::Pimpl>();
     _pimpl->w = w;
     _pimpl->h = h;
+
     _pimpl->sprite.node.value.meshData.points.push_back({glm::vec2(40.0f, 40.0f), glm::vec4(0.5f, 0.5f, 0.1f, 1.0f)});
     _pimpl->sprite.node.value.meshData.points.push_back({glm::vec2(400.0f, 40.0f), glm::vec4(0.1f, 0.5f, 0.5f, 1.0f)});
     _pimpl->sprite.node.value.meshData.points.push_back({glm::vec2(400.0f, 400.0f), glm::vec4(0.5f, 0.1f, 0.5f, 1.0f)});
@@ -72,6 +75,11 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
     _pimpl->sprite.node.value.meshData.indexes.push_back(0);
     _pimpl->sprite.node.value.meshData.indexes.push_back(2);
     _pimpl->sprite.node.value.meshData.indexes.push_back(3);
+
+    Node<SpriteData> child;
+    _pimpl->sprite.node.childs.push_back(std::make_shared<Node<SpriteData>>(child));
+
+    _pimpl->sprite.node.value.transformData.ancor = glm::vec2(0.2f, 0.2f);
 
     //todo move stpite initialisation to other class
 
@@ -146,7 +154,6 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
 
     checkErrors();
     //заполняем индексы
-    //std::uint32_t mass[6] = {0, 1, 2, 0, 2, 3};
     glGenBuffers(1, &_pimpl->sprite.node.value.IBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _pimpl->sprite.node.value.IBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,
@@ -212,6 +219,7 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
 
     //задаем униформу
     _pimpl->uniform = glGetUniformLocation(_pimpl->program, "screenSize");
+    _pimpl->transformUniform = glGetUniformLocation(_pimpl->program, "transform");
 }
 
 GL_Renderer::~GL_Renderer()
