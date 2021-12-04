@@ -7,13 +7,13 @@
 
 
 #include <vec2.hpp>
-#include <vec4.hpp>
+#include <vec3.hpp>
 
 class Vertex
 {
 public:
-    glm::vec2 position;
-    glm::vec4 color;
+    glm::vec3 position;
+    glm::vec2 textCoord;
 };
 
 

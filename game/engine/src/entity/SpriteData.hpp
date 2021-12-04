@@ -18,6 +18,7 @@ public:
     GLuint IBO; //идентификатор индексов в видеокарте
     //todo VBO
     MeshData meshData;
+    ~SpriteData() = default;
 };
 
 

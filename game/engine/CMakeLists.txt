@@ -7,7 +7,7 @@ set(OpenGL_GL_PREFERENCE LEGACY) #todo change to other one?
 #include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeSources.txt)
 
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS src/*)
-add_library(engine STATIC ${ENGINE_SOURCES} src/utils/FileUtils.cpp src/entity/MeshData.cpp src/entity/MeshData.hpp src/entity/Sprite.cpp src/entity/Sprite.hpp src/entity/Node.cpp src/entity/Node.hpp src/entity/TransformData.cpp src/entity/TransformData.hpp src/entity/SpriteData.cpp src/entity/SpriteData.hpp)
+add_library(engine STATIC ${ENGINE_SOURCES} ${STBI_LIBRARY} src/OpenGL/shader/ShaderProgram.cpp src/OpenGL/shader/ShaderProgram.hpp src/shader/Shaders.cpp src/shader/Shaders.hpp src/OpenGL/shader/SpriteShader.cpp src/OpenGL/shader/SpriteShader.hpp)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2)
 
@@ -22,9 +22,10 @@ include_directories(${OPENGL_INCLUDE_DIRS})
 
 set(SDL2MAIN_LIBRARY SDL2main)
 set(SDL2_LIBRARY SDL2-static)
-set(GLEW_LIBRARY libglew-static)
+#set(GLEW_LIBRARY libglew-static)
 set(GLEW_INCLUDE_DIR, "/libs/glew/include/")
 set(GLEW_LIBRARY, "/libs/glew")
+#set(STBI_LIBRARY, "/libs/stbi")
 #set(GLM_LIBRARY, "/libs/glm")
 
 
@@ -43,6 +44,7 @@ target_link_libraries(engine PRIVATE
         ${OPENGL_gl_LIBRARY}
        #${GLM_LIBRARY}
         ${GLEW_LIBRARIES}
+        ${STBI_LIBRARY}
         #${GLEW_LIBRARY}
         )
 
@@ -52,5 +54,6 @@ target_include_directories(engine
         ${CMAKE_CURRENT_SOURCE_DIR}/libs/glm
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/libs/stbi
         ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/include)
 

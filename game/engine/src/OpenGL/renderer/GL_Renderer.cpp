@@ -13,6 +13,7 @@
 #include <entity/Vertex.hpp>
 #include <unistd.h>
 #include <entity/Sprite.hpp>
+#include <TextureLoader.hpp>
 #include "utils/FileUtils.cpp"
 
 struct GL_Renderer::Pimpl
@@ -24,8 +25,11 @@ struct GL_Renderer::Pimpl
     GLuint program;
     GLint uniform;
     GLint transformUniform;
+    GLint texturesUniform;
+    GLint textureSizeUniform;
     int w, h;
     Sprite sprite;
+    TextureLoader tl;
 };
 
 void GL_Renderer::startDrawing()
@@ -36,15 +40,23 @@ void GL_Renderer::startDrawing()
 
     glUseProgram(_pimpl->program);
     glUniform2f(_pimpl->uniform, _pimpl->w, _pimpl->h);
-
     glUniformMatrix4fv(_pimpl->transformUniform, 1, GL_FALSE, glm::value_ptr(_pimpl->sprite.node.value.transformData.getTransform()));
+    //bind texture
+    glActiveTexture(GL_TEXTURE0);
+    glUniform1i(_pimpl->texturesUniform, 0);
+    //glUniform2i(_pimpl->textureSizeUniform, _pimpl->tl.width, _pimpl->tl.height);
+    glBindTexture(GL_TEXTURE_2D, _pimpl->tl.texture);
 
+    //glEnableVertexArrayAttribEXT(_pimpl->sprite.node.value.VAO, 0);
     glBindVertexArray(_pimpl->sprite.node.value.VAO);
+    //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
     glDrawElements(GL_TRIANGLES,
-                   6, //количество индексов
+                   _pimpl->sprite.node.value.meshData.indexes.size(), //количество индексов
                    GL_UNSIGNED_INT,
                    0
     );
+    glUseProgram(0);
     checkErrors();
 }
 
@@ -64,10 +76,10 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
     _pimpl->w = w;
     _pimpl->h = h;
 
-    _pimpl->sprite.node.value.meshData.points.push_back({glm::vec2(40.0f, 40.0f), glm::vec4(0.5f, 0.5f, 0.1f, 1.0f)});
-    _pimpl->sprite.node.value.meshData.points.push_back({glm::vec2(400.0f, 40.0f), glm::vec4(0.1f, 0.5f, 0.5f, 1.0f)});
-    _pimpl->sprite.node.value.meshData.points.push_back({glm::vec2(400.0f, 400.0f), glm::vec4(0.5f, 0.1f, 0.5f, 1.0f)});
-    _pimpl->sprite.node.value.meshData.points.push_back({glm::vec2(40.0f, 400.0f), glm::vec4(0.5f, 0.1f, 0.5f, 1.0f)});
+    _pimpl->sprite.node.value.meshData.points.push_back({glm::vec3(40.0f, 40.0f, 0.0f), glm::vec2(0.0f, 0.0f)});
+    _pimpl->sprite.node.value.meshData.points.push_back({glm::vec3(400.0f, 40.0f, 0.0f), glm::vec2(1.0f, 0.0f)});
+    _pimpl->sprite.node.value.meshData.points.push_back({glm::vec3(400.0f, 400.0f, 0.0f), glm::vec2(1.0f, 1.0f)});
+    _pimpl->sprite.node.value.meshData.points.push_back({glm::vec3(40.0f, 400.0f, 0.0f), glm::vec2(0.0f, 1.0f)});
 
     _pimpl->sprite.node.value.meshData.indexes.push_back(0);
     _pimpl->sprite.node.value.meshData.indexes.push_back(1);
@@ -78,7 +90,6 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
 
     Node<SpriteData> child;
     _pimpl->sprite.node.childs.push_back(std::make_shared<Node<SpriteData>>(child));
-
     _pimpl->sprite.node.value.transformData.ancor = glm::vec2(0.2f, 0.2f);
 
     //todo move stpite initialisation to other class
@@ -113,8 +124,12 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
         SDL_Quit();
     }
 
+    _pimpl->tl.load("../engine/src/picture.jpeg");
+    checkErrors();
+
+
     glGenVertexArrays(1, &_pimpl->sprite.node.value.VAO);
-    glBindVertexArray(_pimpl->sprite.node.value.VAO); //
+    glBindVertexArray(_pimpl->sprite.node.value.VAO);
 
     checkErrors();
 
@@ -130,26 +145,27 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
     checkErrors();
 
     //указываем выравнивае видеокарте
-    glEnableVertexAttribArray(0);
+
     glVertexAttribPointer(
             0, //номер поля
-            2, // сколько в поле компонентов
+            3, // сколько в поле компонентов
             GL_FLOAT, //тип
             GL_FALSE, // нормализация обрезка от [-1,1]
             sizeof(Vertex),//страйт? расстояние между двумя соседними элементами в массиве
             reinterpret_cast<void *> (offsetof(Vertex, position))
             //reinterpret_cast<void *>(0) //смещение от начала структуры offsetof(Vertex, x);
     );
+    glEnableVertexAttribArray(0);
 
-    glEnableVertexAttribArray(1);
     glVertexAttribPointer(
             1, //номер поля
-            4, // сколько в поле компонентов
+            2, // сколько в поле компонентов
             GL_FLOAT, //тип
             GL_FALSE, // нормализация обрезка от [-1,1]
             sizeof(Vertex),//страйт? расстояние между двумя соседними элементами в массиве
-            reinterpret_cast<void *> (offsetof(Vertex, color))
+            reinterpret_cast<void *> (offsetof(Vertex, textCoord))
     );
+    glEnableVertexAttribArray(1);
 
 
     checkErrors();
@@ -220,6 +236,8 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
     //задаем униформу
     _pimpl->uniform = glGetUniformLocation(_pimpl->program, "screenSize");
     _pimpl->transformUniform = glGetUniformLocation(_pimpl->program, "transform");
+    _pimpl->texturesUniform = glGetUniformLocation(_pimpl->program, "uTexture");
+    _pimpl->textureSizeUniform = glGetUniformLocation(_pimpl->program, "textureSize");
 }
 
 GL_Renderer::~GL_Renderer()
