@@ -6,12 +6,18 @@
 #define GAME_SPRITESHADER_HPP
 
 
+#include <memory>
 #include "ShaderProgram.hpp"
 
 class SpriteShader: public ShaderProgram
 {
 public:
+    explicit SpriteShader();
     void loadProgram() override;
+    ~SpriteShader();
+private:
+    struct Pimpl;
+    std::unique_ptr<Pimpl> _pimpl;
 };
 
 

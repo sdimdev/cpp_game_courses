@@ -7,7 +7,7 @@ set(OpenGL_GL_PREFERENCE LEGACY) #todo change to other one?
 #include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeSources.txt)
 
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS src/*)
-add_library(engine STATIC ${ENGINE_SOURCES} ${STBI_LIBRARY} src/OpenGL/shader/ShaderProgram.cpp src/OpenGL/shader/ShaderProgram.hpp src/shader/Shaders.cpp src/shader/Shaders.hpp src/OpenGL/shader/SpriteShader.cpp src/OpenGL/shader/SpriteShader.hpp)
+add_library(engine STATIC ${ENGINE_SOURCES} ${STBI_LIBRARY} src/OpenGL/shader/ShaderProgram.cpp src/OpenGL/shader/ShaderProgram.hpp src/shader/Shaders.cpp src/shader/Shaders.hpp src/OpenGL/shader/SpriteShader.cpp src/OpenGL/shader/SpriteShader.hpp src/utils/GLUtils.cpp)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2)
 
