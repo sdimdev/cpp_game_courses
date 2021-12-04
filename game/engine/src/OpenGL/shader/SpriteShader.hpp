@@ -13,8 +13,12 @@ class SpriteShader: public ShaderProgram
 {
 public:
     explicit SpriteShader();
+    GLint getProgram() override;
     void loadProgram() override;
     ~SpriteShader();
+    GLint screenSizeUniform();
+    GLint transformUniform();
+    GLint textureUniform();
 private:
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;

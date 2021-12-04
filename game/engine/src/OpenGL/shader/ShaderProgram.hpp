@@ -6,10 +6,13 @@
 #define GAME_SHADERPROGRAM_HPP
 
 
+#include <GL/glew.h>
+
 class ShaderProgram
 {
 public:
-    virtual void loadProgram();
+    virtual GLint getProgram() = 0;
+    virtual void loadProgram() = 0;
 };
 
 

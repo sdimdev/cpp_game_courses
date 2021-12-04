@@ -9,25 +9,24 @@
 #include <GL/glew.h>
 #include <vec2.hpp>
 #include <gtc/type_ptr.hpp>
-#include <iostream>
 #include <entity/Vertex.hpp>
 #include <unistd.h>
 #include <entity/Sprite.hpp>
 #include <TextureLoader.hpp>
 #include <utils/FileUtils.cpp>
 #include <utils/GLUtils.cpp>
+#include <OpenGL/shader/ShaderProgram.hpp>
+#include <OpenGL/shader/SpriteShader.hpp>
 
 struct GL_Renderer::Pimpl
 {
     SDL_GLContext context;
     SDL_Window *window;
-    GLuint vertexShader;
-    GLuint fragmentShader;
-    GLuint program;
-    GLint uniform;
+   /* GLint uniform;
     GLint transformUniform;
     GLint texturesUniform;
-    GLint textureSizeUniform;
+    GLint textureSizeUniform;*/
+    std::shared_ptr<SpriteShader> spriteShader;
     int w, h;
     Sprite sprite;
     TextureLoader tl;
@@ -39,12 +38,13 @@ void GL_Renderer::startDrawing()
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glUseProgram(_pimpl->program);
-    glUniform2f(_pimpl->uniform, _pimpl->w, _pimpl->h);
-    glUniformMatrix4fv(_pimpl->transformUniform, 1, GL_FALSE, glm::value_ptr(_pimpl->sprite.node.value.transformData.getTransform()));
+    glUseProgram(_pimpl->spriteShader->getProgram());
+    glUniform2f(_pimpl->spriteShader->screenSizeUniform(), _pimpl->w, _pimpl->h);
+    glUniformMatrix4fv(_pimpl->spriteShader->transformUniform(), 1, GL_FALSE,
+                       glm::value_ptr(_pimpl->sprite.node.value.transformData.getTransform()));
     //bind texture
     glActiveTexture(GL_TEXTURE0);
-    glUniform1i(_pimpl->texturesUniform, 0);
+    glUniform1i(_pimpl->spriteShader->textureUniform(), 0);
     //glUniform2i(_pimpl->textureSizeUniform, _pimpl->tl.width, _pimpl->tl.height);
     glBindTexture(GL_TEXTURE_2D, _pimpl->tl.texture);
 
@@ -74,6 +74,7 @@ void GL_Renderer::drawLine(Line3f line, IPoint3Shader *shader, IPixelShader *pix
 GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
 {
     _pimpl = std::make_unique<GL_Renderer::Pimpl>();
+    _pimpl->spriteShader = std::make_shared<SpriteShader>();
     _pimpl->w = w;
     _pimpl->h = h;
 
@@ -146,7 +147,7 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
     checkErrors();
 
     //указываем выравнивае видеокарте
-
+    glEnableVertexAttribArray(0);
     glVertexAttribPointer(
             0, //номер поля
             3, // сколько в поле компонентов
@@ -156,8 +157,8 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
             reinterpret_cast<void *> (offsetof(Vertex, position))
             //reinterpret_cast<void *>(0) //смещение от начала структуры offsetof(Vertex, x);
     );
-    glEnableVertexAttribArray(0);
 
+    glEnableVertexAttribArray(1);
     glVertexAttribPointer(
             1, //номер поля
             2, // сколько в поле компонентов
@@ -166,8 +167,6 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
             sizeof(Vertex),//страйт? расстояние между двумя соседними элементами в массиве
             reinterpret_cast<void *> (offsetof(Vertex, textCoord))
     );
-    glEnableVertexAttribArray(1);
-
 
     checkErrors();
     //заполняем индексы
@@ -182,63 +181,7 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
     );
     checkErrors();
 
-    GLint success;
-    GLchar infoLog[512];
-
-    char tmp[256];
-    getcwd(tmp, 256);
-    printf("%s", tmp);
-    _pimpl->vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    const char *c_v_shader =
-            loadFromFile("../engine/src/v_shader.glsl");
-    printf("\n VERTEX SHADER %s\n", c_v_shader);
-    glShaderSource(_pimpl->vertexShader, 1, &c_v_shader, nullptr);
-    glCompileShader(_pimpl->vertexShader);
-
-    checkErrors();
-    glGetShaderiv(_pimpl->vertexShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(_pimpl->vertexShader, 512, nullptr, infoLog);
-        std::cerr << infoLog << std::endl;
-    }
-
-    _pimpl->fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    const char *c_f_shader =
-            loadFromFile("../engine/src/f_shader.glsl");
-    printf("\n FRAGMENT SHADER: %s\n", c_f_shader);
-    glShaderSource(_pimpl->fragmentShader, 1, &c_f_shader, nullptr);
-    glCompileShader(_pimpl->fragmentShader);
-
-    checkErrors();
-    glGetShaderiv(_pimpl->fragmentShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(_pimpl->fragmentShader, 512, nullptr, infoLog);
-        std::cerr << infoLog << std::endl;
-    }
-
-    //линкуем шейдера
-    _pimpl->program = glCreateProgram();
-
-    glAttachShader(_pimpl->program, _pimpl->vertexShader);
-    glAttachShader(_pimpl->program, _pimpl->fragmentShader);
-    glLinkProgram(_pimpl->program);
-
-    checkErrors();
-    glGetShaderiv(_pimpl->fragmentShader, GL_LINK_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(_pimpl->fragmentShader, 512, nullptr, infoLog);
-        std::cerr << infoLog << std::endl;
-    }
-    glUseProgram(_pimpl->program);
-
-    //задаем униформу
-    _pimpl->uniform = glGetUniformLocation(_pimpl->program, "screenSize");
-    _pimpl->transformUniform = glGetUniformLocation(_pimpl->program, "transform");
-    _pimpl->texturesUniform = glGetUniformLocation(_pimpl->program, "uTexture");
-    _pimpl->textureSizeUniform = glGetUniformLocation(_pimpl->program, "textureSize");
+    _pimpl->spriteShader->loadProgram();
 }
 
 GL_Renderer::~GL_Renderer()
