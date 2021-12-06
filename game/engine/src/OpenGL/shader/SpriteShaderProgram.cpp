@@ -129,6 +129,11 @@ std::shared_ptr<Vec2Uniform> SpriteShaderProgram::createVec2Uniform(std::string_
     return uniform;
 }
 
+void SpriteShaderProgram::activate()
+{
+    GLProgram::activate();
+}
+
 void GlTextureUniform::activate()
 {
     auto glTexture = std::dynamic_pointer_cast<GlTexture>(texture);

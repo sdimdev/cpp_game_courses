@@ -27,7 +27,7 @@ public:
 
     void addCommand(Command command) const
     {
-        _commands.push_back(std::move(command));
+        commands.push_back(std::move(command));
     }
 
     virtual void draw() = 0;
@@ -43,7 +43,7 @@ public:
     virtual std::shared_ptr<ITexture> createTexture(Bitmap bitmap) const = 0;
 
 protected:
-    mutable std::vector<Command> _commands;
+    mutable std::vector<Command> commands;
 };
 
 

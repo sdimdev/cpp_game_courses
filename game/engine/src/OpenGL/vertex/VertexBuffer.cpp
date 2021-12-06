@@ -4,6 +4,7 @@
 
 #include <GL/glew.h>
 #include "VertexBuffer.hpp"
+#include <utils/GLUtils.cpp>
 
 VertexBuffer::VertexBuffer(const Engine &engine,
                                MeshData data)
@@ -21,7 +22,6 @@ VertexBuffer::VertexBuffer(const Engine &engine,
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2,
                           GL_FLOAT, GL_FALSE,  sizeof(Vertex), (void*)offsetof(Vertex, position));
-
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2,
                           GL_FLOAT, GL_FALSE,  sizeof(Vertex), (void*)offsetof(Vertex, textCoord));
@@ -34,6 +34,7 @@ VertexBuffer::VertexBuffer(const Engine &engine,
                  data.indexes.size() * sizeof(std::uint32_t),
                  data.indexes.data(), GL_STATIC_DRAW);
 
+    checkErrors(__FILE__, __LINE__);
     _count = data.indexes.size();
 }
 
@@ -43,7 +44,7 @@ void VertexBuffer::draw()
     glBindVertexArray(_VAO);
     glDrawElements(GL_TRIANGLES, _count, GL_UNSIGNED_INT, 0);
 
-//    GlCheckError(__FILE__, __LINE__);
+    checkErrors(__FILE__, __LINE__);
 }
 
 VertexBuffer::~VertexBuffer()
@@ -61,6 +62,5 @@ VertexBuffer::~VertexBuffer()
 #else
     glDeleteVertexArrays(1, &_VAO);
 #endif
-
-    GlCheckError(__FILE__, __LINE__);
+    checkErrors(__FILE__, __LINE__);
 }

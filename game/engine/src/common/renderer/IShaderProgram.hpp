@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 #include <string_view>
+#include <ext/matrix_float3x3.hpp>
 
 class Texture;
 

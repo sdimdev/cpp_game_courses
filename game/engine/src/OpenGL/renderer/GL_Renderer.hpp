@@ -20,12 +20,13 @@ public:
 
     void startDrawing() override;
 
+    void draw() override;
+
     void endDrawing() override;
 
 private:
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;
 };
-
 
 #endif //GAME_GL_RENDERER_HPP

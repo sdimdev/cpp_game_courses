@@ -8,9 +8,9 @@
 
 #include <memory>
 #include <entity/TransformData.hpp>
-#include "common/renderer/IShaderProgram.hpp"
+#include "OpenGL/shader/GLProgram.hpp"
 
-class SpriteShaderProgram: public IShaderProgram
+class SpriteShaderProgram: public GLProgram
 {
 public:
     explicit SpriteShaderProgram();
