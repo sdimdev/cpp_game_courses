@@ -1,10 +1,12 @@
 //
 // Created by dzmitry on 04.12.2021.
 //
-#include <GL/glew.h>
+
 #include <iostream>
 
-static void checkErrors(){
+static void checkErrors(const char *file, size_t line)
+{
+#ifndef NDEBUG
     GLenum err(glGetError());
     while (err != GL_NO_ERROR)
     {
@@ -33,9 +35,14 @@ static void checkErrors(){
             default:
                 error = "INVALID_OPERATION";
         }
-        std::cerr << "GL_" << error << " : 0x" << std::hex << err << std::dec << " - " << ":" << std::endl;
-        //todo add file and line of code
+        std::cerr << "GL_" << error << " : 0x" << std::hex << err << std::dec << " - " << file << ":" << line
+                  << std::endl;
+        try
+        { throw 0; }
+        catch (...)
+        {}
         err = glGetError();
     }
+#endif
 }
 

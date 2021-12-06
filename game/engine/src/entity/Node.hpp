@@ -13,10 +13,18 @@ template<typename T>
 class Node
 {
 public:
+    Node();
+    ~Node() = default;
     std::vector<std::shared_ptr<Node>> childs;
-    T value;
+    std::shared_ptr<T> value;
     std::shared_ptr<Node> parent;
 };
+
+template<typename T>
+Node<T>::Node()
+{
+
+}
 
 
 #endif //GAME_NODE_HPP

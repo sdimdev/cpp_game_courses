@@ -10,7 +10,7 @@
 // :D
 
 
-class Point3f
+class [[deprecated("use glm")]]Point3f
 {
 public:
     Point3f();

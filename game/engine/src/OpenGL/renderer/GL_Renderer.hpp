@@ -22,8 +22,6 @@ public:
 
     void endDrawing() override;
 
-    void drawLine(Line3f line, IPoint3Shader *shader, IPixelShader *pixelShader) override;
-
 private:
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;

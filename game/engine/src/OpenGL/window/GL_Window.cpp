@@ -14,7 +14,7 @@
 struct GL_Window::Pimpl
 {
     SDL_Window *window = nullptr;
-    IRenderer *r = nullptr;
+    std::shared_ptr<GL_Renderer> r = nullptr;
     int width;
     int height;
 };
@@ -55,18 +55,15 @@ GL_Window::GL_Window(std::string_view window_name, int width, int height)
         success = false;
     }
     assert(success);
-    _pimpl->r = new GL_Renderer(_pimpl->window, width, height);
+    _pimpl->r = std::make_shared<GL_Renderer>(_pimpl->window, width, height);
 }
 
-IRenderer *GL_Window::getRenderer()
+std::shared_ptr<IRenderer> GL_Window::getRenderer()
 {
     return _pimpl->r;
 }
 
-GL_Window::~GL_Window()
-{
-    // SDL_DestroyRenderer(_pimpl->renderer);
-}
+GL_Window::~GL_Window() = default
 
 int GL_Window::getHeight()
 {

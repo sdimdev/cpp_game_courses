@@ -9,13 +9,16 @@
 #include <scenes/IScene.hpp>
 #include <memory>
 #include <common/renderer/IRenderer.hpp>
+#include <engine/Engine.hpp>
 
 class ScenesFactory
 {
 public:
-    explicit ScenesFactory(IRenderer *renderer, int argc, char **argv);
+    ScenesFactory(std::shared_ptr<IRenderer> renderer);
+
     ~ScenesFactory();
-    IScene* createScene(); //todo add params
+
+    IScene *createScene(int argc, char **argv); //todo add params
 private:
     enum SCENE_TYPE
     {

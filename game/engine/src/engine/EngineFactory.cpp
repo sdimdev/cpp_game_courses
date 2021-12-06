@@ -21,9 +21,6 @@ Engine EngineFactory::create(std::string_view window_name, int width, int height
     {
         w = new WindowImpl(window_name, width, height);
     }
-    IRenderer *renderer = w->getRenderer();
-    ScenesFactory *factory = new ScenesFactory(renderer, argc, argv);
-    SceneManager *sceneManager = new SceneManager(factory);
-    IWindowEventManager *evm = new WindowEventManagerImpl(sceneManager);
-    return Engine(w, renderer, sceneManager, evm);
+    std::shared_ptr<IRenderer> renderer = w->getRenderer();
+    return Engine(w, renderer);
 }

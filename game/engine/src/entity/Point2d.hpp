@@ -6,7 +6,7 @@
 #define GAME_POINT2D_HPP
 
 
-class Point2d
+class [[deprecated("use glm")]]Point2d
 {
 public:
     Point2d();

@@ -7,18 +7,18 @@
 
 
 #include <vec2.hpp>
+#include <engine/Engine.hpp>
 #include "SpriteData.hpp"
 #include "Node.hpp"
 
 class Sprite
 {
 public:
-    Node<SpriteData> node;
-
-
-    /// glsl
-    /// scaledPos = (transform * vec3(scalerdPOs, 1.0)).xy
-    //transform через Uniform
+    Sprite(const Engine& engine, std::string_view filepath);
+    Node<SpriteData> node{};
+    void draw();
+private:
+    const Engine& _engine;
 };
 
 

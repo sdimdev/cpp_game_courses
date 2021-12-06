@@ -4,32 +4,34 @@
 
 #include "SceneManager.hpp"
 
+#include <utility>
+
 struct SceneManager::Pimpl
 {
-    IScene *currentScene = nullptr;
-    ScenesFactory *scenesFactory = nullptr;
+    std::shared_ptr<IScene> currentScene = nullptr;
 };
 
 
-IScene *SceneManager::getScene()
+std::shared_ptr<IScene> SceneManager::getScene()
 {
     return _pimpl->currentScene;
 }
 
+void SceneManager::setScene(std::shared_ptr<IScene> scene)
+{
+    return _pimpl->currentScene = std::move(std::shared_ptr<IScene>);
+}
 void SceneManager::drawScene()
 {
-    IScene *scene = _pimpl->currentScene;
-    if (scene != nullptr)
+    if (_pimpl->currentScene != nullptr)
     {
-        scene->draw();
+        _pimpl->currentScene->draw();
     }
 }
 
-SceneManager::SceneManager(ScenesFactory *scenesFactory)
+SceneManager::SceneManager()
 {
     _pimpl = std::make_unique<SceneManager::Pimpl>();
-    _pimpl->scenesFactory = scenesFactory;
-    _pimpl->currentScene = scenesFactory->createScene();
 }
 
 SceneManager::~SceneManager() = default;

@@ -12,6 +12,10 @@ int main(int argc, char **argv)
                 SCREEN_HEIGHT,
                 argc,
                 argv);
+
+    //engine.sceneManager().
+    engine.
+
     while (engine.isActive())
     {
         engine.update();

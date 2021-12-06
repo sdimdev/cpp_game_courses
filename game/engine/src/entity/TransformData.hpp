@@ -15,10 +15,11 @@ class TransformData
 {
 public:
     glm::vec2 position = {0.0f, 0.0f};
-    glm::vec2 size = {1.0f, 1.0f};
     glm::vec2 ancor = {0.0f, 0.0f};;
     float rotation = 0.0f;
     float scale = 1.0f;
+
+    glm::vec2 size = {1.0f, 1.0f};
 
     glm::mat4 getTransform()
     {

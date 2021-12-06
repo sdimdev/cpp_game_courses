@@ -12,7 +12,7 @@ class IWindow
 {
 public:
     virtual void close() = 0;
-    virtual IRenderer *getRenderer() = 0;
+    virtual std::shared_ptr<IRenderer> getRenderer() = 0;
     virtual ~IWindow() = default;
 };
 

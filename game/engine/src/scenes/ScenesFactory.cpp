@@ -3,18 +3,25 @@
 //
 
 #include "ScenesFactory.hpp"
+
+#include <utility>
 #include "utils/CommandLineUtil.cpp"
 #include "LineScene.hpp"
 
 struct ScenesFactory::Pimpl
 {
-    IRenderer *renderer = nullptr;
+    std::shared_ptr<IRenderer> renderer = nullptr;
 };
 
-ScenesFactory::ScenesFactory(IRenderer *renderer, int argc, char **argv)
+ScenesFactory::ScenesFactory(std::shared_ptr<IRenderer> renderer)
 {
     _pimpl = std::make_unique<ScenesFactory::Pimpl>();
-    _pimpl->renderer = renderer;
+    _pimpl->renderer = std::move(renderer);
+}
+
+IScene *ScenesFactory::createScene(int argc, char **argv)
+{
+
     if (cmdOptionExists(argv, argv + argc, "-m"))
     {
         type = SOFT_LINE;
@@ -27,10 +34,7 @@ ScenesFactory::ScenesFactory(IRenderer *renderer, int argc, char **argv)
     {
         printf("Scene %s\n", scene);
     }
-}
 
-IScene *ScenesFactory::createScene()
-{
     switch (type)
     {
         case LINE:

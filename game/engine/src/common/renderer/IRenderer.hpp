@@ -5,21 +5,45 @@
 #ifndef GAME_IRENDERER_HPP
 #define GAME_IRENDERER_HPP
 
+#include <vector>
+#include <bitmap/Bitmap.hpp>
+#include <entity/MeshData.hpp>
 
-#include <entity/Line3f.hpp>
-#include <shader/IPoint3Shader.hpp>
-#include <shader/IPixelShader.hpp>
+class IVertexBuffer;
+
+class IShaderProgram;
+
+class ITexture;
 
 class IRenderer
 {
+
 public:
+    struct Command
+    {
+        std::shared_ptr<IVertexBuffer> vertexBuffer;
+        std::shared_ptr<IShaderProgram> program;
+    };
+
+    void addCommand(Command command) const
+    {
+        _commands.push_back(std::move(command));
+    }
+
+    virtual void draw() = 0;
+
     virtual void startDrawing() = 0;
 
     virtual void endDrawing() = 0;
 
-    virtual void drawLine(Line3f line,
-                          IPoint3Shader *shader,
-                          IPixelShader *pixelShader) = 0;
+    virtual std::shared_ptr<IVertexBuffer> createVertexBuffer(MeshData data) const = 0;
+
+    virtual std::shared_ptr<IShaderProgram> createProgram(std::string_view name) const = 0;
+
+    virtual std::shared_ptr<ITexture> createTexture(Bitmap bitmap) const = 0;
+
+protected:
+    mutable std::vector<Command> _commands;
 };
 
 

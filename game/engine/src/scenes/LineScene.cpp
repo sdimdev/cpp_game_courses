@@ -7,6 +7,7 @@
 #include <shader/LensPointShader.hpp>
 #include <utils/TimeInteractor.hpp>
 #include <shader/LensPixelShader.hpp>
+#include <utility>
 #include "LineScene.hpp"
 
 struct LineScene::Pimpl
@@ -69,7 +70,7 @@ bool LineScene::handleEvent(EventType eventType)
     return false;
 }
 
-LineScene::LineScene(IRenderer *renderer)
+LineScene::LineScene(std::shared_ptr<IRenderer> renderer)
 {
     //todo refactor that
     _pimpl = std::make_unique<LineScene::Pimpl>();
@@ -83,7 +84,7 @@ LineScene::LineScene(IRenderer *renderer)
     const int endj = 400;
     const int marginTop = 50;
     const int marginLeft = 100;
-    this->renderer = renderer;
+    this->renderer = std::move(renderer);
     for (int i = 0; i <= endi; i += di)
     {
         if (i != 0)

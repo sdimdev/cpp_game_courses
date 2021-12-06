@@ -7,7 +7,7 @@
 
 #include "Point3f.hpp"
 
-class Line3f
+class [[deprecated("use glm")]]Line3f
 {
 public:
     explicit Line3f(Point3f p1, Point3f p2);

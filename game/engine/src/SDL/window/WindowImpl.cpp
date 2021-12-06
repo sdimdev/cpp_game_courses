@@ -12,7 +12,7 @@ struct WindowImpl::Pimpl
 {
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
-    SDLRenderer *r = nullptr;
+    std::shared_ptr<SDLRenderer> r = nullptr;
 };
 
 void WindowImpl::close()
@@ -52,14 +52,15 @@ WindowImpl::WindowImpl(std::string_view window_name, int width, int height)
         success = false;
     }
     assert(success);
-    _pimpl->r = new SDLRenderer(_pimpl->renderer);
+    _pimpl->r = std::make_shared<SDLRenderer>(_pimpl->renderer);
 }
 
-IRenderer *WindowImpl::getRenderer()
+std::shared_ptr<IRenderer> WindowImpl::getRenderer()
 {
     return _pimpl->r;
 }
 
-WindowImpl::~WindowImpl()  {
+WindowImpl::~WindowImpl()
+{
     SDL_DestroyRenderer(_pimpl->renderer);
 };

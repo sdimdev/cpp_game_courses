@@ -6,7 +6,7 @@
 #define GAME_RGBACOLOR_HPP
 
 
-class RGBAColor
+class [[deprecated("use glm")]]RGBAColor
 {
 
 public:

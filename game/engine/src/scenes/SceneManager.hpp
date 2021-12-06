@@ -13,10 +13,16 @@
 class SceneManager
 {
 public:
-    explicit SceneManager(ScenesFactory *scenesFactory);
+    explicit SceneManager();
+
     ~SceneManager();
-    IScene *getScene();
+
+    std::shared_ptr<IScene> getScene();
+
+    void setScene(std::shared_ptr<IScene> scene);
+
     void drawScene();
+
 private:
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;

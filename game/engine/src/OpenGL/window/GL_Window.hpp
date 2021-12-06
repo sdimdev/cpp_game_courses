@@ -19,7 +19,7 @@ public:
 
     void close() override;
 
-    IRenderer *getRenderer() override;
+    std::shared_ptr<IRenderer> getRenderer() override;
     int getWidth();
     int getHeight();
 private:

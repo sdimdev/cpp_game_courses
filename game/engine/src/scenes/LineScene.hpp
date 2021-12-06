@@ -11,16 +11,17 @@
 #include <list>
 #include <common/renderer/IRenderer.hpp>
 #include <entity/Line3f.hpp>
+#include <engine/Engine.hpp>
 
 class LineScene : public IScene
 {
 public:
     void draw() override;
     bool handleEvent(EventType eventType) override;
-    explicit LineScene(IRenderer *renderer);
+    explicit LineScene(std::shared_ptr<IRenderer> renderer);
      ~LineScene() override;
 private:
-    IRenderer *renderer;
+    std::shared_ptr<IRenderer> renderer;
     std::list<Line3f> lp;
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;

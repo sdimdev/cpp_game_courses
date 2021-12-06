@@ -6,6 +6,7 @@
 #include <entity/RGBAColor.hpp>
 #include <shader/IPixelShader.hpp>
 #include <shader/IPoint3Shader.hpp>
+#include <entity/Line3f.hpp>
 #include "SDLRenderer.hpp"
 
 struct SDLRenderer::Pimpl
@@ -24,7 +25,7 @@ void SDLRenderer::endDrawing()
     SDL_RenderPresent(_pimpl->renderer);
 }
 
-void SDLRenderer::drawLine(Line3f line, IPoint3Shader *shader, IPixelShader *pixelShader)
+void drawLine(Line3f line, IPoint3Shader *shader, IPixelShader *pixelShader)
 {
     Point3f p1 = line.getP1();
     Point3f p2 = line.getP2();

@@ -7,6 +7,7 @@
 #include <SDL.h>
 #include <scenes/IScene.hpp>
 #include <cstdio>
+#include <utility>
 
 bool WindowEventManagerImpl::handleEvents()
 {
@@ -19,11 +20,11 @@ bool WindowEventManagerImpl::handleEvents()
     {
         printf("QUIT in WEM\n");
         event = QUIT;
-       // we = new WindowEvent(QUIT);
+        // we = new WindowEvent(QUIT);
     } else
     {
-       // printf("something WEM");
-       // we = new WindowEvent();
+        // printf("something WEM");
+        // we = new WindowEvent();
     }
     bool handled = false;
 
@@ -44,7 +45,7 @@ bool WindowEventManagerImpl::handleEvents()
     return true;
 }
 
-WindowEventManagerImpl::WindowEventManagerImpl(SceneManager *sceneManager)
+WindowEventManagerImpl::WindowEventManagerImpl(std::shared_ptr<SceneManager> sceneManager)
 {
-    this->sceneManager = sceneManager;
+    this->sceneManager = std::move(sceneManager);
 }

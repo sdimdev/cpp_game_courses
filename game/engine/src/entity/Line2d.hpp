@@ -7,7 +7,8 @@
 
 #include "Point2d.hpp"
 
-class Line2d
+
+class [[deprecated("use glm")]]Line2d
 {
 public:
     Line2d(Point2d p1, Point2d p2);

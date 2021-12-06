@@ -12,14 +12,14 @@
 class WindowEventManagerImpl : public IWindowEventManager
 {
 public:
-    WindowEventManagerImpl(SceneManager *sceneManager);
+    WindowEventManagerImpl(std::shared_ptr<SceneManager> sceneManager);
 
     bool handleEvents() override;
 
     ~WindowEventManagerImpl() override = default;
 
 private:
-    SceneManager *sceneManager;
+    std::shared_ptr<SceneManager> sceneManager;
 };
 
 

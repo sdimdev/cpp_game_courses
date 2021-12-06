@@ -11,26 +11,31 @@
 #include <scenes/SceneManager.hpp>
 #include <common/event/IWindowEventManager.hpp>
 
-class Engine
+class Engine : public std::enable_shared_from_this<Engine>
 {
 
 public:
     explicit Engine(
             IWindow *window,
-            IRenderer *renderer,
-            SceneManager *sceneManager,
-            IWindowEventManager *windowEventManager
-            );
+            std::shared_ptr<IRenderer> renderer
+    );
 
     ~Engine();
+
+    std::shared_ptr<SceneManager> sceneManager();
 
     bool isActive();
 
     void update();
 
+    std::shared_ptr<IRenderer> renderer();
+
+    std::shared_ptr<IWindowEventManager> eventManager();
+
 private:
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;
+
     bool handleEvents();
 };
 
