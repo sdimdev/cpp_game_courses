@@ -8,7 +8,6 @@
 
 #include <memory>
 #include "IScene.hpp"
-#include "ScenesFactory.hpp"
 
 class SceneManager
 {

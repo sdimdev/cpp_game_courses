@@ -8,7 +8,7 @@
 
 #include <scenes/IScene.hpp>
 #include <memory>
-#include <common/renderer/IRenderer.hpp>
+#include <common/IRenderer.hpp>
 #include <engine/Engine.hpp>
 
 class ScenesFactory
@@ -18,7 +18,7 @@ public:
 
     ~ScenesFactory();
 
-    IScene *createScene(int argc, char **argv); //todo add params
+    std::shared_ptr<IScene> createScene(int argc, char **argv); //todo add params
 private:
     enum SCENE_TYPE
     {

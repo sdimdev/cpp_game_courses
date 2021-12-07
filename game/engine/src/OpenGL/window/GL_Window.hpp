@@ -7,7 +7,7 @@
 
 
 #include <memory>
-#include "common/window/IWindow.hpp"
+#include "common/IWindow.hpp"
 
 class GL_Window : public IWindow
 {
@@ -20,8 +20,8 @@ public:
     void close() override;
 
     std::shared_ptr<IRenderer> getRenderer() override;
-    int getWidth();
-    int getHeight();
+    int getWidth() override;
+    int getHeight() override;
 private:
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;

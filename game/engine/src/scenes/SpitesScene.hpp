@@ -12,8 +12,9 @@ class SpritesScene : public IScene
 {
 public:
     explicit SpritesScene();
-
-
+    void draw() override;
+    bool handleEvent(EventType eventType) override;
+    ~SpritesScene() override;
 };
 
 

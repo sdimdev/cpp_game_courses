@@ -7,7 +7,6 @@
 
 
 #include <vector>
-#include <SDL_opengl.h>
 #include "Vertex.hpp"
 
 class MeshData

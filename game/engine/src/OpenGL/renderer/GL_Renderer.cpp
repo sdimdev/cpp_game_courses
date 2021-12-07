@@ -3,24 +3,21 @@
 //
 
 #include "GL_Renderer.hpp"
-#include <GL/glew.h>
+
 #include <SDL.h>
-#include <vec2.hpp>
-#include <gtc/type_ptr.hpp>
-#include <entity/Vertex.hpp>
-#include <unistd.h>
-#include <entity/Sprite.hpp>
 #include <utils/FileUtils.cpp>
-#include <utils/GLUtils.cpp>
-#include <common/renderer/IShaderProgram.hpp>
 #include <OpenGL/shader/SpriteShaderProgram.hpp>
 #include <OpenGL/vertex/VertexBuffer.hpp>
+#include <GL/glew.h>
+#include <utils/GLUtils.cpp>
+#include <OpenGL/shader/GlTexture.hpp>
 
 
 struct GL_Renderer::Pimpl
 {
     SDL_GLContext context;
     SDL_Window *window;
+    std::shared_ptr<Engine> engine;
     int w, h;
 };
 
@@ -97,4 +94,24 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
 GL_Renderer::~GL_Renderer()
 {
     SDL_GL_DeleteContext(_pimpl->context);
+}
+
+std::shared_ptr<IShaderProgram> GL_Renderer::createProgram(std::string_view name)
+{
+    return std::make_shared<SpriteShaderProgram>("../engine/src/v_shader.glsl", "../engine/src/f_shader.glsl");
+}
+
+std::shared_ptr<ITexture> GL_Renderer::createTexture(Bitmap bitmap)
+{
+    return std::make_shared<GlTexture>(bitmap);
+}
+
+std::shared_ptr<IVertexBuffer> GL_Renderer::createVertexBuffer(MeshData data)
+{
+    return std::shared_ptr<VertexBuffer>();
+}
+
+void GL_Renderer::setEngine(std::shared_ptr<Engine> engine)
+{
+    _pimpl->engine = std::move(engine);
 };

@@ -5,13 +5,13 @@
 #ifndef GAME_GLProgram_HPP
 #define GAME_GLProgram_HPP
 
-#include <common/renderer/IShaderProgram.hpp>
+#include <common/IShaderProgram.hpp>
 
 class GLProgram : public IShaderProgram
 {
 public:
     GLProgram(const char* vs, const char* ps);
-    ~GLProgram() = default;
+    ~GLProgram();
 
     std::shared_ptr<TextureUniform> createTextureUniform(std::string_view name) override;
     std::shared_ptr<Mat3Uniform> createMat3Uniform(std::string_view name) override;
@@ -19,7 +19,7 @@ public:
 
     void activate() override;
 
-    uint32_t getProgramId() const {return program;}
+    uint32_t getProgram() override;
 
 protected:
     uint32_t vertexShader;

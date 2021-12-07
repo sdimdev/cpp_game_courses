@@ -4,15 +4,15 @@
 
 #include "Engine.hpp"
 #include <scenes/ScenesFactory.hpp>
-#include <common/window/IWindow.hpp>
+#include <common/IWindow.hpp>
 #include <scenes/SceneManager.hpp>
-#include <common/event/IWindowEventManager.hpp>
+#include <common/IWindowEventManager.hpp>
 #include <utility>
 #include <SDL/event/WindowEventManagerImpl.hpp>
 
 struct Engine::Pimpl
 {
-    IWindow *window = nullptr;
+    std::shared_ptr<IWindow> window = nullptr;
     std::shared_ptr<IRenderer> renderer = nullptr;
     std::shared_ptr<IWindowEventManager> windowEventManager = nullptr;
     std::shared_ptr<SceneManager> sceneManager = nullptr;
@@ -33,12 +33,12 @@ void Engine::update()
 }
 
 Engine::Engine(
-        IWindow *window,
+        std::shared_ptr<IWindow> window,
         std::shared_ptr<IRenderer> renderer)
 {
     printf("creating\n");
     _pimpl = std::make_unique<Engine::Pimpl>();
-    _pimpl->window = window;
+    _pimpl->window = std::move(window);
     _pimpl->renderer = std::move(renderer);
     std::shared_ptr<ScenesFactory> factory = std::make_shared<ScenesFactory>(_pimpl->renderer);
     std::shared_ptr<SceneManager> sceneManager = std::make_shared<SceneManager>();
@@ -79,6 +79,11 @@ std::shared_ptr<IRenderer> Engine::renderer()
 std::shared_ptr<IWindowEventManager> Engine::eventManager()
 {
     return _pimpl->windowEventManager;
+}
+
+std::shared_ptr<IWindow> Engine::window()
+{
+    return _pimpl->window;
 }
 
 Engine::~Engine() = default;

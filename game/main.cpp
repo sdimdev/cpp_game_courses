@@ -14,7 +14,6 @@ int main(int argc, char **argv)
                 argv);
 
     //engine.sceneManager().
-    engine.
 
     while (engine.isActive())
     {

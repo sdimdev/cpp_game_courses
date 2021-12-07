@@ -3,10 +3,9 @@
 //
 
 #include "GL_Window.hpp"
-#include "common/window/IWindow.hpp"
+#include "common/IWindow.hpp"
 #include <SDL.h>
 #include <cassert>
-#include <SDL/renderer/SDLRenderer.hpp>
 #include <OpenGL/renderer/GL_Renderer.hpp>
 #include <GL/glew.h>
 #include <iostream>
@@ -63,7 +62,7 @@ std::shared_ptr<IRenderer> GL_Window::getRenderer()
     return _pimpl->r;
 }
 
-GL_Window::~GL_Window() = default
+GL_Window::~GL_Window() = default;
 
 int GL_Window::getHeight()
 {

@@ -9,20 +9,20 @@
 #include <vector>
 #include <string_view>
 #include <ext/matrix_float3x3.hpp>
-
-class Texture;
+#include "ITexture.hpp"
 
 class Uniform
 {
 public:
     virtual void activate() = 0;
+
     virtual ~Uniform() = default;
 };
 
 class TextureUniform : public Uniform
 {
 public:
-    std::shared_ptr<Texture> texture;
+    std::shared_ptr<ITexture> texture;
 };
 
 class Mat3Uniform : public Uniform
@@ -37,16 +37,17 @@ public:
     glm::vec2 value;
 };
 
-class IShaderProgram: public std::enable_shared_from_this<IShaderProgram>
+class IShaderProgram : public std::enable_shared_from_this<IShaderProgram>
 {
 public:
-    virtual int getProgram() = 0;
-    virtual void loadProgram() = 0;
+    virtual uint32_t getProgram() = 0;
 
     virtual void activate();
 
     virtual std::shared_ptr<TextureUniform> createTextureUniform(std::string_view name) = 0;
+
     virtual std::shared_ptr<Mat3Uniform> createMat3Uniform(std::string_view name) = 0;
+
     virtual std::shared_ptr<Vec2Uniform> createVec2Uniform(std::string_view name) = 0;
 
 protected:
@@ -55,7 +56,7 @@ protected:
 
 inline void IShaderProgram::activate()
 {
-    for (const auto& uniform : _uniforms)
+    for (const auto &uniform: _uniforms)
     {
         uniform->activate();
     }

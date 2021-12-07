@@ -36,11 +36,11 @@ public:
 
     virtual void endDrawing() = 0;
 
-    virtual std::shared_ptr<IVertexBuffer> createVertexBuffer(MeshData data) const = 0;
+    virtual std::shared_ptr<IVertexBuffer> createVertexBuffer(MeshData data) = 0;
 
-    virtual std::shared_ptr<IShaderProgram> createProgram(std::string_view name) const = 0;
+    virtual std::shared_ptr<IShaderProgram> createProgram(std::string_view name) = 0;
 
-    virtual std::shared_ptr<ITexture> createTexture(Bitmap bitmap) const = 0;
+    virtual std::shared_ptr<ITexture> createTexture(Bitmap bitmap) = 0;
 
 protected:
     mutable std::vector<Command> commands;

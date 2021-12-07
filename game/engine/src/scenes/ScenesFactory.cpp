@@ -6,7 +6,7 @@
 
 #include <utility>
 #include "utils/CommandLineUtil.cpp"
-#include "LineScene.hpp"
+#include "SpitesScene.hpp"
 
 struct ScenesFactory::Pimpl
 {
@@ -19,7 +19,7 @@ ScenesFactory::ScenesFactory(std::shared_ptr<IRenderer> renderer)
     _pimpl->renderer = std::move(renderer);
 }
 
-IScene *ScenesFactory::createScene(int argc, char **argv)
+std::shared_ptr<IScene> ScenesFactory::createScene(int argc, char **argv)
 {
 
     if (cmdOptionExists(argv, argv + argc, "-m"))
@@ -35,14 +35,7 @@ IScene *ScenesFactory::createScene(int argc, char **argv)
         printf("Scene %s\n", scene);
     }
 
-    switch (type)
-    {
-        case LINE:
-            return new LineScene(_pimpl->renderer);
-        case SOFT_LINE:
-            //todo
-            return new LineScene(_pimpl->renderer);
-    }
+    return std::make_shared<SpritesScene>();
 }
 
 ScenesFactory::~ScenesFactory() = default;

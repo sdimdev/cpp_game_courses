@@ -7,7 +7,7 @@
 
 
 #include <scenes/SceneManager.hpp>
-#include "common/event/IWindowEventManager.hpp"
+#include "common/IWindowEventManager.hpp"
 
 class WindowEventManagerImpl : public IWindowEventManager
 {

@@ -2,7 +2,9 @@
 // Created by dzmitry on 06.12.2021.
 //
 
+#include <GL/glew.h>
 #include "GlTexture.hpp"
+#include <common/Texture.hpp>
 
 namespace
 {
@@ -16,20 +18,16 @@ namespace
         if (bitmapFormat == Bitmap::Format::Rgba32F || bitmapFormat == Bitmap::Format::Rgb32F)
         {
             return GL_RGBA32F;
-        }
-        else if (bitmapFormat == Bitmap::Format::Rgba16F)
+        } else if (bitmapFormat == Bitmap::Format::Rgba16F)
         {
             return GL_RGBA16F;
-        }
-        else if (bitmapFormat == Bitmap::Format::Rgb16F)
+        } else if (bitmapFormat == Bitmap::Format::Rgb16F)
         {
             return GL_RGB16F;
-        }
-        else if (bitmapFormat == Bitmap::Format::Rgb)
+        } else if (bitmapFormat == Bitmap::Format::Rgb)
         {
             return GL_RGB;
-        }
-        else
+        } else
         {
             return GL_RGBA;
         }
@@ -77,7 +75,7 @@ namespace
 }
 
 GlTexture::GlTexture(Bitmap bitmap)
-    : Texture(bitmap.getSize())
+        : Texture(bitmap.getSize())
 {
     glGenTextures(1, &_id);
     glBindTexture(GL_TEXTURE_2D, _id);
@@ -100,3 +98,5 @@ void GlTexture::active()
 {
     glBindTexture(GL_TEXTURE_2D, _id);
 }
+
+GlTexture::~GlTexture() = default;

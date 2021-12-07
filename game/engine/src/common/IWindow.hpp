@@ -6,12 +6,14 @@
 #define GAME_IWINDOW_HPP
 
 
-#include <common/renderer/IRenderer.hpp>
+#include <common/IRenderer.hpp>
 
 class IWindow
 {
 public:
     virtual void close() = 0;
+    virtual int getWidth() = 0;
+    virtual int getHeight() = 0;
     virtual std::shared_ptr<IRenderer> getRenderer() = 0;
     virtual ~IWindow() = default;
 };

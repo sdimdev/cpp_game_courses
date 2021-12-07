@@ -29,7 +29,7 @@ bool WindowEventManagerImpl::handleEvents()
     bool handled = false;
 
     //printf("getScene");
-    IScene *scene = sceneManager->getScene();
+    std::shared_ptr<IScene> scene = sceneManager->getScene();
     if (scene != nullptr)
     {
         //printf("scene->handleEvent");

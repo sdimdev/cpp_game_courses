@@ -3,6 +3,8 @@
 //
 
 #include <iostream>
+#include <GL/glew.h>
+
 
 static void checkErrors(const char *file, size_t line)
 {

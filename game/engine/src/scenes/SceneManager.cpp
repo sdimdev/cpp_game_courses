@@ -19,7 +19,7 @@ std::shared_ptr<IScene> SceneManager::getScene()
 
 void SceneManager::setScene(std::shared_ptr<IScene> scene)
 {
-    return _pimpl->currentScene = std::move(std::shared_ptr<IScene>);
+    _pimpl->currentScene = std::move(scene);
 }
 void SceneManager::drawScene()
 {

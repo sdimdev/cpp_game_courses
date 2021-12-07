@@ -6,17 +6,17 @@
 
 #include <string_view>
 #include <memory>
-#include <common/window/IWindow.hpp>
-#include <common/renderer/IRenderer.hpp>
+#include <common/IWindow.hpp>
+#include <common/IRenderer.hpp>
 #include <scenes/SceneManager.hpp>
-#include <common/event/IWindowEventManager.hpp>
+#include <common/IWindowEventManager.hpp>
 
 class Engine : public std::enable_shared_from_this<Engine>
 {
 
 public:
     explicit Engine(
-            IWindow *window,
+            std::shared_ptr<IWindow> window,
             std::shared_ptr<IRenderer> renderer
     );
 
@@ -31,6 +31,8 @@ public:
     std::shared_ptr<IRenderer> renderer();
 
     std::shared_ptr<IWindowEventManager> eventManager();
+
+    std::shared_ptr<IWindow> window();
 
 private:
     struct Pimpl;

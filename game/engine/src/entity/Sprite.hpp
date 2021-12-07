@@ -14,11 +14,11 @@
 class Sprite
 {
 public:
-    Sprite(const Engine& engine, std::string_view filepath);
+    Sprite(std::shared_ptr<Engine> engine, std::string_view filepath);
     Node<SpriteData> node{};
     void draw();
 private:
-    const Engine& _engine;
+    std::shared_ptr<Engine> engine;
 };
 
 

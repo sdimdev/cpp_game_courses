@@ -7,8 +7,9 @@
 
 
 #include <OpenGL/window/GL_Window.hpp>
-#include "common/renderer/IRenderer.hpp"
+#include "common/IRenderer.hpp"
 #include <SDL.h>
+#include <engine/Engine.hpp>
 
 class GL_Renderer : public IRenderer
 {
@@ -23,6 +24,14 @@ public:
     void draw() override;
 
     void endDrawing() override;
+
+    void setEngine(std::shared_ptr<Engine> engine);
+
+    std::shared_ptr<IShaderProgram> createProgram(std::string_view name) override;
+
+    std::shared_ptr<ITexture> createTexture(Bitmap bitmap) override;
+
+    std::shared_ptr<IVertexBuffer> createVertexBuffer(MeshData data) override;
 
 private:
     struct Pimpl;
