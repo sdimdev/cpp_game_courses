@@ -38,15 +38,18 @@ SpriteData::SpriteData(std::shared_ptr<Engine> engine, std::string_view filepath
     meshData.indexes.emplace_back(1);
     meshData.indexes.emplace_back(2);
 
+
     vertexBuffer = this->engine->renderer()->createVertexBuffer(std::move(meshData));
-    program = this->engine->renderer()->createProgram("draw");
-
+    checkErrors(__FILE__, __LINE__);
+    program = this->engine->renderer()->createProgram("");
+    checkErrors(__FILE__, __LINE__);
     textureUniform = program->createTextureUniform("uTexture");
+    checkErrors(__FILE__, __LINE__);
     textureUniform->texture = this->engine->renderer()->createTexture(std::move(bitmap));
-
+    checkErrors(__FILE__, __LINE__);
     screenSizeUniform = program->createVec2Uniform("screenSize");
     transformUniform = program->createMat3Uniform("transform");
-    checkErrors(__FILE__,__LINE__);
+    checkErrors(__FILE__, __LINE__);
 }
 
 void SpriteData::draw()

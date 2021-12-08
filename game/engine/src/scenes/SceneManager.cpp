@@ -23,8 +23,10 @@ void SceneManager::setScene(std::shared_ptr<IScene> scene)
 }
 void SceneManager::drawScene()
 {
+    printf("SceneManager::drawScene\n");
     if (_pimpl->currentScene != nullptr)
     {
+        printf("_pimpl->currentScene->draw()\n");
         _pimpl->currentScene->draw();
     }
 }

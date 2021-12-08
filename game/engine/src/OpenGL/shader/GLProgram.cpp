@@ -12,8 +12,6 @@
 GLProgram::GLProgram(const char* vs, const char* ps)
 {
     printf("\n VERTEX SHADER %s\n", vs);
-    printf("\n FRAGMENT SHADER %s\n", ps);
-
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vs, nullptr);
     glCompileShader(vertexShader);
@@ -29,6 +27,7 @@ GLProgram::GLProgram(const char* vs, const char* ps)
         std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 
+    printf("\n FRAGMENT SHADER %s\n", ps);
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &ps, nullptr);
     glCompileShader(fragmentShader);
@@ -71,18 +70,18 @@ GLProgram::GLProgram(const char* vs, const char* ps)
     for (i = 0; i < program; i++)
     {
         glGetActiveAttrib(program, (GLuint)i, bufSize, &length, &size, &type, name);
-
         printf("Attribute #%d Type: %u Name: %s\n", i, type, name);
+        checkErrors(__FILE__, __LINE__);
     }
-
+    checkErrors(__FILE__, __LINE__);
     glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &count);
     printf("Active Uniforms: %d\n", count);
-
+    checkErrors(__FILE__, __LINE__);
     for (i = 0; i < count; i++)
     {
         glGetActiveUniform(program, (GLuint)i, bufSize, &length, &size, &type, name);
-
         printf("Uniform #%d Type: %u Name: %s\n", i, type, name);
+        checkErrors(__FILE__, __LINE__);
     }
     checkErrors(__FILE__, __LINE__);
 }

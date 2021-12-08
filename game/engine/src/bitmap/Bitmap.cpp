@@ -23,10 +23,13 @@ Bitmap::Bitmap(std::string_view filepath)
         switch (ch)
         {
             case 1:
+                printf("Format::R");
                 return Format::R;
             case 3:
+                printf("Format::Rgb");
                 return Format::Rgb;
             case 4:
+                printf("Format::Rgba");
                 return Format::Rgba;
 
             default:

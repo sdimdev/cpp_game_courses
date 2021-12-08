@@ -30,6 +30,7 @@ void GL_Renderer::startDrawing()
 
 void GL_Renderer::draw()
 {
+    printf("command size%d\n", commands.size());
     for (const auto &command: commands)
     {
         auto glVertexBuffer = std::dynamic_pointer_cast<VertexBuffer>(command.vertexBuffer);

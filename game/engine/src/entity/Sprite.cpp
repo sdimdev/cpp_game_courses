@@ -15,6 +15,7 @@ void Sprite::draw()
 {
     if (node != nullptr)
     {
+        printf("sprite draw\n");
         drawSprite(node);
 
         for (int i = 0; i < node->childs.size(); i++)
@@ -27,14 +28,17 @@ void Sprite::draw()
 void Sprite::drawSprite(std::shared_ptr<Node<SpriteData>> node)
 {
     const auto &win = engine->window();
+    printf("set screen size\n");
     node->value->screenSizeUniform->value.x = win->getWidth();
     node->value->screenSizeUniform->value.y = win->getHeight();
-
+    printf("set transform\n");
     node->value->transformUniform->value = this->getTransform(node);
 
+    printf("run command\n");
     IRenderer::Command command;
     command.program = node->value->program;
     command.vertexBuffer = node->value->vertexBuffer;
+    printf("add comand\n");
     engine->renderer()->addCommand(std::move(command));
 }
 

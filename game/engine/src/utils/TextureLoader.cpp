@@ -25,6 +25,7 @@ static unsigned char *load(std::string_view filepath, GLint *width, GLint *heigh
 
     stbi_set_flip_vertically_on_load(false);
     auto img = stbi_load_from_memory(data.data(), data.size(), width, height, channels, 0);
+    printf("size of image data: %d\n", data.size());
     if (img == nullptr)
     {
         throw std::runtime_error("unsupported file format: " + std::string(filepath));

@@ -22,6 +22,7 @@ int main(int argc, char **argv)
 
     while (engine->isActive())
     {
+        printf("lolo\n");
         engine->update();
     }
     return 0;
