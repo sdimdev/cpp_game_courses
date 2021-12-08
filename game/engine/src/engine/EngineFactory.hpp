@@ -11,7 +11,7 @@
 class EngineFactory
 {
 public:
-    static Engine create(std::string_view window_name, int width, int height, int argc, char **argv);
+    static std::shared_ptr<Engine> create(std::string_view window_name, int width, int height, int argc, char **argv);
 };
 
 

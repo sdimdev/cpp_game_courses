@@ -15,9 +15,9 @@ class Node
 public:
     Node();
     ~Node() = default;
-    std::vector<std::shared_ptr<Node>> childs;
+    std::vector<std::shared_ptr<Node<T>>> childs;
     std::shared_ptr<T> value;
-    std::shared_ptr<Node> parent;
+    std::shared_ptr<Node<T>> parent;
 };
 
 template<typename T>

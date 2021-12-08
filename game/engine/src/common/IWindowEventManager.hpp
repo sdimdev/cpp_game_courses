@@ -11,6 +11,7 @@
 class IWindowEventManager
 {
 public:
+    //return false if need to close app
     virtual bool handleEvents() = 0;
     virtual ~IWindowEventManager() = default;
 };

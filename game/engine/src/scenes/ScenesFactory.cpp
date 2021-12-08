@@ -10,19 +10,19 @@
 
 struct ScenesFactory::Pimpl
 {
-    std::shared_ptr<IRenderer> renderer = nullptr;
+    std::shared_ptr<Engine> engine = nullptr;
 };
 
-ScenesFactory::ScenesFactory(std::shared_ptr<IRenderer> renderer)
+ScenesFactory::ScenesFactory(std::shared_ptr<Engine> engine)
 {
     _pimpl = std::make_unique<ScenesFactory::Pimpl>();
-    _pimpl->renderer = std::move(renderer);
+    _pimpl->engine = std::move(engine);
 }
 
-std::shared_ptr<IScene> ScenesFactory::createScene(int argc, char **argv)
+/*std::shared_ptr<IScene> ScenesFactory::createScene(int argc, char **argv)
 {
 
-    if (cmdOptionExists(argv, argv + argc, "-m"))
+  *//*  if (cmdOptionExists(argv, argv + argc, "-m"))
     {
         type = SOFT_LINE;
         printf("Mode\n");
@@ -33,9 +33,9 @@ std::shared_ptr<IScene> ScenesFactory::createScene(int argc, char **argv)
     if (scene)
     {
         printf("Scene %s\n", scene);
-    }
+    }*//*
 
     return std::make_shared<SpritesScene>();
-}
+}*/
 
 ScenesFactory::~ScenesFactory() = default;

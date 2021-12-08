@@ -40,7 +40,6 @@ Engine::Engine(
     _pimpl = std::make_unique<Engine::Pimpl>();
     _pimpl->window = std::move(window);
     _pimpl->renderer = std::move(renderer);
-    std::shared_ptr<ScenesFactory> factory = std::make_shared<ScenesFactory>(_pimpl->renderer);
     std::shared_ptr<SceneManager> sceneManager = std::make_shared<SceneManager>();
     std::shared_ptr<IWindowEventManager> evm = std::make_shared<WindowEventManagerImpl>(sceneManager);
     _pimpl->sceneManager = sceneManager;

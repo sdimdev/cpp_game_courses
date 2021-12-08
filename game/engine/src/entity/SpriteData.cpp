@@ -4,6 +4,7 @@
 
 #include "SpriteData.hpp"
 #include <bitmap/Bitmap.hpp>
+#include <utils/GLUtils.cpp>
 
 SpriteData::SpriteData(std::shared_ptr<Engine> engine, std::string_view filepath)
 {
@@ -43,8 +44,9 @@ SpriteData::SpriteData(std::shared_ptr<Engine> engine, std::string_view filepath
     textureUniform = program->createTextureUniform("uTexture");
     textureUniform->texture = this->engine->renderer()->createTexture(std::move(bitmap));
 
-    screenSizeUniform = program->createVec2Uniform("uScreenSize");
-    transformUniform = program->createMat3Uniform("uTransform");
+    screenSizeUniform = program->createVec2Uniform("screenSize");
+    transformUniform = program->createMat3Uniform("transform");
+    checkErrors(__FILE__,__LINE__);
 }
 
 void SpriteData::draw()

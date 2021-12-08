@@ -66,7 +66,7 @@ GLProgram::GLProgram(const char* vs, const char* ps)
     GLsizei length; // name length
     checkErrors(__FILE__, __LINE__);
     glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &count);
-    printf("Active Attributes: %d\n", count);
+    printf("Active Attributes: %d\n", count+1);
 
     for (i = 0; i < program; i++)
     {

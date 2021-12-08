@@ -14,11 +14,11 @@
 class ScenesFactory
 {
 public:
-    ScenesFactory(std::shared_ptr<IRenderer> renderer);
+    ScenesFactory(std::shared_ptr<Engine> engine);
 
     ~ScenesFactory();
 
-    std::shared_ptr<IScene> createScene(int argc, char **argv); //todo add params
+    //std::shared_ptr<IScene> createScene(int argc, char **argv); //todo add params
 private:
     enum SCENE_TYPE
     {
