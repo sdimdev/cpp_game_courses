@@ -40,6 +40,7 @@ void GL_Renderer::draw()
             if (glProgram)
             {
                 glProgram->activate();
+                // uniform
                 glVertexBuffer->draw();
             }
         }
@@ -109,7 +110,7 @@ std::shared_ptr<ITexture> GL_Renderer::createTexture(Bitmap bitmap)
 
 std::shared_ptr<IVertexBuffer> GL_Renderer::createVertexBuffer(MeshData data)
 {
-    return std::shared_ptr<VertexBuffer>();
+    return std::make_shared<VertexBuffer>(*(_pimpl->engine), data);
 }
 
 void GL_Renderer::setEngine(std::shared_ptr<Engine> engine)

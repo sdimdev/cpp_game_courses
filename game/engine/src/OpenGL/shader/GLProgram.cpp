@@ -46,6 +46,7 @@ GLProgram::GLProgram(const char* vs, const char* ps)
     glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
     glLinkProgram(program);
+    this->activate();
 
     glGetProgramiv(program, GL_LINK_STATUS, &success);
     if (!success)
@@ -67,7 +68,7 @@ GLProgram::GLProgram(const char* vs, const char* ps)
     glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &count);
     printf("Active Attributes: %d\n", count+1);
 
-    for (i = 0; i < program; i++)
+    for (i = 0; i < count; i++)
     {
         glGetActiveAttrib(program, (GLuint)i, bufSize, &length, &size, &type, name);
         printf("Attribute #%d Type: %u Name: %s\n", i, type, name);
