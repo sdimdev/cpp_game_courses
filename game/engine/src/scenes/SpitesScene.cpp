@@ -17,8 +17,9 @@ bool SpritesScene::handleEvent(EventType eventType)
 
 SpritesScene::SpritesScene(std::shared_ptr<Engine> engine)
 {
-    this->engine = std::move(engine);
-    this->sprite = std::make_shared<Sprite>(engine);
+    printf("SpritesScene::SpritesScene%d\n", engine != nullptr);
+    this->engine = engine;
+    this->sprite = std::make_shared<Sprite>(this->engine);
 }
 
 std::shared_ptr<Node<SpriteData>> SpritesScene::node()

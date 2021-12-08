@@ -47,5 +47,5 @@ bool WindowEventManagerImpl::handleEvents()
 
 WindowEventManagerImpl::WindowEventManagerImpl(std::shared_ptr<SceneManager> sceneManager)
 {
-    this->sceneManager = std::move(sceneManager);
+    this->sceneManager = sceneManager;
 }

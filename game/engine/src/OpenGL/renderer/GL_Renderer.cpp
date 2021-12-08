@@ -30,14 +30,13 @@ void GL_Renderer::startDrawing()
 
 void GL_Renderer::draw()
 {
-    printf("command size%d\n", commands.size());
-    for (const auto &command: commands)
+    for (int i = 0; i < commands.size(); i++)
     {
-        auto glVertexBuffer = std::dynamic_pointer_cast<VertexBuffer>(command.vertexBuffer);
+        auto glVertexBuffer = std::dynamic_pointer_cast<VertexBuffer>(commands[i].vertexBuffer);
 
         if (glVertexBuffer)
         {
-            auto glProgram = std::dynamic_pointer_cast<GLProgram>(command.program);
+            auto glProgram = std::dynamic_pointer_cast<GLProgram>(commands[i].program);
             if (glProgram)
             {
                 glProgram->activate();
@@ -45,6 +44,7 @@ void GL_Renderer::draw()
             }
         }
     }
+    commands.clear();
     checkErrors(__FILE__, __LINE__);
 }
 
@@ -114,5 +114,5 @@ std::shared_ptr<IVertexBuffer> GL_Renderer::createVertexBuffer(MeshData data)
 
 void GL_Renderer::setEngine(std::shared_ptr<Engine> engine)
 {
-    _pimpl->engine = std::move(engine);
+    _pimpl->engine = engine;
 };

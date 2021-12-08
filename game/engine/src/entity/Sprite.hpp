@@ -15,7 +15,7 @@
 class Sprite
 {
 public:
-    Sprite(std::shared_ptr<Engine> engine);
+    explicit Sprite(std::shared_ptr<Engine> engine);
 
     std::shared_ptr<Node<SpriteData>> node = nullptr;
 

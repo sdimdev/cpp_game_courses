@@ -16,7 +16,7 @@ struct ScenesFactory::Pimpl
 ScenesFactory::ScenesFactory(std::shared_ptr<Engine> engine)
 {
     _pimpl = std::make_unique<ScenesFactory::Pimpl>();
-    _pimpl->engine = std::move(engine);
+    _pimpl->engine = engine;
 }
 
 /*std::shared_ptr<IScene> ScenesFactory::createScene(int argc, char **argv)

@@ -16,13 +16,13 @@ int main(int argc, char **argv)
                 argv);
 
     //std::shared_ptr<ScenesFactory> factory = std::make_shared<ScenesFactory>(engine.shared_from_this());
+    printf("SpritesScene::SpritesScene%d\n", engine!=nullptr);
     std::shared_ptr<SpritesScene> scene = std::make_shared<SpritesScene>(engine);
     scene->node()->value = std::make_shared<SpriteData>(engine, "../engine/src/picture.jpeg");
     engine->sceneManager()->setScene(scene);
 
     while (engine->isActive())
     {
-        printf("lolo\n");
         engine->update();
     }
     return 0;

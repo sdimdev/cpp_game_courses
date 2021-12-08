@@ -29,6 +29,7 @@ void Engine::update()
     if (handleEvents())
     {
         _pimpl->sceneManager->drawScene();
+        _pimpl->renderer->draw();
     }
 }
 
@@ -38,8 +39,8 @@ Engine::Engine(
 {
     printf("creating\n");
     _pimpl = std::make_unique<Engine::Pimpl>();
-    _pimpl->window = std::move(window);
-    _pimpl->renderer = std::move(renderer);
+    _pimpl->window = window;
+    _pimpl->renderer = renderer;
     std::shared_ptr<SceneManager> sceneManager = std::make_shared<SceneManager>();
     std::shared_ptr<IWindowEventManager> evm = std::make_shared<WindowEventManagerImpl>(sceneManager);
     _pimpl->sceneManager = sceneManager;
