@@ -149,9 +149,9 @@ void GlTextureUniform::activate()
         //TODO: diff texture slots
         glActiveTexture(GL_TEXTURE0);
         checkErrors(__FILE__, __LINE__);
-        glTexture->active();
-        checkErrors(__FILE__, __LINE__);
         glUniform1i(location, 0);
+        checkErrors(__FILE__, __LINE__);
+        glTexture->active();
         checkErrors(__FILE__, __LINE__);
     }
 }
