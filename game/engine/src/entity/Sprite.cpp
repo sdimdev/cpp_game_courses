@@ -9,7 +9,7 @@
 
 Sprite::Sprite(std::shared_ptr<Engine> engine)
 {
-    printf("Sprite::Sprite%d\n", engine != nullptr);
+    if (logDebug)printf("Sprite::Sprite%d\n", engine != nullptr);
     this->engine = engine;
     node = std::make_shared<Node<SpriteData>>();
 }
@@ -37,7 +37,7 @@ void Sprite::drawSprite(std::shared_ptr<Node<SpriteData>> node)
 
     glm::vec3 p = {100, 100, 0};
     p = tr * p;
-    printf("tr1=%f %f %f\n", p.x, p.y, p.z);
+    if (logDebug)printf("tr1=%f %f %f\n", p.x, p.y, p.z);
 
     node->value->transformUniform->value = tr;
     IRenderer::Command command;

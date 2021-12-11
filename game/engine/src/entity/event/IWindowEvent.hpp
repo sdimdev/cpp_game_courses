@@ -12,6 +12,19 @@ enum EventType
     UNKNOWN
 };
 
+enum KeyboardKey
+{
+    W,
+    S,
+    UNKNOWN_KEY
+};
+
+enum KeyboardAction
+{
+    DOWN,
+    UP
+};
+
 class IWindowEvent
 {
 public:
@@ -28,6 +41,18 @@ public:
     ~SimpleWindowEvent() override = default;
 
     EventType eventType;
+};
+
+class KeyboardEvent : public IWindowEvent
+{
+public:
+
+    explicit KeyboardEvent(KeyboardKey key, KeyboardAction action);
+
+    ~KeyboardEvent() override = default;
+
+    KeyboardKey key;
+    KeyboardAction action;
 };
 
 

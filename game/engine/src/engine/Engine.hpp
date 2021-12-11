@@ -11,10 +11,21 @@
 #include <scenes/SceneManager.hpp>
 #include <common/IWindowEventManager.hpp>
 
+//todo remove or change it to settings
+const static bool logDebug = false;
+
+//todo remove or change it to settings
+static void logMessage(char* message)
+{
+    if(logDebug)
+        printf("%s\n", message);
+}
 class Engine : public std::enable_shared_from_this<Engine>
 {
 
 public:
+
+
     explicit Engine(
             std::shared_ptr<IWindow> window,
             std::shared_ptr<IRenderer> renderer

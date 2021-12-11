@@ -8,6 +8,7 @@
 #include "GLProgram.hpp"
 #include <utils/GLUtils.cpp>
 #include "GlTexture.hpp"
+#include "engine/Engine.hpp"
 
 GLProgram::GLProgram(const char* vs, const char* ps)
 {
@@ -42,7 +43,7 @@ GLProgram::GLProgram(const char* vs, const char* ps)
     }
 
     program = glCreateProgram();
-    printf("glCreateProgram %d\n", program);
+    if(logDebug) printf("glCreateProgram %d\n", program);
     checkErrors(__FILE__, __LINE__);
     glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
@@ -67,22 +68,22 @@ GLProgram::GLProgram(const char* vs, const char* ps)
     GLsizei length; // name length
     checkErrors(__FILE__, __LINE__);
     glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &count);
-    printf("Active Attributes: %d\n", count);
+    if(logDebug) printf("Active Attributes: %d\n", count);
 
     for (i = 0; i < count; i++)
     {
         glGetActiveAttrib(program, (GLuint)i, bufSize, &length, &size, &type, name);
-        printf("Attribute #%d Type: %u Name: %s\n", i, type, name);
+        if(logDebug)printf("Attribute #%d Type: %u Name: %s\n", i, type, name);
         checkErrors(__FILE__, __LINE__);
     }
     checkErrors(__FILE__, __LINE__);
     glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &count);
-    printf("Active Uniforms: %d\n", count);
+    if(logDebug)printf("Active Uniforms: %d\n", count);
     checkErrors(__FILE__, __LINE__);
     for (i = 0; i < count; i++)
     {
         glGetActiveUniform(program, (GLuint)i, bufSize, &length, &size, &type, name);
-        printf("Uniform #%d Type: %u Name: %s\n", i, type, name);
+        if(logDebug)printf("Uniform #%d Type: %u Name: %s\n", i, type, name);
         checkErrors(__FILE__, __LINE__);
     }
     checkErrors(__FILE__, __LINE__);
@@ -90,7 +91,7 @@ GLProgram::GLProgram(const char* vs, const char* ps)
 
 GLProgram::~GLProgram()
 {
-    printf("glDeleteProgram %d\n", program);
+    if(logDebug)printf("glDeleteProgram %d\n", program);
     glDeleteProgram(program);
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
@@ -99,7 +100,7 @@ GLProgram::~GLProgram()
 
 void GLProgram::activate()
 {
-    printf("glUseProgram %d\n", program);
+    if(logDebug)printf("glUseProgram %d\n", program);
     glUseProgram(program);
     IShaderProgram::activate();
 }
@@ -150,7 +151,7 @@ void GlTextureUniform::activate()
     if (glTexture)
     {
         //TODO: diff texture slots
-        printf("GlTextureUniform active %d\n", location);
+        if(logDebug)printf("GlTextureUniform active %d\n", location);
         glActiveTexture(GL_TEXTURE0);
         checkErrors(__FILE__, __LINE__);
         glUniform1i(location, 0);
@@ -163,25 +164,25 @@ void GlTextureUniform::activate()
 GlTextureUniform::GlTextureUniform(const std::shared_ptr<GLProgram>& program, std::string_view name)
 {
     location = glGetUniformLocation(program->getProgram(), name.data());
-    printf("GlTextureUniform create %d %s\n", location, name.data());
+    if(logDebug)printf("GlTextureUniform create %d %s\n", location, name.data());
 }
 
 GlMat3Uniform::GlMat3Uniform(const std::shared_ptr<GLProgram> &program, std::string_view name)
 {
     location = glGetUniformLocation(program->getProgram(), name.data());
-    printf("GlMat3Uniform create %d %s\n", location, name.data());
+    if(logDebug)printf("GlMat3Uniform create %d %s\n", location, name.data());
 }
 
 GlMat4Uniform::GlMat4Uniform(const std::shared_ptr<GLProgram> &program, std::string_view name)
 {
     location = glGetUniformLocation(program->getProgram(), name.data());
-    printf("GlMat4Uniform create %d %s\n", location, name.data());
+    if(logDebug)printf("GlMat4Uniform create %d %s\n", location, name.data());
 }
 
 void GlMat3Uniform::activate()
 {
     glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
-    printf("GlMat3Uniform activate %d \n", location);
+    if(logDebug) printf("GlMat3Uniform activate %d \n", location);
     checkErrors(__FILE__, __LINE__);
 }
 
@@ -195,23 +196,23 @@ void GlMat4Uniform::activate()
 GlVec2Uniform::GlVec2Uniform(const std::shared_ptr<GLProgram> &program, std::string_view name)
 {
     location = glGetUniformLocation(program->getProgram(), name.data());
-    printf("GlVec2Uniform create %d %s\n", location, name.data());
+    if(logDebug) printf("GlVec2Uniform create %d %s\n", location, name.data());
 }
 
 void GlVec2Uniform::activate()
 {
     glUniform2f(location, value.x, value.y);
-    printf("GlVec2Uniform activate %d \n", location);
+    if(logDebug)printf("GlVec2Uniform activate %d \n", location);
 }
 
 GlVec3Uniform::GlVec3Uniform(const std::shared_ptr<GLProgram> &program, std::string_view name)
 {
     location = glGetUniformLocation(program->getProgram(), name.data());
-    printf("GlVec3Uniform create %d %s\n", location, name.data());
+    if(logDebug)printf("GlVec3Uniform create %d %s\n", location, name.data());
 }
 
 void GlVec3Uniform::activate()
 {
     glUniform3f(location, value.x, value.y, value.z);
-    printf("GlVec3Uniform activate %d \n", location);
+    if(logDebug)printf("GlVec3Uniform activate %d \n", location);
 }

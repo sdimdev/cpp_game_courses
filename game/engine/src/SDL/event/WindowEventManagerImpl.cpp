@@ -19,7 +19,28 @@ void WindowEventManagerImpl::handleEvents()
     {
         printf("QUIT in WEM\n");
         windowEvent = std::make_shared<SimpleWindowEvent>(QUIT);
-    } else
+    }
+    else if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP){
+        KeyboardKey key;
+        KeyboardAction action;
+        if(e.type == SDL_KEYDOWN){
+            action = DOWN;
+        }
+        else{
+            action = UP;
+        }
+        switch (e.key.keysym.sym)
+        {
+            case SDLK_w:
+                key = W;
+                break;
+            case SDLK_s:
+                key = S;
+                break;
+        }
+        windowEvent = std::make_shared<KeyboardEvent>(key, action);
+    }
+    else
     {
         windowEvent = std::make_shared<SimpleWindowEvent>(UNKNOWN);
         // printf("something WEM");

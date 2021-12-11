@@ -37,7 +37,7 @@ VertexBuffer::VertexBuffer(MeshData data)
 
     glBindBuffer(GL_ARRAY_BUFFER, _VBO);
     glBufferData(GL_ARRAY_BUFFER, data.points.size() * sizeof(Vertex), data.points.data(), GL_STATIC_DRAW);
-    printf("vertex count %d\n", data.points.size());
+    if(logDebug)printf("vertex count %d\n", data.points.size());
     //указываем выравнивае видеокарте
 
 
@@ -50,15 +50,15 @@ VertexBuffer::VertexBuffer(MeshData data)
 
     checkErrors(__FILE__, __LINE__);
     _count = data.indexes.size();
-    printf("indexes count %d\n", _count);
+    if(logDebug)printf("indexes count %d\n", _count);
 }
 
 
 void VertexBuffer::draw()
 {
-    printf("glBindVertexArray _VAO %d\n", _VAO);
+    if(logDebug)printf("glBindVertexArray _VAO %d\n", _VAO);
     glBindVertexArray(_VAO);
-    printf("glDrawElements _VAO %d\n", _count);
+    if(logDebug)printf("glDrawElements _VAO %d\n", _count);
     glDrawElements(GL_TRIANGLES, _count, GL_UNSIGNED_INT, 0);
 
     checkErrors(__FILE__, __LINE__);
