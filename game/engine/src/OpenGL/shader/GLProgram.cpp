@@ -46,7 +46,7 @@ GLProgram::GLProgram(const char* vs, const char* ps)
     glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
     glLinkProgram(program);
-    this->activate();
+    glUseProgram(program);
 
     glGetProgramiv(program, GL_LINK_STATUS, &success);
     if (!success)
@@ -66,7 +66,7 @@ GLProgram::GLProgram(const char* vs, const char* ps)
     GLsizei length; // name length
     checkErrors(__FILE__, __LINE__);
     glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &count);
-    printf("Active Attributes: %d\n", count+1);
+    printf("Active Attributes: %d\n", count);
 
     for (i = 0; i < count; i++)
     {
@@ -115,9 +115,23 @@ std::shared_ptr<Mat3Uniform> GLProgram::createMat3Uniform(std::string_view name)
     return uniform;
 }
 
+std::shared_ptr<Mat4Uniform> GLProgram::createMat4Uniform(std::string_view name)
+{
+    auto uniform = std::make_shared<GlMat4Uniform>(std::static_pointer_cast<GLProgram>(shared_from_this()), name);
+    _uniforms.push_back(uniform);
+    return uniform;
+}
+
 std::shared_ptr<Vec2Uniform> GLProgram::createVec2Uniform(std::string_view name)
 {
     auto uniform = std::make_shared<GlVec2Uniform>(std::static_pointer_cast<GLProgram>(shared_from_this()), name);
+    _uniforms.push_back(uniform);
+    return uniform;
+}
+
+std::shared_ptr<Vec3Uniform> GLProgram::createVec3Uniform(std::string_view name)
+{
+    auto uniform = std::make_shared<GlVec3Uniform>(std::static_pointer_cast<GLProgram>(shared_from_this()), name);
     _uniforms.push_back(uniform);
     return uniform;
 }
@@ -134,9 +148,11 @@ void GlTextureUniform::activate()
     {
         //TODO: diff texture slots
         glActiveTexture(GL_TEXTURE0);
+        checkErrors(__FILE__, __LINE__);
         glTexture->active();
-
+        checkErrors(__FILE__, __LINE__);
         glUniform1i(location, 0);
+        checkErrors(__FILE__, __LINE__);
     }
 }
 
@@ -150,9 +166,21 @@ GlMat3Uniform::GlMat3Uniform(const std::shared_ptr<GLProgram> &program, std::str
     location = glGetUniformLocation(program->getProgram(), name.data());
 }
 
+GlMat4Uniform::GlMat4Uniform(const std::shared_ptr<GLProgram> &program, std::string_view name)
+{
+    location = glGetUniformLocation(program->getProgram(), name.data());
+}
+
 void GlMat3Uniform::activate()
 {
     glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
+    checkErrors(__FILE__, __LINE__);
+}
+
+void GlMat4Uniform::activate()
+{
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+    checkErrors(__FILE__, __LINE__);
 }
 
 GlVec2Uniform::GlVec2Uniform(const std::shared_ptr<GLProgram> &program, std::string_view name)
@@ -163,4 +191,14 @@ GlVec2Uniform::GlVec2Uniform(const std::shared_ptr<GLProgram> &program, std::str
 void GlVec2Uniform::activate()
 {
     glUniform2f(location, value.x, value.y);
+}
+
+GlVec3Uniform::GlVec3Uniform(const std::shared_ptr<GLProgram> &program, std::string_view name)
+{
+    location = glGetUniformLocation(program->getProgram(), name.data());
+}
+
+void GlVec3Uniform::activate()
+{
+    glUniform3f(location, value.x, value.y, value.z);
 }

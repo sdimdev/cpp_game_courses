@@ -43,7 +43,7 @@ SpriteData::SpriteData(std::shared_ptr<Engine> engine, std::string_view filepath
     checkErrors(__FILE__, __LINE__);
     program = this->engine->renderer()->createProgram("");
     checkErrors(__FILE__, __LINE__);
-    textureUniform = program->createTextureUniform("uTexture");
+    textureUniform = program->createTextureUniform("texture");
     checkErrors(__FILE__, __LINE__);
     textureUniform->texture = this->engine->renderer()->createTexture(std::move(bitmap));
     checkErrors(__FILE__, __LINE__);

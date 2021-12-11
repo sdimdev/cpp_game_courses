@@ -37,7 +37,7 @@ static void checkErrors(const char *file, size_t line)
             default:
                 error = "INVALID_OPERATION";
         }
-        std::cerr << "GL_" << error << " : 0x" << std::hex << err << std::dec << " - " << file << ":" << line
+        std::cerr << "GL_ " << error << " : 0x" << std::hex << err << std::dec << " - " << file << ":" << line
                   << std::endl;
         try
         { throw 0; }

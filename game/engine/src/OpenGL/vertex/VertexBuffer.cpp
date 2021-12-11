@@ -6,9 +6,7 @@
 #include "VertexBuffer.hpp"
 #include <utils/GLUtils.cpp>
 
-VertexBuffer::VertexBuffer(const Engine &engine,
-                               MeshData data)
-        : _engine(engine)
+VertexBuffer::VertexBuffer(MeshData data)
 {
     glGenVertexArrays(1, &_VAO);
 

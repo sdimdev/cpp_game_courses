@@ -110,7 +110,7 @@ std::shared_ptr<ITexture> GL_Renderer::createTexture(Bitmap bitmap)
 
 std::shared_ptr<IVertexBuffer> GL_Renderer::createVertexBuffer(MeshData data)
 {
-    return std::make_shared<VertexBuffer>(*(_pimpl->engine), data);
+    return std::make_shared<VertexBuffer>(data);
 }
 
 void GL_Renderer::setEngine(std::shared_ptr<Engine> engine)

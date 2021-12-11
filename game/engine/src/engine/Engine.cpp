@@ -3,6 +3,7 @@
 //
 
 #include "Engine.hpp"
+#include "utils/TimeInteractor.hpp"
 #include <scenes/ScenesFactory.hpp>
 #include <common/IWindow.hpp>
 #include <scenes/SceneManager.hpp>
@@ -17,6 +18,9 @@ struct Engine::Pimpl
     std::shared_ptr<IWindowEventManager> windowEventManager = nullptr;
     std::shared_ptr<SceneManager> sceneManager = nullptr;
     bool active = true;
+    TimeInteractor timeInteractor;
+    int64_t tickTime;
+    bool isFrame;
 };
 
 bool Engine::isActive()
@@ -26,10 +30,14 @@ bool Engine::isActive()
 
 void Engine::update()
 {
+    _pimpl->timeInteractor.tick(&_pimpl->tickTime, &_pimpl->isFrame);
     if (handleEvents())
     {
-        _pimpl->sceneManager->drawScene();
-        _pimpl->renderer->draw();
+        if (_pimpl->isFrame)
+        {
+            _pimpl->sceneManager->drawScene();
+            _pimpl->renderer->draw();
+        }
     }
 }
 

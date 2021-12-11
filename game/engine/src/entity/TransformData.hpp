@@ -26,12 +26,20 @@ public:
 
     glm::mat3 getTransform()
     {
+        if (transform)
+        {
+            return transform.value();
+        }
         glm::mat3 trans(1.0f);
         trans = glm::translate(trans, position);
         trans = glm::scale(trans, glm::vec2(scale));
         trans = glm::rotate(trans, glm::radians(rotation));
-        trans = glm::translate(trans, glm::vec2(anchor.x * size.x, anchor.y * size.y));
+        trans = glm::translate(trans, -glm::vec2(anchor.x * size.x, anchor.y * size.y));
         return trans;
+    }
+
+    void clear(){
+        transform.reset();
     }
 };
 

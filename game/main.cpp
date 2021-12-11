@@ -19,11 +19,14 @@ int main(int argc, char **argv)
     printf("SpritesScene::SpritesScene%d\n", engine!=nullptr);
     std::shared_ptr<SpritesScene> scene = std::make_shared<SpritesScene>(engine);
     scene->node()->value = std::make_shared<SpriteData>(engine, "../engine/src/picture.jpeg");
+    scene->node()->value->transformData.anchor = glm::vec2 (0.5f, 0.5f);
     engine->sceneManager()->setScene(scene);
 
     while (engine->isActive())
     {
         engine->update();
+        scene->node()->value->transformData.transform.reset();
+        scene->node()->value->transformData.rotation+=0.1f;
     }
     return 0;
 }

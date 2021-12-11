@@ -31,10 +31,23 @@ public:
     glm::mat3 value;
 };
 
+class Mat4Uniform : public Uniform
+{
+public:
+    glm::mat4 value;
+};
+
+
 class Vec2Uniform : public Uniform
 {
 public:
     glm::vec2 value;
+};
+
+class Vec3Uniform : public Uniform
+{
+public:
+    glm::vec3 value;
 };
 
 class IShaderProgram : public std::enable_shared_from_this<IShaderProgram>
@@ -48,7 +61,11 @@ public:
 
     virtual std::shared_ptr<Mat3Uniform> createMat3Uniform(std::string_view name) = 0;
 
+    virtual std::shared_ptr<Mat4Uniform> createMat4Uniform(std::string_view name) = 0;
+
     virtual std::shared_ptr<Vec2Uniform> createVec2Uniform(std::string_view name) = 0;
+
+    virtual std::shared_ptr<Vec3Uniform> createVec3Uniform(std::string_view name) = 0;
 
 protected:
     std::vector<std::shared_ptr<Uniform>> _uniforms;

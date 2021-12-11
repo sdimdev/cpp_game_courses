@@ -13,8 +13,7 @@
 class VertexBuffer final : public IVertexBuffer
 {
 public:
-    explicit VertexBuffer(const Engine& engine,
-                            MeshData data);
+    explicit VertexBuffer(MeshData data);
 
     virtual ~VertexBuffer();
 
@@ -26,8 +25,6 @@ private:
     uint32_t _IBO = 0;
 
     uint32_t _count;
-
-    const Engine& _engine;
 };
 
 

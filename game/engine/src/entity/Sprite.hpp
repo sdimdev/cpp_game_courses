@@ -27,6 +27,8 @@ public:
 
     void drawSprite(std::shared_ptr<Node<SpriteData>> node);
 
+    void visitSprite(std::shared_ptr<Node<SpriteData>> node);
+
 
 private:
     std::shared_ptr<Engine> engine;

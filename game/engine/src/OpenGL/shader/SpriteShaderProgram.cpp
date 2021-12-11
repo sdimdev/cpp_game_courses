@@ -15,4 +15,9 @@ SpriteShaderProgram::SpriteShaderProgram(
 
 }
 
+void SpriteShaderProgram::activate()
+{
+    GLProgram::activate();
+}
+
 SpriteShaderProgram::~SpriteShaderProgram() = default;
