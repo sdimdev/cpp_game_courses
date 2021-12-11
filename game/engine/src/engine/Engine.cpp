@@ -36,7 +36,9 @@ void Engine::update()
         if (_pimpl->isFrame)
         {
             _pimpl->sceneManager->drawScene();
+            _pimpl->renderer->startDrawing();
             _pimpl->renderer->draw();
+            _pimpl->renderer->endDrawing();
         }
     }
 }
