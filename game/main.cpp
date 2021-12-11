@@ -11,7 +11,7 @@ const int SCREEN_HEIGHT = 480;
 
 int main(int argc, char **argv)
 {
-    std::shared_ptr<Engine> engine = EngineFactory::create("CppCourses",
+    std::shared_ptr<Engine> engine = EngineFactory::create("have you ever played being blind?",
                                                            SCREEN_WIDTH,
                                                            SCREEN_HEIGHT,
                                                            argc,
