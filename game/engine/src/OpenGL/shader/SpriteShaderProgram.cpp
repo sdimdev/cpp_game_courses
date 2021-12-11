@@ -9,15 +9,5 @@
 SpriteShaderProgram::SpriteShaderProgram(
         std::string_view vpath,
         std::string_view fpath
-) : GLProgram(loadFromFile(vpath), loadFromFile(fpath))
-{
-
-
-}
-
-void SpriteShaderProgram::activate()
-{
-    GLProgram::activate();
-}
-
+) : GLProgram(loadFromFile(vpath), loadFromFile(fpath)){}
 SpriteShaderProgram::~SpriteShaderProgram() = default;

@@ -15,7 +15,6 @@ class SpriteShaderProgram: public GLProgram
 public:
     explicit SpriteShaderProgram(std::string_view vpath,
                                  std::string_view fpath);
-    void activate() override;
     ~SpriteShaderProgram();
 };
 
