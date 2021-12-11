@@ -40,7 +40,6 @@ void GL_Renderer::draw()
             if (glProgram)
             {
                 glProgram->activate();
-                // uniform
                 glVertexBuffer->draw();
             }
         }
