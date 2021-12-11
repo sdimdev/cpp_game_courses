@@ -7,6 +7,8 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+//********FOR DEBUGGING CHANGE logDebug IN ENGINE.hpp******// todo fix it ^__^
+
 int main(int argc, char **argv)
 {
     std::shared_ptr<Engine> engine = EngineFactory::create("CppCourses",
