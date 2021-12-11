@@ -2,50 +2,46 @@
 // Created by dzmitry on 20.11.2021.
 //
 
-#include <entity/event/WindowEvent.hpp>
+#include <entity/event/IWindowEvent.hpp>
 #include "WindowEventManagerImpl.hpp"
 #include <SDL.h>
 #include <scenes/IScene.hpp>
 #include <cstdio>
 #include <utility>
 
-bool WindowEventManagerImpl::handleEvents()
+void WindowEventManagerImpl::handleEvents()
 {
     SDL_Event e;
     SDL_PollEvent(&e);
-    EventType event;
-    //WindowEvent* we;
 
+    std::shared_ptr<IWindowEvent> windowEvent = nullptr;
     if (e.type == SDL_QUIT)
     {
         printf("QUIT in WEM\n");
-        event = QUIT;
-        // we = new WindowEvent(QUIT);
+        windowEvent = std::make_shared<SimpleWindowEvent>(QUIT);
     } else
     {
+        windowEvent = std::make_shared<SimpleWindowEvent>(UNKNOWN);
         // printf("something WEM");
         // we = new WindowEvent();
     }
-    bool handled = false;
 
-    //printf("getScene");
-    std::shared_ptr<IScene> scene = sceneManager->getScene();
-    if (scene != nullptr)
+    for (const auto &listener: listeners)
     {
-        //printf("scene->handleEvent");
-        handled = scene->handleEvent(event);
+        if (listener(windowEvent))
+        {
+            break;
+        }
     }
-    //delete we;
-    if (!handled && event == QUIT)
-    {
-        printf("return QUIT\n");
-        return false;
-    }
-    //printf("return NOTHING");
-    return true;
 }
 
-WindowEventManagerImpl::WindowEventManagerImpl(std::shared_ptr<SceneManager> sceneManager)
+void WindowEventManagerImpl::add(const IWindowEventManager::IEventListener &listener)
 {
-    this->sceneManager = sceneManager;
+    listeners.push_back(listener);
 }
+
+void WindowEventManagerImpl::remove(const IWindowEventManager::IEventListener &listener)
+{
+    //todo
+}
+

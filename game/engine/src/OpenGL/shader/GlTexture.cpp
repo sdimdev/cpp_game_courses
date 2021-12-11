@@ -99,6 +99,7 @@ GlTexture::GlTexture(Bitmap bitmap)
         : Texture(bitmap.getSize())
 {
     glGenTextures(1, &_id);
+    printf("glGenTextures %d\n", _id);
     glBindTexture(GL_TEXTURE_2D, _id);
 
     const auto glInternalFormat = getGlInternalFormat(bitmap.getFormat());
@@ -112,11 +113,13 @@ GlTexture::GlTexture(Bitmap bitmap)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
+    printf("glGenerateMipmap %d\n", _id);
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 void GlTexture::active()
 {
+    printf("glBindTexture %d\n", _id);
     glBindTexture(GL_TEXTURE_2D, _id);
 }
 

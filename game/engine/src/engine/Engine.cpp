@@ -50,9 +50,20 @@ Engine::Engine(
     _pimpl->window = window;
     _pimpl->renderer = renderer;
     std::shared_ptr<SceneManager> sceneManager = std::make_shared<SceneManager>();
-    std::shared_ptr<IWindowEventManager> evm = std::make_shared<WindowEventManagerImpl>(sceneManager);
+    std::shared_ptr<IWindowEventManager> evm = std::make_shared<WindowEventManagerImpl>();
     _pimpl->sceneManager = sceneManager;
     _pimpl->windowEventManager = evm;
+    _pimpl->windowEventManager->add(
+            [&](std::shared_ptr<IWindowEvent> event)
+            {
+                auto simpleEvent = std::dynamic_pointer_cast<SimpleWindowEvent>(event);
+                if (simpleEvent && simpleEvent->eventType == QUIT)
+                {
+                    _pimpl->active = false;
+                    return true;
+                }
+                return false;
+            });
 }
 
 bool Engine::handleEvents()
@@ -62,7 +73,7 @@ bool Engine::handleEvents()
         printf("DEACTIVATED\n");
         return false;
     }
-    _pimpl->active = _pimpl->windowEventManager->handleEvents();
+    _pimpl->windowEventManager->handleEvents();
     //printf("handled\n");
     if (!_pimpl->active)
     {

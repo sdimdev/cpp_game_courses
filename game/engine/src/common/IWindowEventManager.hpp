@@ -6,13 +6,19 @@
 #define GAME_IWINDOWEVENTMANAGER_HPP
 
 
-#include <entity/event/WindowEvent.hpp>
+#include <entity/event/IWindowEvent.hpp>
+#include <functional>
+
 
 class IWindowEventManager
 {
+
 public:
+    using IEventListener = std::function<bool(std::shared_ptr<IWindowEvent>)>;
+    virtual void add(IEventListener const&listener) = 0;
+    virtual void remove(IEventListener const&listener)  = 0;
     //return false if need to close app
-    virtual bool handleEvents() = 0;
+    virtual void handleEvents() = 0;
     virtual ~IWindowEventManager() = default;
 };
 

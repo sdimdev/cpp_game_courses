@@ -4,29 +4,20 @@ project(engine)
 set(CMAKE_CXX_STANDARD 17)
 set(OpenGL_GL_PREFERENCE LEGACY) #todo change to other one?
 
-#include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeSources.txt)
 
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS src/*)
-add_library(engine STATIC ${ENGINE_SOURCES} ${STBI_LIBRARY} src/OpenGL/shader/GLProgram.cpp src/OpenGL/shader/GLProgram.hpp src/OpenGL/includes.hpp src/common/ITexture.hpp src/common/Texture.cpp src/common/Texture.hpp)
+add_library(engine STATIC ${ENGINE_SOURCES} ${STBI_LIBRARY})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/glew)
 
-#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/glm)
-
-#find_package(OpenGL REQUIRED)
-#find_package(GLEW REQUIRED)
-
 include_directories(${OPENGL_INCLUDE_DIRS})
 
 set(SDL2MAIN_LIBRARY SDL2main)
 set(SDL2_LIBRARY SDL2-static)
-#set(GLEW_LIBRARY libglew-static)
 set(GLEW_INCLUDE_DIR, "/libs/glew/include/")
 set(GLEW_LIBRARY, "/libs/glew")
-#set(STBI_LIBRARY, "/libs/stbi")
-#set(GLM_LIBRARY, "/libs/glm")
 
 
 find_package(OpenGL REQUIRED)
@@ -34,7 +25,6 @@ target_link_libraries(engine )
 target_include_directories(engine PUBLIC ${OPENGL_INCLUDE_DIR})
 
 find_package(GLEW REQUIRED)
-#target_link_libraries(engine ${GLEW_LIBRARIES})
 target_include_directories(engine PUBLIC ${GLEW_INCLUDE_DIR})
 
 
@@ -42,10 +32,8 @@ target_link_libraries(engine PRIVATE
         ${SDL2MAIN_LIBRARY}
         ${SDL2_LIBRARY}
         ${OPENGL_gl_LIBRARY}
-       #${GLM_LIBRARY}
         ${GLEW_LIBRARIES}
         ${STBI_LIBRARY}
-        #${GLEW_LIBRARY}
         )
 
 target_include_directories(engine

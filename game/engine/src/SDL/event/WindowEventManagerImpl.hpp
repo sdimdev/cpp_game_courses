@@ -7,19 +7,24 @@
 
 
 #include <scenes/SceneManager.hpp>
+#include <vector>
 #include "common/IWindowEventManager.hpp"
 
 class WindowEventManagerImpl : public IWindowEventManager
 {
 public:
-    WindowEventManagerImpl(std::shared_ptr<SceneManager> sceneManager);
+    WindowEventManagerImpl() = default;
 
-    bool handleEvents() override;
+    void add(IEventListener const &listener) override;
+
+    void remove(IEventListener const &listener) override;
+
+    void handleEvents() override;
 
     ~WindowEventManagerImpl() override = default;
 
 private:
-    std::shared_ptr<SceneManager> sceneManager;
+    std::vector<IEventListener> listeners;
 };
 
 
