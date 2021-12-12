@@ -43,7 +43,7 @@ int main(int argc, char **argv)
                 }
                 return false;
             });
-    Sound sound("../engine/src/Lucky.wav");
+   // Sound sound("../engine/src/ot_attack.wav");
 
     while (engine->isActive())
     {

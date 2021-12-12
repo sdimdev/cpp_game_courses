@@ -11,9 +11,12 @@ VertexBuffer::VertexBuffer(MeshData data)
     glGenVertexArrays(1, &_VAO);
     glGenBuffers(1, &_VBO);
     glGenBuffers(1, &_IBO);
+    checkErrors(__FILE__, __LINE__);
 
     glBindVertexArray(_VAO);
-    glEnableVertexAttribArray(0);
+    checkErrors(__FILE__, __LINE__);
+    glBindBuffer(GL_ARRAY_BUFFER, _VBO);
+    checkErrors(__FILE__, __LINE__);
     glVertexAttribPointer(
             0, //номер поля
             2, // сколько в поле компонентов
@@ -23,8 +26,11 @@ VertexBuffer::VertexBuffer(MeshData data)
             reinterpret_cast<void *> (offsetof(Vertex, position))
             //reinterpret_cast<void *>(0) //смещение от начала структуры offsetof(Vertex, x);
     );
+    checkErrors(__FILE__, __LINE__);
+    glEnableVertexAttribArray(0);
+    checkErrors(__FILE__, __LINE__);
 
-    glEnableVertexAttribArray(1);
+
     glVertexAttribPointer(
             1, //номер поля
             2, // сколько в поле компонентов
@@ -33,15 +39,17 @@ VertexBuffer::VertexBuffer(MeshData data)
             sizeof(Vertex),//страйт? расстояние между двумя соседними элементами в массиве
             reinterpret_cast<void *> (offsetof(Vertex, textCoord))
     );
+    checkErrors(__FILE__, __LINE__);
+    glEnableVertexAttribArray(1);
+    checkErrors(__FILE__, __LINE__);
 
-
-    glBindBuffer(GL_ARRAY_BUFFER, _VBO);
     glBufferData(
             GL_ARRAY_BUFFER,
             data.points.size() * sizeof(Vertex),
             data.points.data(),
             GL_STATIC_DRAW);
     if(logDebug)printf("vertex count %d\n", data.points.size());
+    checkErrors(__FILE__, __LINE__);
     //указываем выравнивае видеокарте
 
 
