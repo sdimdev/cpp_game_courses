@@ -3,6 +3,7 @@
 #include <scenes/SpitesScene.hpp>
 #include <scenes/ScenesFactory.hpp>
 #include "engine/Engine.hpp"
+#include "entity/Sound.hpp"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -42,6 +43,7 @@ int main(int argc, char **argv)
                 }
                 return false;
             });
+    Sound sound("../engine/src/Lucky.wav");
 
     while (engine->isActive())
     {

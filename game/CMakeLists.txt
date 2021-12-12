@@ -3,8 +3,6 @@ project(game)
 
 set(CMAKE_CXX_STANDARD 17)
 
-#set(SOURCES main.cpp)
-
 add_subdirectory(engine)
 
 add_executable(game main.cpp)
