@@ -23,7 +23,7 @@ struct GL_Renderer::Pimpl
 
 void GL_Renderer::startDrawing()
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.6f, 0.6f, 0.9f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     checkErrors(__FILE__, __LINE__);
 }
