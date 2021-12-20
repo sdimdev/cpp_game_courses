@@ -28,6 +28,14 @@ bool Engine::isActive()
     return _pimpl->active;
 }
 
+void setActive();
+
+void Engine::setActive()
+{
+    _pimpl->active = false;
+}
+
+
 void Engine::update()
 {
     _pimpl->timeInteractor.tick(&_pimpl->tickTime, &_pimpl->isFrame);

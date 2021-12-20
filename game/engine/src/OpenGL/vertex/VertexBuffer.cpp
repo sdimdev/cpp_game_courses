@@ -9,13 +9,15 @@
 VertexBuffer::VertexBuffer(MeshData data)
 {
     glGenVertexArrays(1, &_VAO);
-    glGenBuffers(1, &_VBO);
-    glGenBuffers(1, &_IBO);
     checkErrors(__FILE__, __LINE__);
 
     glBindVertexArray(_VAO);
+
+    glGenBuffers(1, &_VBO);
     checkErrors(__FILE__, __LINE__);
     glBindBuffer(GL_ARRAY_BUFFER, _VBO);
+    checkErrors(__FILE__, __LINE__);
+    glEnableVertexAttribArray(0);
     checkErrors(__FILE__, __LINE__);
     glVertexAttribPointer(
             0, //номер поля
@@ -27,10 +29,8 @@ VertexBuffer::VertexBuffer(MeshData data)
             //reinterpret_cast<void *>(0) //смещение от начала структуры offsetof(Vertex, x);
     );
     checkErrors(__FILE__, __LINE__);
-    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
     checkErrors(__FILE__, __LINE__);
-
-
     glVertexAttribPointer(
             1, //номер поля
             2, // сколько в поле компонентов
@@ -39,8 +39,7 @@ VertexBuffer::VertexBuffer(MeshData data)
             sizeof(Vertex),//страйт? расстояние между двумя соседними элементами в массиве
             reinterpret_cast<void *> (offsetof(Vertex, textCoord))
     );
-    checkErrors(__FILE__, __LINE__);
-    glEnableVertexAttribArray(1);
+
     checkErrors(__FILE__, __LINE__);
 
     glBufferData(
@@ -55,6 +54,7 @@ VertexBuffer::VertexBuffer(MeshData data)
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+    glGenBuffers(1, &_IBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _IBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,
                  data.indexes.size() * sizeof(std::uint32_t),

@@ -30,6 +30,7 @@ void Sprite::draw()
 void Sprite::drawSprite(std::shared_ptr<Node<SpriteData>> node)
 {
     std::shared_ptr<IWindow> win = engine->window();
+    if (logDebug)printf("screen %d %d\n", win->getWidth(), win->getHeight());
     node->value->screenSizeUniform->value.x = win->getWidth();
     node->value->screenSizeUniform->value.y = win->getHeight();
 

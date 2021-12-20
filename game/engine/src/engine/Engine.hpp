@@ -36,6 +36,7 @@ public:
     std::shared_ptr<SceneManager> sceneManager();
 
     bool isActive();
+    void setActive();
 
     void update();
 

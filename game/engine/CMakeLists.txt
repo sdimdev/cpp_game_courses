@@ -16,23 +16,26 @@ include_directories(${OPENGL_INCLUDE_DIRS})
 
 set(SDL2MAIN_LIBRARY SDL2main)
 set(SDL2_LIBRARY SDL2-static)
-set(GLEW_INCLUDE_DIR, "/libs/glew/include/")
-set(GLEW_LIBRARY, "/libs/glew")
+#set(GLEW_INCLUDE_DIR, "/libs/glew/include/")
+#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/glew)
+#set(GLEW_LIBRARY, "/libs/glew")
+#set(GLEW_LIBRARY, libglew_static)
 
 
 find_package(OpenGL REQUIRED)
 target_link_libraries(engine )
 target_include_directories(engine PUBLIC ${OPENGL_INCLUDE_DIR})
 
-find_package(GLEW REQUIRED)
-target_include_directories(engine PUBLIC ${GLEW_INCLUDE_DIR})
+#find_package(GLEW REQUIRED)
+#target_include_directories(engine PUBLIC ${GLEW_INCLUDE_DIR})
 
 
 target_link_libraries(engine PRIVATE
         ${SDL2MAIN_LIBRARY}
         ${SDL2_LIBRARY}
         ${OPENGL_gl_LIBRARY}
-        ${GLEW_LIBRARIES}
+#        ${GLEW_LIBRARY}
+        libglew_static
         ${STBI_LIBRARY}
         )
 

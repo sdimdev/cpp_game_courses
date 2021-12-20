@@ -1,6 +1,9 @@
 //
 // Created by dzmitry on 22.11.2021.
 //
+//#define GLEW_STATIC
+#include <GL/glew.h>
+
 
 #include "GL_Renderer.hpp"
 
@@ -8,10 +11,16 @@
 #include <utils/FileUtils.cpp>
 #include <OpenGL/shader/SpriteShaderProgram.hpp>
 #include <OpenGL/vertex/VertexBuffer.hpp>
-#include <GL/glew.h>
+
 #include <utils/GLUtils.cpp>
 #include <OpenGL/shader/GlTexture.hpp>
-
+/*
+ *
+ * FOR WINDOWS
+ *
+ * #define GLEW_STATIC
+#include <GL/glew.h>
+#include <GL/gl.h>*/
 
 struct GL_Renderer::Pimpl
 {
@@ -84,10 +93,11 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
 
     if (err != GLEW_OK)
     {
-        fprintf(stderr, "Failed to init GLEW\n");
+        fprintf(stderr, "Failed to init GLEW\n %d", err);
         SDL_GL_DeleteContext(sdlWindow);
         SDL_DestroyWindow(sdlWindow);
         SDL_Quit();
+        _pimpl->engine->isActive();
     }
     checkErrors(__FILE__, __LINE__);
 }
