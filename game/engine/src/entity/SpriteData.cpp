@@ -52,9 +52,9 @@ SpriteData::SpriteData(std::shared_ptr<Engine> engine, std::string_view filepath
     checkErrors(__FILE__, __LINE__);
 }
 
-void SpriteData::draw()
+/*void SpriteData::draw()
 {
-  /*  const auto &win = engine->window();
+    const auto &win = engine->window();
     screenSizeUniform->value.x = win->getWidth();
     screenSizeUniform->value.y = win->getHeight();
     transformUniform->value = this->transformData.getTransform();
@@ -62,5 +62,5 @@ void SpriteData::draw()
     IRenderer::Command command;
     command.program = program;
     command.vertexBuffer = vertexBuffer;
-    engine->renderer()->addCommand(std::move(command));*/
-}
+    engine->renderer()->addCommand(std::move(command));
+}*/

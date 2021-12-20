@@ -6,8 +6,15 @@
 #include "VertexBuffer.hpp"
 #include <utils/GLUtils.cpp>
 
+struct VertexBuffer::Pimpl
+{
+    //todo remove it
+    MeshData* data;
+};
 VertexBuffer::VertexBuffer(MeshData data)
 {
+    _pimpl = std::make_shared<Pimpl>();
+    _pimpl->data = &data;
     glGenVertexArrays(1, &_VAO);
     checkErrors(__FILE__, __LINE__);
 
@@ -94,3 +101,8 @@ VertexBuffer::~VertexBuffer()
 #endif
     checkErrors(__FILE__, __LINE__);
 }
+
+/*MeshData *VertexBuffer::getMesh()
+{
+    return nullptr;
+}*/

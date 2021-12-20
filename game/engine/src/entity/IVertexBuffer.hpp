@@ -9,6 +9,7 @@ class IVertexBuffer
 {
 public:
     virtual ~IVertexBuffer() = default;
+    //virtual MeshData* getMesh() = 0;
 };
 
 #endif //GAME_IVERTEXBUFFER_HPP

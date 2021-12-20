@@ -28,9 +28,6 @@ public:
     std::shared_ptr<Vec2Uniform> screenSizeUniform;
     std::shared_ptr<Mat3Uniform> transformUniform;
 
-protected:
-    void draw();
-
 private:
     std::shared_ptr<Engine> engine;
 };

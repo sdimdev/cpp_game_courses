@@ -19,12 +19,18 @@ public:
 
     void draw();
 
+   // MeshData* getMesh() override;
+
 private:
     uint32_t _VAO = 0;
     uint32_t _VBO = 0;
     uint32_t _IBO = 0;
 
     uint32_t _count;
+
+    struct Pimpl;
+    std::shared_ptr<Pimpl> _pimpl;
+
 };
 
 

@@ -37,6 +37,9 @@ void Sprite::drawSprite(std::shared_ptr<Node<SpriteData>> node)
     glm::mat3 tr = this->getTransform(node);
 
     glm::vec3 p = {100, 100, 0};
+
+    /*node->value->vertexBuffer*/
+
     p = tr * p;
     if (logDebug)printf("tr1=%f %f %f\n", p.x, p.y, p.z);
 
