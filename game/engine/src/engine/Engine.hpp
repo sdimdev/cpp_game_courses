@@ -12,7 +12,7 @@
 #include <common/IWindowEventManager.hpp>
 
 //todo remove or change it to settings
-const static bool logDebug = true;
+const static bool logDebug = false;
 
 //todo remove or change it to settings
 static void logMessage(char* message)

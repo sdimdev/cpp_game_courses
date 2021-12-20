@@ -9,5 +9,7 @@ void main()
 {
 //color = vec4(oPos.x, oPos.y, (oPos.x+oPos.y)/2, 1.0);
 //textur = vec2(oTexCoord.x * textureSize.x, oTexCoord.y * textureSize.y);
-color = texture(uTexture, oTexCoord);
+vec2 ot = oTexCoord;
+ot.y = 1.0 - ot.y;
+color = texture(uTexture, ot);
 };

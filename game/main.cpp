@@ -22,7 +22,8 @@ int main(int argc, char **argv)
     printf("SpritesScene::SpritesScene%d\n", engine != nullptr);
     std::shared_ptr<SpritesScene> scene = std::make_shared<SpritesScene>(engine);
     scene->node()->value = std::make_shared<SpriteData>(engine, "../engine/src/picture.jpeg");
-    scene->node()->value->transformData.anchor = glm::vec2(-0.5f, -0.5f);
+    scene->node()->value->transformData.anchor = glm::vec2(0.5f, 0.5f);
+    scene->node()->value->transformData.position = glm::vec2(300.0f, 300.0f);
     engine->sceneManager()->setScene(scene);
     engine->eventManager()->add(
             [&](std::shared_ptr<IWindowEvent> event)
