@@ -14,6 +14,7 @@
 
 #include <utils/GLUtils.cpp>
 #include <OpenGL/shader/GlTexture.hpp>
+
 /*
  *
  * FOR WINDOWS
@@ -100,6 +101,9 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
         _pimpl->engine->isActive();
     }
     checkErrors(__FILE__, __LINE__);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 GL_Renderer::~GL_Renderer()
