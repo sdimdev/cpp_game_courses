@@ -7,34 +7,21 @@
 #include <gtx/string_cast.hpp>
 #include <iostream>
 
-Sprite::Sprite(std::shared_ptr<Engine> engine)
+Sprite::Sprite(std::shared_ptr<Engine> engine, std::string_view filepath)
 {
     if (logDebug)printf("Sprite::Sprite%d\n", engine != nullptr);
     this->engine = engine;
-    node = std::make_shared<Node<SpriteData>>();
+    spriteData = std::make_shared<SpriteData>(engine, filepath);
 }
 
-void Sprite::draw()
-{
-    if (node != nullptr)
-    {
-        drawSprite(node);
-        //printf("sprite draw childs\n");
-        for (int i = 0; i < node->childs.size(); i++)
-        {
-            drawSprite(node->childs[i]);
-        }
-    }
-}
-
-void Sprite::drawSprite(std::shared_ptr<Node<SpriteData>> node)
+void Sprite::drawNode()
 {
     std::shared_ptr<IWindow> win = engine->window();
     if (logDebug)printf("screen %d %d\n", win->getWidth(), win->getHeight());
-    node->value->screenSizeUniform->value.x = win->getWidth();
-    node->value->screenSizeUniform->value.y = win->getHeight();
+    spriteData->screenSizeUniform->value.x = win->getWidth();
+    spriteData->screenSizeUniform->value.y = win->getHeight();
 
-    glm::mat3 tr = this->getTransform(node);
+    glm::mat3 tr = this->getTransform();
 
     glm::vec3 p = {100, 100, 0};
 
@@ -43,33 +30,22 @@ void Sprite::drawSprite(std::shared_ptr<Node<SpriteData>> node)
     p = tr * p;
     if (logDebug)printf("tr1=%f %f %f\n", p.x, p.y, p.z);
 
-    node->value->transformUniform->value = tr;
+    spriteData->transformUniform->value = tr;
     IRenderer::Command command;
-    command.program = node->value->program;
-    command.vertexBuffer = node->value->vertexBuffer;
+    command.program = spriteData->program;
+    command.vertexBuffer = spriteData->vertexBuffer;
     engine->renderer()->addCommand(std::move(command));
+
+    //printf("sprite draw childs\n");
 }
 
-glm::mat3 Sprite::getTransform(std::shared_ptr<Node<SpriteData>> node)
+glm::mat3 Sprite::getTransform()
 {
-    glm::mat3 trans = node->value->transformData.getTransform();
-    return node->parent ? (node->parent->value->transformData.getTransform() * trans) : trans;
+    glm::mat3 trans = spriteData->transform.getTransform();
+    return parent ? (parent->getTransform() * trans) : trans;
 }
 
-void Sprite::visit()
-{
-    if (node != nullptr)
-    {
-        visitSprite(node);
-        //printf("sprite draw childs\n");
-        for (int i = 0; i < node->childs.size(); i++)
-        {
-            visitSprite(node->childs[i]);
-        }
-    }
-}
-
-void Sprite::visitSprite(std::shared_ptr<Node<SpriteData>> node)
+void Sprite::visitNode()
 {
 
 }

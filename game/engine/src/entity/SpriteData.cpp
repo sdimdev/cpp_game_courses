@@ -10,7 +10,7 @@ SpriteData::SpriteData(std::shared_ptr<Engine> engine, std::string_view filepath
 {
     this->engine = engine;
     Bitmap bitmap(filepath);
-    transformData.size = bitmap.getSize();
+    transform.size = bitmap.getSize();
 
     MeshData meshData;
 

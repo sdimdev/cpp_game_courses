@@ -5,7 +5,9 @@
 #ifndef GAME_IVERTEXBUFFER_HPP
 #define GAME_IVERTEXBUFFER_HPP
 
-class IVertexBuffer
+#include "IShaderBuffer.hpp"
+
+class IVertexBuffer//: public IShaderBuffer
 {
 public:
     virtual ~IVertexBuffer() = default;

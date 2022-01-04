@@ -10,9 +10,7 @@
 class GLProgram : public IShaderProgram
 {
 public:
-    GLProgram(const char *vs, const char *ps);
-
-    ~GLProgram();
+    ~GLProgram() = default;
 
     std::shared_ptr<TextureUniform> createTextureUniform(std::string_view name) override;
 
@@ -21,6 +19,7 @@ public:
     std::shared_ptr<Mat4Uniform> createMat4Uniform(std::string_view name) override;
 
     std::shared_ptr<Vec2Uniform> createVec2Uniform(std::string_view name) override;
+    std::shared_ptr<FloatUniform> createFloatUniform(std::string_view name) override;
 
     std::shared_ptr<Vec3Uniform> createVec3Uniform(std::string_view name) override;
 
@@ -29,8 +28,6 @@ public:
     uint32_t getProgram() override;
 
 protected:
-    uint32_t vertexShader;
-    uint32_t fragmentShader;
     uint32_t program;
 };
 
@@ -71,6 +68,17 @@ class GlVec2Uniform : public Vec2Uniform
 {
 public:
     explicit GlVec2Uniform(const std::shared_ptr<GLProgram> &program, std::string_view name);
+
+    void activate() override;
+
+private:
+    int32_t location;
+};
+
+class GlFloatUniform : public FloatUniform
+{
+public:
+    explicit GlFloatUniform(const std::shared_ptr<GLProgram> &program, std::string_view name);
 
     void activate() override;
 

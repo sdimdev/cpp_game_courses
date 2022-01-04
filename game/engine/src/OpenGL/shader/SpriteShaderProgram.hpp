@@ -16,6 +16,10 @@ public:
     explicit SpriteShaderProgram(std::string_view vpath,
                                  std::string_view fpath);
     ~SpriteShaderProgram();
+
+protected:
+    uint32_t vertexShader;
+    uint32_t fragmentShader;
 };
 
 #endif //GAME_SPRITESHADERPROGRAM_HPP

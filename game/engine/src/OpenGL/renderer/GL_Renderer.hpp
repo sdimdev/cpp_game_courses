@@ -33,6 +33,8 @@ public:
 
     std::shared_ptr<IVertexBuffer> createVertexBuffer(MeshData data) override;
 
+    std::shared_ptr<IParticleBuffer> createParticleBuffer(std::vector<IParticleBuffer::ParticleData> data) override;
+
 private:
     struct Pimpl;
     std::unique_ptr<Pimpl> _pimpl;

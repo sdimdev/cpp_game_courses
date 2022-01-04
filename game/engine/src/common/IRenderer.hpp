@@ -8,6 +8,7 @@
 #include <vector>
 #include <bitmap/Bitmap.hpp>
 #include <entity/MeshData.hpp>
+#include "entity/IParticleBuffer.hpp"
 
 class IVertexBuffer;
 
@@ -37,6 +38,7 @@ public:
     virtual void endDrawing() = 0;
 
     virtual std::shared_ptr<IVertexBuffer> createVertexBuffer(MeshData data) = 0;
+    virtual std::shared_ptr<IParticleBuffer> createParticleBuffer(std::vector<IParticleBuffer::ParticleData> data) = 0;
 
     virtual std::shared_ptr<IShaderProgram> createProgram(std::string_view name) = 0;
 

@@ -12,22 +12,20 @@
 #include <ext/matrix_float3x3.hpp>
 #include "Node.hpp"
 
-class Sprite
+class Sprite : public Node
 {
 public:
-    explicit Sprite(std::shared_ptr<Engine> engine);
+    explicit Sprite(std::shared_ptr<Engine> engine, std::string_view filepath);
 
-    std::shared_ptr<Node<SpriteData>> node = nullptr;
+    ~Sprite() = default;
 
-    void visit();
+    std::shared_ptr<SpriteData> spriteData = nullptr;
 
-    void draw();
+    glm::mat3 getTransform() override;
 
-    glm::mat3 getTransform(std::shared_ptr<Node<SpriteData>> node);
+    void drawNode() override;
 
-    void drawSprite(std::shared_ptr<Node<SpriteData>> node);
-
-    void visitSprite(std::shared_ptr<Node<SpriteData>> node);
+    void visitNode() override;
 
 
 private:

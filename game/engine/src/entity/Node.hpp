@@ -8,42 +8,33 @@
 
 #include <memory>
 #include <vector>
+#include "glm.hpp"
 
-template<typename T>
-class Node : public std::enable_shared_from_this<Node<T>>
+class Node : public std::enable_shared_from_this<Node>
 {
 public:
-    Node();
-
-    Node(std::shared_ptr<T> value);
+    Node()
+    {};
 
     ~Node() = default;
 
-    std::vector<std::shared_ptr<Node<T>>> childs;
-    std::shared_ptr<T> value;
-    std::shared_ptr<Node<T>> parent;
+    std::vector<std::shared_ptr<Node>> childs;
+    std::shared_ptr<Node> parent;
 
-    void addChild(std::shared_ptr<Node<T>>);
+    virtual glm::mat3 getTransform()
+    {
+        return glm::mat3(1.0f);
+    };
+
+    virtual void drawNode()
+    {};
+
+    virtual void visitNode()
+    {};
+
+    void addChild(std::shared_ptr<Node>);
 };
 
-template<typename T>
-Node<T>::Node()
-{
-
-}
-
-template<typename T>
-void Node<T>::addChild(std::shared_ptr<Node<T>> child)
-{
-    child-> parent = this->shared_from_this();
-    childs.push_back(child);
-}
-
-template<typename T>
-Node<T>::Node(std::shared_ptr<T> value)
-{
-    this->value = value;
-}
 
 
 #endif //GAME_NODE_HPP

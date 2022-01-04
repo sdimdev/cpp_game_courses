@@ -44,6 +44,13 @@ public:
     glm::vec2 value;
 };
 
+class FloatUniform : public Uniform
+{
+public:
+    float value;
+};
+
+
 class Vec3Uniform : public Uniform
 {
 public:
@@ -64,6 +71,8 @@ public:
     virtual std::shared_ptr<Mat4Uniform> createMat4Uniform(std::string_view name) = 0;
 
     virtual std::shared_ptr<Vec2Uniform> createVec2Uniform(std::string_view name) = 0;
+
+    virtual std::shared_ptr<FloatUniform> createFloatUniform(std::string_view name) = 0;
 
     virtual std::shared_ptr<Vec3Uniform> createVec3Uniform(std::string_view name) = 0;
 

@@ -6,6 +6,8 @@
 
 
 #include "GL_Renderer.hpp"
+#include "entity/IParticleBuffer.hpp"
+#include "OpenGL/vertex/ParticleBuffer.hpp"
 
 #include <SDL.h>
 #include <utils/FileUtils.cpp>
@@ -30,6 +32,8 @@ struct GL_Renderer::Pimpl
     std::shared_ptr<Engine> engine;
     int w, h;
 };
+
+std::shared_ptr<IParticleBuffer> createParticleBuffer(std::vector<IParticleBuffer::ParticleData> data);
 
 void GL_Renderer::startDrawing()
 {
@@ -124,6 +128,11 @@ std::shared_ptr<ITexture> GL_Renderer::createTexture(Bitmap bitmap)
 std::shared_ptr<IVertexBuffer> GL_Renderer::createVertexBuffer(MeshData data)
 {
     return std::make_shared<VertexBuffer>(data);
+}
+
+std::shared_ptr<IParticleBuffer> GL_Renderer::createParticleBuffer(std::vector<IParticleBuffer::ParticleData> data)
+{
+    return std::make_shared<ParticleBuffer>(data);
 }
 
 void GL_Renderer::setEngine(std::shared_ptr<Engine> engine)

@@ -6,7 +6,7 @@
 
 #include <utility>
 #include "utils/CommandLineUtil.cpp"
-#include "SpitesScene.hpp"
+#include "NodeScene.hpp"
 
 struct ScenesFactory::Pimpl
 {

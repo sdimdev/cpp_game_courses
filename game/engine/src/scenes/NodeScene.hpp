@@ -9,16 +9,26 @@
 #include <entity/Sprite.hpp>
 #include "IScene.hpp"
 
-class SpritesScene : public IScene
+class NodeScene : public IScene
 {
 public:
-    std::shared_ptr<Sprite> sprite = nullptr;
+    std::shared_ptr<Node> value = nullptr;
     std::shared_ptr<Engine> engine = nullptr;
-    explicit SpritesScene(std::shared_ptr<Engine> engine);
+
+    explicit NodeScene(std::shared_ptr<Engine> engine);
+
     void draw() override;
-    std::shared_ptr<Node<SpriteData>> node();
+
+    std::shared_ptr<Node> node();
+
+    void setNode(std::shared_ptr<Node> node);
+
     bool handleEvent(EventType eventType) override;
-    ~SpritesScene() override;
+
+    ~NodeScene() override;
+
+private:
+    void drawNode(std::shared_ptr<Node> node);
 };
 
 

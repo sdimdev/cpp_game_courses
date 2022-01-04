@@ -1,6 +1,6 @@
 
 #include <engine/EngineFactory.hpp>
-#include <scenes/SpitesScene.hpp>
+#include <scenes/NodeScene.hpp>
 #include <scenes/ScenesFactory.hpp>
 #include "engine/Engine.hpp"
 #include "entity/Sound.hpp"
@@ -20,21 +20,20 @@ int main(int argc, char **argv)
 
     //std::shared_ptr<ScenesFactory> factory = std::make_shared<ScenesFactory>(engine.shared_from_this());
     printf("SpritesScene::SpritesScene%d\n", engine != nullptr);
-    std::shared_ptr<SpritesScene> scene = std::make_shared<SpritesScene>(engine);
-    std::shared_ptr<SpriteData> tank = std::make_shared<SpriteData>(engine, "../engine/src/tank_body.png");
-    std::shared_ptr<SpriteData> pushka = std::make_shared<SpriteData>(engine, "../engine/src/pushka.png");
-    scene->node()->value = tank;
+    auto scene = std::make_shared<NodeScene>(engine);
+    auto tank = std::make_shared<Sprite>(engine, "../engine/src/tank_body.png");
+    auto pushka = std::make_shared<Sprite>(engine, "../engine/src/pushka.png");
+    scene->setNode(tank);
     //scene->node()->(pushka)
-    tank->transformData.anchor = glm::vec2(0.5f, 0.2f);
-    tank->transformData.position = glm::vec2(300.0f, 300.0f);
-    tank->transformData.scale = glm::vec2(0.2f, 0.2f);
+    tank->spriteData->transform.anchor = glm::vec2(0.5f, 0.2f);
+    tank->spriteData->transform.position = glm::vec2(300.0f, 300.0f);
+    tank->spriteData->transform.scale = glm::vec2(0.2f, 0.2f);
 
-    pushka->transformData.anchor = glm::vec2(0.5f, 0.2f);
-    pushka->transformData.position =  glm::vec2(tank->transformData.size.x * 0.5f, tank->transformData.size.x * 0.5f);
-    pushka->transformData.scale = glm::vec2(1.0f, 1.0f);
+    pushka->spriteData->transform.anchor = glm::vec2(0.5f, 0.2f);
+    pushka->spriteData->transform.position = glm::vec2(tank->spriteData->transform.size.x * 0.5f, tank->spriteData->transform.size.x * 0.5f);
+    pushka->spriteData->transform.scale = glm::vec2(1.0f, 1.0f);
 
-    std::shared_ptr<Node<SpriteData>> pushkaNode = std::make_shared<Node<SpriteData>>(pushka);
-    scene->node()->addChild(pushkaNode);
+    scene->node()->addChild(pushka);
     engine->sceneManager()->setScene(scene);
     engine->eventManager()->add(
             [&](std::shared_ptr<IWindowEvent> event)
@@ -44,23 +43,22 @@ int main(int argc, char **argv)
                 {
                     if (keyboardEvent->key == W)
                     {
-                        pushka->transformData.rotation += 0.9f;
+                        pushka->spriteData->transform.rotation += 0.9f;
                         return true;
                     } else if (keyboardEvent->key == S)
                     {
-                        pushka->transformData.rotation -= 0.9f;
+                        pushka->spriteData->transform.rotation -= 0.9f;
                         return true;
                     }
 
                 }
                 return false;
             });
-   // Sound sound("../engine/src/ot_attack.wav");
+    // Sound sound("../engine/src/ot_attack.wav");
 
     while (engine->isActive())
     {
         engine->update();
-        scene->node()->value->transformData.transform.reset();
         //scene->node()->value->transformData.rotation+=0.1f;
     }
     return 0;

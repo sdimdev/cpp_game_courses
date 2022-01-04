@@ -12,15 +12,15 @@
 #include "TransformData.hpp"
 #include "MeshData.hpp"
 #include "IVertexBuffer.hpp"
+#include "INodeData.hpp"
 
-class SpriteData
+class SpriteData: public INodeData
 {
 public:
     SpriteData(std::shared_ptr<Engine> engine, std::string_view filepath);
 
     ~SpriteData() = default;
 
-    TransformData transformData;
     std::shared_ptr<IVertexBuffer> vertexBuffer;
     std::shared_ptr<IShaderProgram> program;
 
