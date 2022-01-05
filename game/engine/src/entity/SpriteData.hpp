@@ -26,6 +26,8 @@ public:
 
     std::shared_ptr<TextureUniform> textureUniform;
     std::shared_ptr<Vec2Uniform> screenSizeUniform;
+    std::shared_ptr<Vec2Uniform> texturePoint1Uniform;
+    std::shared_ptr<Vec2Uniform> texturePoint2Uniform;
     std::shared_ptr<Mat3Uniform> transformUniform;
 
 private:

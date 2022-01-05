@@ -48,6 +48,10 @@ SpriteData::SpriteData(std::shared_ptr<Engine> engine, std::string_view filepath
     textureUniform->texture = this->engine->renderer()->createTexture(std::move(bitmap));
     checkErrors(__FILE__, __LINE__);
     screenSizeUniform = program->createVec2Uniform("screenSize");
+    texturePoint1Uniform = program->createVec2Uniform("texturePoint1");
+    texturePoint2Uniform = program->createVec2Uniform("texturePoint2");
+    texturePoint1Uniform->value = {0.0, 0.0};
+    texturePoint2Uniform->value = {1.0, 1.0};
     transformUniform = program->createMat3Uniform("transform");
     checkErrors(__FILE__, __LINE__);
 }

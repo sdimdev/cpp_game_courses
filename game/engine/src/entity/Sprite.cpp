@@ -49,3 +49,13 @@ void Sprite::visitNode()
 {
 
 }
+
+void Sprite::setTexturePoint1(glm::vec2 point)
+{
+    spriteData->texturePoint1Uniform->value = point;
+}
+
+void Sprite::setTexturePoint2(glm::vec2 point)
+{
+    spriteData->texturePoint2Uniform->value = point;
+}

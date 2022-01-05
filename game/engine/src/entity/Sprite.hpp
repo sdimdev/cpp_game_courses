@@ -23,6 +23,9 @@ public:
 
     glm::mat3 getTransform() override;
 
+    void setTexturePoint1(glm::vec2 point);
+    void setTexturePoint2(glm::vec2 point);
+
     void drawNode() override;
 
     void visitNode() override;

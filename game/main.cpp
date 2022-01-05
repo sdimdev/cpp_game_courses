@@ -29,6 +29,10 @@ int main(int argc, char **argv)
     tank->spriteData->transform.position = glm::vec2(300.0f, 300.0f);
     tank->spriteData->transform.scale = glm::vec2(0.2f, 0.2f);
 
+    //todo create texture controller
+    tank->setTexturePoint1(glm::vec2(0.2f, 0.2f));
+    tank->setTexturePoint2(glm::vec2(0.9f, 0.9f));
+
     pushka->spriteData->transform.anchor = glm::vec2(0.5f, 0.2f);
     pushka->spriteData->transform.position = glm::vec2(tank->spriteData->transform.size.x * 0.5f, tank->spriteData->transform.size.x * 0.5f);
     pushka->spriteData->transform.scale = glm::vec2(1.0f, 1.0f);
