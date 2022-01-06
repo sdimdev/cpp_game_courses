@@ -9,8 +9,14 @@
 SpriteData::SpriteData(std::shared_ptr<Engine> engine, std::string_view filepath)
 {
     this->engine = engine;
-    Bitmap bitmap(filepath);
-    transform.size = bitmap.getSize();
+    checkErrors(__FILE__, __LINE__);
+    program = this->engine->renderer()->createProgram("");
+    checkErrors(__FILE__, __LINE__);
+    textureUniform = program->createTextureUniform("uTexture");
+    checkErrors(__FILE__, __LINE__);
+    textureUniform->texture = this->engine->resources()->getTexture(filepath);
+    glm::vec2 size = textureUniform->texture->getSize();
+    transform.size = size;
 
     MeshData meshData;
 
@@ -19,15 +25,15 @@ SpriteData::SpriteData(std::shared_ptr<Engine> engine, std::string_view filepath
     meshData.points.back().textCoord = {0.0, 0.0};
 
     meshData.points.emplace_back();
-    meshData.points.back().position = {0.0, bitmap.getSize().y};
+    meshData.points.back().position = {0.0, size.y};
     meshData.points.back().textCoord = {0.0, 1.0};
 
     meshData.points.emplace_back();
-    meshData.points.back().position = {bitmap.getSize().x, bitmap.getSize().y};
+    meshData.points.back().position = {size.x, size.y};
     meshData.points.back().textCoord = {1.0, 1.0};
 
     meshData.points.emplace_back();
-    meshData.points.back().position = {bitmap.getSize().x, 0.0};
+    meshData.points.back().position = {size.x, 0.0};
     meshData.points.back().textCoord = {1.0, 0.0};
 
     meshData.indexes.emplace_back(0);
@@ -38,14 +44,8 @@ SpriteData::SpriteData(std::shared_ptr<Engine> engine, std::string_view filepath
     meshData.indexes.emplace_back(1);
     meshData.indexes.emplace_back(2);
 
-
     vertexBuffer = this->engine->renderer()->createVertexBuffer(std::move(meshData));
-    checkErrors(__FILE__, __LINE__);
-    program = this->engine->renderer()->createProgram("");
-    checkErrors(__FILE__, __LINE__);
-    textureUniform = program->createTextureUniform("uTexture");
-    checkErrors(__FILE__, __LINE__);
-    textureUniform->texture = this->engine->renderer()->createTexture(std::move(bitmap));
+
     checkErrors(__FILE__, __LINE__);
     screenSizeUniform = program->createVec2Uniform("screenSize");
     texturePoint1Uniform = program->createVec2Uniform("texturePoint1");

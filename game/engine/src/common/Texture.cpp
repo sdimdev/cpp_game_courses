@@ -10,4 +10,9 @@ Texture::Texture(glm::vec2 size)
     this->size = size;
 }
 
+glm::vec2 Texture::getSize()
+{
+    return size;
+}
+
 Texture::~Texture() = default;

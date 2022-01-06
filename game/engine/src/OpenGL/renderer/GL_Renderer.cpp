@@ -120,11 +120,6 @@ std::shared_ptr<IShaderProgram> GL_Renderer::createProgram(std::string_view name
     return std::make_shared<SpriteShaderProgram>("../engine/src/v_shader.glsl", "../engine/src/f_shader.glsl");
 }
 
-std::shared_ptr<ITexture> GL_Renderer::createTexture(Bitmap bitmap)
-{
-    return std::make_shared<GlTexture>(bitmap);
-}
-
 std::shared_ptr<IVertexBuffer> GL_Renderer::createVertexBuffer(MeshData data)
 {
     return std::make_shared<VertexBuffer>(data);

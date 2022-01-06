@@ -42,8 +42,6 @@ public:
 
     virtual std::shared_ptr<IShaderProgram> createProgram(std::string_view name) = 0;
 
-    virtual std::shared_ptr<ITexture> createTexture(Bitmap bitmap) = 0;
-
 protected:
     mutable std::vector<Command> commands;
 };

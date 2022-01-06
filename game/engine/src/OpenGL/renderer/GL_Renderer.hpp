@@ -29,8 +29,6 @@ public:
 
     std::shared_ptr<IShaderProgram> createProgram(std::string_view name) override;
 
-    std::shared_ptr<ITexture> createTexture(Bitmap bitmap) override;
-
     std::shared_ptr<IVertexBuffer> createVertexBuffer(MeshData data) override;
 
     std::shared_ptr<IParticleBuffer> createParticleBuffer(std::vector<IParticleBuffer::ParticleData> data) override;

@@ -9,7 +9,10 @@ class ITexture
 {
 public:
     ~ITexture() = default;
+
     ITexture() = default;
+
+    virtual glm::vec2 getSize() = 0;
 };
 
 #endif //GAME_ITEXTURE_HPP

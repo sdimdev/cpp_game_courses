@@ -10,6 +10,7 @@
 #include <common/IRenderer.hpp>
 #include <scenes/SceneManager.hpp>
 #include <common/IWindowEventManager.hpp>
+#include "common/IResourcesManager.hpp"
 
 //todo remove or change it to settings
 const static bool logDebug = false;
@@ -41,6 +42,8 @@ public:
     void update();
 
     std::shared_ptr<IRenderer> renderer();
+
+    std::shared_ptr<IResourcesManager> resources();
 
     std::shared_ptr<IWindowEventManager> eventManager();
 

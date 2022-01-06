@@ -4,6 +4,7 @@
 
 #include "Engine.hpp"
 #include "utils/TimeInteractor.hpp"
+#include "res/ResourcesManager.hpp"
 #include <scenes/ScenesFactory.hpp>
 #include <common/IWindow.hpp>
 #include <scenes/SceneManager.hpp>
@@ -15,6 +16,7 @@ struct Engine::Pimpl
 {
     std::shared_ptr<IWindow> window = nullptr;
     std::shared_ptr<IRenderer> renderer = nullptr;
+    std::shared_ptr<ResourcesManager> resourcesManager = nullptr;
     std::shared_ptr<IWindowEventManager> windowEventManager = nullptr;
     std::shared_ptr<SceneManager> sceneManager = nullptr;
     bool active = true;
@@ -63,6 +65,7 @@ Engine::Engine(
     std::shared_ptr<IWindowEventManager> evm = std::make_shared<WindowEventManagerImpl>();
     _pimpl->sceneManager = sceneManager;
     _pimpl->windowEventManager = evm;
+    _pimpl->resourcesManager = std::make_shared<ResourcesManager>();
     _pimpl->windowEventManager->add(
             [&](std::shared_ptr<IWindowEvent> event)
             {
@@ -103,6 +106,11 @@ std::shared_ptr<SceneManager> Engine::sceneManager()
 std::shared_ptr<IRenderer> Engine::renderer()
 {
     return _pimpl->renderer;
+}
+
+std::shared_ptr<IResourcesManager> Engine::resources()
+{
+    return _pimpl->resourcesManager;
 }
 
 std::shared_ptr<IWindowEventManager> Engine::eventManager()
