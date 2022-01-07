@@ -9,12 +9,11 @@
 struct VertexBuffer::Pimpl
 {
     //todo remove it
-    MeshData* data;
+   // MeshData* data;
 };
 VertexBuffer::VertexBuffer(MeshData data)
 {
     _pimpl = std::make_shared<Pimpl>();
-    _pimpl->data = &data;
     glGenVertexArrays(1, &_VAO);
     checkErrors(__FILE__, __LINE__);
 

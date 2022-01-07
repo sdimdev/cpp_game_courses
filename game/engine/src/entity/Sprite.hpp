@@ -11,20 +11,22 @@
 #include "SpriteData.hpp"
 #include <ext/matrix_float3x3.hpp>
 #include "Node.hpp"
+#include "ITextureMapSettable.hpp"
 
-class Sprite : public Node
+class Sprite : public Node, public ITextureMapSettable
 {
 public:
     explicit Sprite(std::shared_ptr<Engine> engine, std::string_view filepath);
 
-    ~Sprite() = default;
+    ~Sprite() override;
 
     std::shared_ptr<SpriteData> spriteData = nullptr;
 
     glm::mat3 getTransform() override;
 
-    void setTexturePoint1(glm::vec2 point);
-    void setTexturePoint2(glm::vec2 point);
+    void setTexturePoint1(glm::vec2 point) override;
+
+    void setTexturePoint2(glm::vec2 point) override;
 
     void drawNode() override;
 
