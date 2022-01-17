@@ -5,6 +5,7 @@
 #include "Engine.hpp"
 #include "utils/TimeInteractor.hpp"
 #include "res/ResourcesManager.hpp"
+#include "common/Scheduler.hpp"
 #include <scenes/ScenesFactory.hpp>
 #include <common/IWindow.hpp>
 #include <scenes/SceneManager.hpp>
@@ -19,6 +20,7 @@ struct Engine::Pimpl
     std::shared_ptr<ResourcesManager> resourcesManager = nullptr;
     std::shared_ptr<IWindowEventManager> windowEventManager = nullptr;
     std::shared_ptr<SceneManager> sceneManager = nullptr;
+    std::shared_ptr<Scheduler> scheduler = nullptr;
     bool active = true;
     TimeInteractor timeInteractor;
     int64_t tickTime;
@@ -41,6 +43,7 @@ void Engine::setActive()
 void Engine::update()
 {
     _pimpl->timeInteractor.tick(&_pimpl->tickTime, &_pimpl->isFrame);
+    _pimpl->scheduler->visit();
     if (handleEvents())
     {
         if (_pimpl->isFrame)
@@ -64,6 +67,7 @@ Engine::Engine(
     std::shared_ptr<SceneManager> sceneManager = std::make_shared<SceneManager>();
     std::shared_ptr<IWindowEventManager> evm = std::make_shared<WindowEventManagerImpl>();
     _pimpl->sceneManager = sceneManager;
+    _pimpl->scheduler = std::make_shared<Scheduler>();
     _pimpl->windowEventManager = evm;
     _pimpl->resourcesManager = std::make_shared<ResourcesManager>();
     _pimpl->windowEventManager->add(
@@ -116,6 +120,11 @@ std::shared_ptr<IResourcesManager> Engine::resources()
 std::shared_ptr<IWindowEventManager> Engine::eventManager()
 {
     return _pimpl->windowEventManager;
+}
+
+std::shared_ptr<Scheduler> Engine::scheduler()
+{
+    return _pimpl->scheduler;
 }
 
 std::shared_ptr<IWindow> Engine::window()

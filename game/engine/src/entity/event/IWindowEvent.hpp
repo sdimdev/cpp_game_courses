@@ -14,15 +14,15 @@ enum EventType
 
 enum KeyboardKey
 {
-    W,
-    S,
+    A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,R,S,T,Q,V,W,X,Y,Z,
+    LEFT, RIGHT, UP, DOWN, ENTER, SPACE,
     UNKNOWN_KEY
 };
 
 enum KeyboardAction
 {
-    DOWN,
-    UP
+    KEY_DOWN,
+    KEY_UP
 };
 
 class IWindowEvent

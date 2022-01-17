@@ -33,7 +33,7 @@ public:
     void visitNode() override;
 
 
-private:
+protected:
     std::shared_ptr<Engine> engine;
 };
 

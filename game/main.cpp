@@ -22,18 +22,21 @@ int main(int argc, char **argv)
     //std::shared_ptr<ScenesFactory> factory = std::make_shared<ScenesFactory>(engine.shared_from_this());
     printf("SpritesScene::SpritesScene%d\n", engine != nullptr);
     auto scene = std::make_shared<NodeScene>(engine);
+
     auto tank = std::make_shared<Sprite>(engine, "../textures/tank_body.png");
     auto pushka = std::make_shared<Sprite>(engine, "../textures/pushka.png");
     auto parentNode = std::make_shared<Node>();
 
-    TextureController textureController(4, 4);
+    TextureController amongPersonTextureController(4, 1);
+
+    TextureController groundTextureController(4, 4);
     for (int i = 0; i < 16; i++)
     {
         auto netSquad = std::make_shared<Sprite>(engine, "../textures/texture.jpg");
         netSquad->spriteData->transform.size = {140, 140};
         netSquad->spriteData->transform.scale = { 0.25f, 0.25f};
         netSquad->spriteData->transform.position = {140 * (i%4), 140 * (i/4)};
-        textureController.chooseTextureMap(i, std::static_pointer_cast<ITextureMapSettable>(netSquad));
+        groundTextureController.chooseTextureMap(i, std::static_pointer_cast<ITextureMapSettable>(netSquad));
         parentNode->addChild(netSquad);
     }
 
@@ -51,8 +54,13 @@ int main(int argc, char **argv)
 
     tank->addChild(pushka);
     engine->sceneManager()->setScene(scene);
-    engine->eventManager()->add(
-            [&](std::shared_ptr<IWindowEvent> event)
+    engine->scheduler()->schedule([&](fseconds time){
+        tank->spriteData->transform.position = tank->spriteData->transform.position + glm::vec2(50.0f, -50.0f);
+    },
+                                  5s, 2s, 5, 1);
+
+   /* engine->eventManager()->add(
+            [&](const std::shared_ptr<IWindowEvent>& event)
             {
                 auto keyboardEvent = std::dynamic_pointer_cast<KeyboardEvent>(event);
                 if (keyboardEvent && keyboardEvent->action == DOWN)
@@ -69,7 +77,7 @@ int main(int argc, char **argv)
 
                 }
                 return false;
-            });
+            });*/
     // Sound sound("../engine/src/ot_attack.wav");
 
     while (engine->isActive())

@@ -11,6 +11,7 @@
 #include <scenes/SceneManager.hpp>
 #include <common/IWindowEventManager.hpp>
 #include "common/IResourcesManager.hpp"
+#include "common/Scheduler.hpp"
 
 //todo remove or change it to settings
 const static bool logDebug = false;
@@ -48,6 +49,8 @@ public:
     std::shared_ptr<IWindowEventManager> eventManager();
 
     std::shared_ptr<IWindow> window();
+
+    std::shared_ptr<Scheduler> scheduler();
 
 private:
     struct Pimpl;
