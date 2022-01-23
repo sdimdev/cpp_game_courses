@@ -2,22 +2,29 @@
 // Created by dzmitry on 05.12.2021.
 //
 
-#include <GL/glew.h>
+#include "../GLHeaders.hpp"
 #include "VertexBuffer.hpp"
 #include <utils/GLUtils.cpp>
 
-struct VertexBuffer::Pimpl
-{
+struct VertexBuffer::Pimpl {
     //todo remove it
-   // MeshData* data;
+    // MeshData* data;
 };
-VertexBuffer::VertexBuffer(MeshData data)
-{
+
+VertexBuffer::VertexBuffer(MeshData data) {
     _pimpl = std::make_shared<Pimpl>();
+#ifdef GLES20
+    glGenVertexArraysOES(1, &_VAO);
+#elif GL33
     glGenVertexArrays(1, &_VAO);
+#endif
     checkErrors(__FILE__, __LINE__);
 
+#ifdef GLES20
+    glBindVertexArrayOES(_VAO);
+#elif GL33
     glBindVertexArray(_VAO);
+#endif
 
     glGenBuffers(1, &_VBO);
     checkErrors(__FILE__, __LINE__);
@@ -53,7 +60,7 @@ VertexBuffer::VertexBuffer(MeshData data)
             data.points.size() * sizeof(Vertex),
             data.points.data(),
             GL_STATIC_DRAW);
-    if(logDebug)printf("vertex count %d\n", data.points.size());
+    if (logDebug)printf("vertex count %d\n", data.points.size());
     checkErrors(__FILE__, __LINE__);
     //указываем выравнивае видеокарте
 
@@ -69,33 +76,33 @@ VertexBuffer::VertexBuffer(MeshData data)
 
     checkErrors(__FILE__, __LINE__);
     _count = data.indexes.size();
-    if(logDebug)printf("indexes count %d\n", _count);
+    if (logDebug)printf("indexes count %d\n", _count);
 }
 
 
-void VertexBuffer::draw()
-{
-    if(logDebug)printf("glBindVertexArray _VAO %d\n", _VAO);
+void VertexBuffer::draw() {
+    if (logDebug)printf("glBindVertexArray _VAO %d\n", _VAO);
+#ifdef GLES20
+    glBindVertexArrayOES(_VAO);
+#elif GL33
     glBindVertexArray(_VAO);
-    if(logDebug)printf("glDrawElements _VAO %d\n", _count);
+#endif
+    if (logDebug)printf("glDrawElements _VAO %d\n", _count);
     glDrawElements(GL_TRIANGLES, _count, GL_UNSIGNED_INT, 0);
 
     checkErrors(__FILE__, __LINE__);
 }
 
-VertexBuffer::~VertexBuffer()
-{
+VertexBuffer::~VertexBuffer() {
     glDeleteBuffers(1, &_VBO);
 
-    if (_IBO != 0)
-    {
+    if (_IBO != 0) {
         glDeleteBuffers(1, &_IBO);
     }
 
-
-#ifdef GLES
+#ifdef GLES20
     glDeleteVertexArraysOES(1, &_VAO);
-#else
+#elif GL33
     glDeleteVertexArrays(1, &_VAO);
 #endif
     checkErrors(__FILE__, __LINE__);

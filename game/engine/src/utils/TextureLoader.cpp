@@ -4,6 +4,7 @@
 
 #include <SDL_rwops.h>
 #include <string_view>
+#include <string>
 #include <stdexcept>
 #include <vector>
 #include <SDL_opengl.h>

@@ -8,6 +8,8 @@
 #include <functional>
 #include <list>
 #include <chrono>
+#include <vector>
+#include <string>
 
 using fseconds = std::chrono::duration<float>;
 using namespace std::chrono_literals;
@@ -27,10 +29,10 @@ protected:
         size_t count;
         size_t exec_count;
         size_t key;
-        std::chrono::system_clock::time_point lastTime;
+        std::chrono::high_resolution_clock::time_point lastTime;
     };
 
-    std::chrono::system_clock::time_point prevTime;
+    std::chrono::high_resolution_clock::time_point prevTime;
     fseconds delta{};
     std::vector<ScheduleData> runnableVector;
     bool _isFirstRun = true;

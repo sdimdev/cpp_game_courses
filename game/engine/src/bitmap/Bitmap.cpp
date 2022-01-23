@@ -4,6 +4,7 @@
 
 #include <stdexcept>
 #include "Bitmap.hpp"
+#include <string>
 #include  <utils/TextureLoader.cpp>
 
 Bitmap::Bitmap(std::string_view filepath)

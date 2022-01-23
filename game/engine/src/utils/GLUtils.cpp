@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include <GL/glew.h>
+#include "../OpenGL/GLHeaders.hpp"
 #include "engine/Engine.hpp"
 
 

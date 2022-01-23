@@ -2,8 +2,7 @@
 // Created by dzmitry on 22.11.2021.
 //
 //#define GLEW_STATIC
-#include <GL/glew.h>
-
+#include "../GLHeaders.hpp"
 
 #include "GL_Renderer.hpp"
 #include "entity/IParticleBuffer.hpp"
@@ -92,6 +91,9 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
     SDL_GL_SetSwapInterval(1); // Use VSYNC
 
     // Initialize GL Extension Wrangler (GLEW)
+#ifdef GLES20
+
+#elif GL33
     GLenum err;
     glewExperimental = GL_TRUE; // Please expose OpenGL 3.x+ interfaces
     err = glewInit();
@@ -104,6 +106,7 @@ GL_Renderer::GL_Renderer(SDL_Window *sdlWindow, int w, int h) : IRenderer()
         SDL_Quit();
         _pimpl->engine->isActive();
     }
+#endif
     checkErrors(__FILE__, __LINE__);
 
     glEnable(GL_BLEND);

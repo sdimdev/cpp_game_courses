@@ -5,7 +5,7 @@
 #include "SpriteShaderProgram.hpp"
 #include <utils/FileUtils.cpp>
 
-#include <GL/glew.h>
+#include "../GLHeaders.hpp"
 #include <iostream>
 #include <gtc/type_ptr.hpp>
 #include <utils/GLUtils.cpp>

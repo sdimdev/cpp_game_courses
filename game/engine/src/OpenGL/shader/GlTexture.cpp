@@ -2,11 +2,12 @@
 // Created by dzmitry on 06.12.2021.
 //
 
-#include <GL/glew.h>
+#include "../GLHeaders.hpp"
 #include "GlTexture.hpp"
 #include "engine/Engine.hpp"
 #include <common/Texture.hpp>
 #include <cstdio>
+#include <GLES2/gl2ext.h>
 
 namespace
 {
@@ -15,21 +16,37 @@ namespace
         if (bitmapFormat == Bitmap::Format::R)
         {
             logMessage("getGlInternalFormat GL_R8");
+#ifdef GLES20
+            return GL_R8_EXT;
+#elif GL33
             return GL_R8;
+#endif
         }
 
         if (bitmapFormat == Bitmap::Format::Rgba32F || bitmapFormat == Bitmap::Format::Rgb32F)
         {
             logMessage("getGlInternalFormat GL_RGBA32F");
+#ifdef GLES20
+            return GL_RGBA32F_EXT;
+#elif GL33
             return GL_RGBA32F;
+#endif
         } else if (bitmapFormat == Bitmap::Format::Rgba16F)
         {
             logMessage("getGlInternalFormat GL_RGBA16F");
+#ifdef GLES20
+            return GL_RGBA16F_EXT;
+#elif GL33
             return GL_RGBA16F;
+#endif
         } else if (bitmapFormat == Bitmap::Format::Rgb16F)
         {
             logMessage("getGlInternalFormat GL_RGB16F");
+#ifdef GLES20
+            return GL_RGB16F_EXT;
+#elif GL33
             return GL_RGB16F;
+#endif
         } else if (bitmapFormat == Bitmap::Format::Rgb)
         {
             logMessage("getGlInternalFormat GL_RGB");
@@ -47,7 +64,11 @@ namespace
         {
             case Bitmap::Format::R:
                 logMessage("getGlFormat GL_RED");
+#ifdef GLES20
+                return GL_RED_EXT;
+#elif GL33
                 return GL_RED;
+#endif
 
             case Bitmap::Format::Rgb:
             case Bitmap::Format::Rgb16F:
@@ -76,7 +97,11 @@ namespace
             case Bitmap::Format::Rgb16F:
             case Bitmap::Format::Rgba16F:
                 logMessage("getGlType GL_HALF_FLOAT");
+#ifdef GLES20
+                return GL_HALF_FLOAT_OES;
+#elif GL33ч
                 return GL_HALF_FLOAT;
+#endif
 
             case Bitmap::Format::Rgb:
             case Bitmap::Format::Rgba:

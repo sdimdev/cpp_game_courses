@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.10.2)
 project(game)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -7,7 +7,14 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(engine)
 
-add_executable(game main.cpp)
+set(GAME_SRC main.cpp)
+if (ANDROID)
+    add_library(game SHARED ${GAME_SRC})
+else()
+    add_executable(game ${GAME_SRC})
+endif ()
+
+#add_executable(game main.cpp)
 
 target_include_directories(
         game

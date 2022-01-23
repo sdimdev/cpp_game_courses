@@ -9,7 +9,7 @@
 // Created by dzmitry on 06.12.2021.
 //
 
-#include <GL/glew.h>
+#include "../GLHeaders.hpp"
 #include <iostream>
 #include <utils/GLUtils.cpp>
 #include "engine/Engine.hpp"

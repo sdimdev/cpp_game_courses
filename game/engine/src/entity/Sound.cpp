@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <SDL_audio.h>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "Sound.hpp"

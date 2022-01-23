@@ -22,6 +22,11 @@ static void logMessage(char* message)
     if(logDebug)
         printf("%s\n", message);
 }
+static void logMessage(std::string message)
+{
+    if(logDebug)
+        printf("%s\n", &message);
+}
 class Engine : public std::enable_shared_from_this<Engine>
 {
 

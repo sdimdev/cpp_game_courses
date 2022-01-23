@@ -4,7 +4,7 @@
 
 
 #include "ParticleBuffer.hpp"
-#include <GL/glew.h>
+#include "../GLHeaders.hpp"
 #include "VertexBuffer.hpp"
 #include <utils/GLUtils.cpp>
 
@@ -19,10 +19,18 @@ ParticleBuffer::ParticleBuffer(std::vector<ParticleData> data)
     _pimpl = std::make_shared<Pimpl>();
     _pimpl->data = std::move(data);
 
+#ifdef GLES20
+    glGenVertexArraysOES(1, &_VAO);
+#elif GL33
     glGenVertexArrays(1, &_VAO);
+#endif
     checkErrors(__FILE__, __LINE__);
 
+#ifdef GLES20
+    glBindVertexArrayOES(_VAO);
+#elif GL33
     glBindVertexArray(_VAO);
+#endif
 
     glGenBuffers(1, &_VBO);
     checkErrors(__FILE__, __LINE__);
@@ -85,7 +93,12 @@ ParticleBuffer::ParticleBuffer(std::vector<ParticleData> data)
 void ParticleBuffer::draw()
 {
     if (logDebug)printf("glBindVertexArray _VAO %d\n", _VAO);
+#ifdef GLES20
+    glBindVertexArrayOES(_VAO);
+#elif GL33
     glBindVertexArray(_VAO);
+#endif
+
     if (logDebug)printf("glDrawElements _VAO %d\n", count);
     glDrawArrays(GL_POINTS, 0, count);
 
@@ -98,10 +111,18 @@ ParticleBuffer::ParticleBuffer(size_t capacity)
     this->capacity = capacity;
     _pimpl = std::make_shared<Pimpl>();
 
+#ifdef GLES20
+    glGenVertexArraysOES(1, &_VAO);
+#elif GL33
     glGenVertexArrays(1, &_VAO);
+#endif
     checkErrors(__FILE__, __LINE__);
 
+#ifdef GLES20
+    glBindVertexArrayOES(_VAO);
+#elif GL33
     glBindVertexArray(_VAO);
+#endif
 
     glGenBuffers(1, &_VBO);
     checkErrors(__FILE__, __LINE__);

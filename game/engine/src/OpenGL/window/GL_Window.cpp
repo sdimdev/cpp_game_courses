@@ -7,7 +7,7 @@
 #include <SDL.h>
 #include <cassert>
 #include <OpenGL/renderer/GL_Renderer.hpp>
-#include <GL/glew.h>
+#include "../GLHeaders.hpp"
 #include <iostream>
 
 struct GL_Window::Pimpl
