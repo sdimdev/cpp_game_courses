@@ -12,6 +12,7 @@
 #include <common/IWindowEventManager.hpp>
 #include <utility>
 #include <SDL/event/WindowEventManagerImpl.hpp>
+#include <common/JavaManager.hpp>
 
 struct Engine::Pimpl
 {
@@ -81,6 +82,10 @@ Engine::Engine(
                 }
                 return false;
             });
+
+    _pimpl->scheduler->schedule([&](fseconds time){
+        JavaManager::instance().openBrowser("https://google.com")
+    }, 5s, 0s, 1, 1);
 }
 
 bool Engine::handleEvents()

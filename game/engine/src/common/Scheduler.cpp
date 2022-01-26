@@ -66,15 +66,14 @@ void Scheduler::visit()
         {
             item.lastTime = now;
             item.runnable(this->delta);
-        }
-
-        if (item.count != 0)
-        {
-            --item.count;
-
-            if (item.count == 0)
+            if (item.count != 0)
             {
-                removeKeys.insert(item.key);
+                --item.count;
+
+                if (item.count == 0)
+                {
+                    removeKeys.insert(item.key);
+                }
             }
         }
     }
