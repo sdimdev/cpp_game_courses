@@ -9,13 +9,11 @@
 #include <map>
 #include "common/IResourcesManager.hpp"
 
-class ResourcesManager : public IResourcesManager
+class ResourcesManager
 {
 public:
-    std::shared_ptr<ITexture> getTexture(std::string_view path) override;
-
-protected:
-    std::map<std::string_view, std::shared_ptr<ITexture>> textureMap;
+    std::shared_ptr<IResourcesManager<ITexture>> textures = std::make_shared<IResourcesManager<ITexture>>();
+    std::shared_ptr<ITexture> getTexture(std::string_view path);
 };
 
 

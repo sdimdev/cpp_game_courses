@@ -12,6 +12,7 @@
 #include <common/IWindowEventManager.hpp>
 #include "common/IResourcesManager.hpp"
 #include "common/Scheduler.hpp"
+#include "res/ResourcesManager.hpp"
 
 //todo remove or change it to settings
 const static bool logDebug = false;
@@ -44,7 +45,7 @@ public:
 
     std::shared_ptr<IRenderer> renderer();
 
-    std::shared_ptr<IResourcesManager> resources();
+    std::shared_ptr<ResourcesManager> resources();
 
     std::shared_ptr<IWindowEventManager> eventManager();
 

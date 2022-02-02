@@ -112,7 +112,7 @@ std::shared_ptr<IRenderer> Engine::renderer()
     return _pimpl->renderer;
 }
 
-std::shared_ptr<IResourcesManager> Engine::resources()
+std::shared_ptr<ResourcesManager> Engine::resources()
 {
     return _pimpl->resourcesManager;
 }

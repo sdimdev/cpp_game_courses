@@ -7,12 +7,8 @@
 
 std::shared_ptr<ITexture> ResourcesManager::getTexture(std::string_view path)
 {
-    std::shared_ptr<ITexture> result = textureMap[path];
-    if (result == nullptr)
-    {
+    return textures->resourceForName(std::string(path), [&](){
         Bitmap bitmap(path);
-        result = std::make_shared<GlTexture>(std::move(bitmap) );
-        textureMap[path] = result;
-    }
-    return result;
+        return std::make_shared<GlTexture>(std::move(bitmap) );
+    });
 }
